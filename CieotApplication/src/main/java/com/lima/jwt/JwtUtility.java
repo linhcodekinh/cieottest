@@ -10,7 +10,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtility implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtility.class);
+    private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(JwtUtility.class);
     private String jwtSecret = "secretkey";
 
     public String generateJwtToken(String userName) {

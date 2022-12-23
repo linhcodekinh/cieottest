@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -38,6 +39,9 @@ public class Account {
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
 	private Set<AccountRole> accountRoleList;
+
+	@OneToOne(mappedBy = "account")
+	private Member member;
 
 	public Account() {
 
@@ -103,6 +107,14 @@ public class Account {
 
 	public Set<AccountRole> getAccountRoleList() {
 		return accountRoleList;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 }

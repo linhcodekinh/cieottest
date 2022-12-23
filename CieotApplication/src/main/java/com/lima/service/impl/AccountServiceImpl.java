@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 			throws MessagingException, UnsupportedEncodingException {
 		String subject = "Hay xac thuc email cua ban";
 		String mailContent = "";
-		String confirmUrl = "http://localhost:8081/api/public/verify-email?code=" + randomCode;
+		String confirmUrl = "http://localhost:4200/verification?code=" + randomCode;
 
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
@@ -97,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
 			throws UnsupportedEncodingException, MessagingException {
 		String subject = "Hay xac thuc email cua ban";
 		String mailContent = "";
-		String confirmUrl = "http://localhost:8081/api/public/verify-reset-password?code=" + code;
+		String confirmUrl = "http://localhost:4200/verify-reset-password?code=" + code;
 
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");

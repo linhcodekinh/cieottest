@@ -27,6 +27,7 @@ import com.lima.entity.Member;
 import com.lima.jwt.JwtUtility;
 import com.lima.payload.request.LoginRequest;
 import com.lima.payload.request.SignupRequest;
+import com.lima.payload.request.VerifyRequest;
 import com.lima.payload.response.JwtLoginResponse;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.AccountService;
@@ -102,9 +103,9 @@ public class SecurityController {
 	}
 
 	// verify email when signup
-	@GetMapping("/verify-email")
-	public ResponseEntity<?> verifyEmail(@RequestParam(name = "code") String verifyCode) {
-		Boolean isVerified = accountService.findAccountByVerificationCode(verifyCode);
+	@GetMapping("/verify")
+	public ResponseEntity<?> verifyEmail(@RequestBody VerifyRequest verifyRequest) {
+		Boolean isVerified = accountService.findAccountByVerificationCode(verifyRequest.getRadomCode());
 		if (isVerified) {
 			return ResponseEntity.ok(new MessageResponse("activated"));
 		} else {
@@ -124,8 +125,8 @@ public class SecurityController {
 	}
 
 	// forgot password
-	@PostMapping("verify-reset-password")
-	public ResponseEntity<?> verifyResetPassword() {
+	@PostMapping("verify-password")
+	public ResponseEntity<?> verifyPassword() {
 		return null;
 	}
 
