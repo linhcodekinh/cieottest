@@ -8,7 +8,7 @@ public class PartDetailDTO {
 	private String answer2;
 	private String answer3;
 	private String answer4;
-	private String demontrate;
+	private String demonstrate;
 	private String photoName;
 	private String linkAudio;
 
@@ -17,7 +17,7 @@ public class PartDetailDTO {
 	}
 
 	public PartDetailDTO(String question, Integer questionNo, String correctAnswer, String answer1, String answer2,
-			String answer3, String answer4, String demontrate, String photoName, String linkAudio) {
+			String answer3, String answer4, String demonstrate, String photoName, String linkAudio) {
 		super();
 		this.question = question;
 		this.questionNo = questionNo;
@@ -26,7 +26,7 @@ public class PartDetailDTO {
 		this.answer2 = answer2;
 		this.answer3 = answer3;
 		this.answer4 = answer4;
-		this.demontrate = demontrate;
+		this.demonstrate = demonstrate;
 		this.photoName = photoName;
 		this.linkAudio = linkAudio;
 	}
@@ -87,12 +87,12 @@ public class PartDetailDTO {
 		this.answer4 = answer4;
 	}
 
-	public String getDemontrate() {
-		return demontrate;
+	public String getDemonstrate() {
+		return demonstrate;
 	}
 
-	public void setDemontrate(String demontrate) {
-		this.demontrate = demontrate;
+	public void setDemonstrate(String demonstrate) {
+		this.demonstrate = demonstrate;
 	}
 
 	public String getPhotoName() {

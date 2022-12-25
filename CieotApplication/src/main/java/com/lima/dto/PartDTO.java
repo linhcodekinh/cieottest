@@ -6,6 +6,7 @@ public class PartDTO {
 	private Integer id;
 	private String name;
 	private Integer partNo;
+	private String code;
 	private Set<ContentPartDTO> contentPartList;
 	private Set<PartDetailDTO> partDetailList;
 	private LevelDTO level;
@@ -14,15 +15,24 @@ public class PartDTO {
 
 	}
 
-	public PartDTO(Integer id, String name, Integer partNo, Set<ContentPartDTO> contentPartList,
+	public PartDTO(Integer id, String name, Integer partNo, String code, Set<ContentPartDTO> contentPartList,
 			Set<PartDetailDTO> partDetailList, LevelDTO level) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.partNo = partNo;
+		this.code = code;
 		this.contentPartList = contentPartList;
 		this.partDetailList = partDetailList;
 		this.level = level;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Set<PartDetailDTO> getPartDetailList() {

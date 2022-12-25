@@ -8,5 +8,8 @@ import com.lima.dto.PartDTO;
 
 @Service
 public interface PartService {
-	List<PartDTO> findAll();
+
+	PartDTO getPartDetail(Integer id);
+
+	List<PartDTO> getAllByCode(String code);
 }

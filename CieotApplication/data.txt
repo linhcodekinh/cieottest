@@ -1,0 +1,20 @@
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2022','p1','1','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2022','p2','2','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2022','p3','3','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2021','p4','4','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2021','p5','5','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2021','p6','6','1');
+INSERT INTO `part`(`code`, `name`, `part_no`, `level_id`) VALUES ('ets-2020','p7','7','1');
+
+INSERT INTO `level`(`name`) VALUES ('begin');
+INSERT INTO `level`(`name`) VALUES ('inter');
+INSERT INTO `level`(`name`) VALUES ('advance');
+INSERT INTO `level`(`name`) VALUES ('pro');
+
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',1);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',2);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',3);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',4);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',5);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',6);
+INSERT INTO `part_detail`(`answer1`, `answer2`, `answer3`, `answer4`, `correct_answer`, `demonstrate`, `link_audio`, `photo_name`, `question`, `question_no`, `part_id`) VALUES ('1','1','1','1','1','1','1','link','q','no',7);

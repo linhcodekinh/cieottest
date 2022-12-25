@@ -26,6 +26,8 @@ public class Part {
 
 	private Integer partNo;
 
+	private String code;
+
 	@OneToMany(mappedBy = "part")
 	@JsonBackReference
 	private List<ContentPart> contentPartList;
@@ -46,15 +48,24 @@ public class Part {
 
 	}
 
-	public Part(Integer id, String name, Integer partNo, List<ContentPart> contentPartList,
+	public Part(Integer id, String name, Integer partNo, String code, List<ContentPart> contentPartList,
 			List<PartDetail> partDetailList, Level level) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.partNo = partNo;
+		this.code = code;
 		this.contentPartList = contentPartList;
 		this.partDetailList = partDetailList;
 		this.level = level;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Integer getId() {
