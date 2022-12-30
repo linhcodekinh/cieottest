@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.lima.entity.Role;
 
-public interface RoleService {
+public interface IRoleService {
 	
 	List<Role> findAllRole();
 

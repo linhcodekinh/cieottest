@@ -1,17 +1,9 @@
 package com.lima.dto;
 
-public class LevelDTO {
+public class CodeDTO {
 	private Integer id;
 	private String name;
 	private Boolean active;
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
 
 	public Integer getId() {
 		return id;
@@ -27,6 +19,14 @@ public class LevelDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 }

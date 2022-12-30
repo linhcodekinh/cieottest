@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.lima.entity.Member;
 import com.lima.repository.MemberRepository;
-import com.lima.service.MemberService;
+import com.lima.service.IMemberService;
 
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements IMemberService {
 
 	@Autowired
 	private MemberRepository memberRepository;

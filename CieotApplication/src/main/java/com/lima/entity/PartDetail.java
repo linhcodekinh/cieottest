@@ -15,6 +15,7 @@ public class PartDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private Boolean active;
 	private String question;
 	private Integer questionNo;
 	private String correctAnswer;
@@ -29,6 +30,14 @@ public class PartDetail {
 	@ManyToOne
 	@JoinColumn(name = "part_id")
 	private Part part;
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
 	public String getLinkAudio() {
 		return linkAudio;

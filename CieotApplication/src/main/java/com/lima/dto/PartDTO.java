@@ -4,35 +4,55 @@ import java.util.Set;
 
 public class PartDTO {
 	private Integer id;
+	private Long createdDate;
 	private String name;
 	private Integer partNo;
-	private String code;
 	private Set<ContentPartDTO> contentPartList;
 	private Set<PartDetailDTO> partDetailList;
 	private LevelDTO level;
+	private CodeDTO code;
+	private Boolean active;
 
 	public PartDTO() {
 
 	}
 
-	public PartDTO(Integer id, String name, Integer partNo, String code, Set<ContentPartDTO> contentPartList,
-			Set<PartDetailDTO> partDetailList, LevelDTO level) {
+	public PartDTO(Integer id, Long createdDate, String name, Integer partNo, Set<ContentPartDTO> contentPartList,
+			Set<PartDetailDTO> partDetailList, LevelDTO level, CodeDTO code, Boolean active) {
 		super();
 		this.id = id;
+		this.createdDate = createdDate;
 		this.name = name;
 		this.partNo = partNo;
-		this.code = code;
 		this.contentPartList = contentPartList;
 		this.partDetailList = partDetailList;
 		this.level = level;
+		this.code = code;
+		this.active = active;
 	}
 
-	public String getCode() {
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public CodeDTO getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(CodeDTO code) {
 		this.code = code;
+	}
+
+	public Long getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Long createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Set<PartDetailDTO> getPartDetailList() {

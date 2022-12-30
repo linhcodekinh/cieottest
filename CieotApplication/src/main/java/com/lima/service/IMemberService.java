@@ -2,7 +2,7 @@ package com.lima.service;
 
 import com.lima.entity.Member;
 
-public interface MemberService {
+public interface IMemberService {
 	void addNewMember(String name, String dateOfBirth, String gender, String phone, String address, String email,
 			Long accountId, Boolean deleteFlag);
 

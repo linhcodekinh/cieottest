@@ -6,7 +6,7 @@ import javax.mail.MessagingException;
 
 import com.lima.entity.Account;
 
-public interface AccountService {
+public interface IAccountService {
 	/**
 	 * Nguyen Van Linh
 	 */

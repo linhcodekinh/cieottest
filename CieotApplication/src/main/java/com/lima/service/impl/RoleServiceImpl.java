@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.lima.entity.Role;
 import com.lima.repository.RoleRepository;
-import com.lima.service.RoleService;
+import com.lima.service.IRoleService;
 
 @Service 
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl implements IRoleService {
 
 	@Autowired
 	private RoleRepository roleRepository;

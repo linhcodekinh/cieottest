@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import com.lima.common.MyConstants;
 import com.lima.entity.Account;
 import com.lima.repository.AccountRepository;
-import com.lima.service.AccountService;
+import com.lima.service.IAccountService;
 
 import net.bytebuddy.utility.RandomString;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;

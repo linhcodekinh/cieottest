@@ -1,6 +1,7 @@
 package com.lima.dto;
 
 public class PartDetailDTO {
+	private Integer id;
 	private String question;
 	private Integer questionNo;
 	private String correctAnswer;
@@ -11,14 +12,17 @@ public class PartDetailDTO {
 	private String demonstrate;
 	private String photoName;
 	private String linkAudio;
+	private Boolean active;
 
 	public PartDetailDTO() {
 
 	}
 
-	public PartDetailDTO(String question, Integer questionNo, String correctAnswer, String answer1, String answer2,
-			String answer3, String answer4, String demonstrate, String photoName, String linkAudio) {
+	public PartDetailDTO(Integer id, String question, Integer questionNo, String correctAnswer, String answer1,
+			String answer2, String answer3, String answer4, String demonstrate, String photoName, String linkAudio,
+			Boolean active) {
 		super();
+		this.id = id;
 		this.question = question;
 		this.questionNo = questionNo;
 		this.correctAnswer = correctAnswer;
@@ -29,6 +33,23 @@ public class PartDetailDTO {
 		this.demonstrate = demonstrate;
 		this.photoName = photoName;
 		this.linkAudio = linkAudio;
+		this.active = active;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	public String getQuestion() {

@@ -30,9 +30,9 @@ import com.lima.payload.request.SignupRequest;
 import com.lima.payload.request.VerifyRequest;
 import com.lima.payload.response.JwtLoginResponse;
 import com.lima.payload.response.MessageResponse;
-import com.lima.service.AccountService;
-import com.lima.service.MemberService;
-import com.lima.service.RoleService;
+import com.lima.service.IAccountService;
+import com.lima.service.IMemberService;
+import com.lima.service.IRoleService;
 import com.lima.service.impl.AccountDetailsImpl;
 
 @RestController
@@ -44,13 +44,13 @@ public class SecurityController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
-	private AccountService accountService;
+	private IAccountService accountService;
 	@Autowired
-	private RoleService roleService;
+	private IRoleService roleService;
 	@Autowired
 	private PasswordEncoder encoder;
 	@Autowired
-	private MemberService memberService;
+	private IMemberService memberService;
 
 	@GetMapping("/hello")
 	public String testApi() {

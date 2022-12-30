@@ -15,6 +15,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 server:
    port: 8081 # This is the default port anyway, but you can change it here

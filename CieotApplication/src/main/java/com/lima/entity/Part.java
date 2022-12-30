@@ -22,11 +22,13 @@ public class Part {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	private Long createdDate;
+
 	private String name;
 
 	private Integer partNo;
 
-	private String code;
+	private Boolean active;
 
 	@OneToMany(mappedBy = "part")
 	@JsonBackReference
@@ -44,28 +46,50 @@ public class Part {
 	@JoinColumn(name = "level_id", referencedColumnName = "id")
 	private Level level;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "code_id", referencedColumnName = "id")
+	private Code code;
+
 	public Part() {
 
 	}
 
-	public Part(Integer id, String name, Integer partNo, String code, List<ContentPart> contentPartList,
-			List<PartDetail> partDetailList, Level level) {
+	public Part(Integer id, Long createdDate, String name, Integer partNo, Boolean active,
+			List<ContentPart> contentPartList, List<PartDetail> partDetailList, Level level, Code code) {
 		super();
 		this.id = id;
+		this.createdDate = createdDate;
 		this.name = name;
 		this.partNo = partNo;
-		this.code = code;
+		this.active = active;
 		this.contentPartList = contentPartList;
 		this.partDetailList = partDetailList;
 		this.level = level;
+		this.code = code;
 	}
 
-	public String getCode() {
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Code getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(Code code) {
 		this.code = code;
+	}
+
+	public Long getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Long createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Integer getId() {
