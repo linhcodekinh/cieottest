@@ -1,14 +1,14 @@
 package com.lima.dto;
 
-import java.util.Set;
+import java.util.List;
 
 public class PartDTO {
 	private Integer id;
 	private Long createdDate;
 	private String name;
 	private Integer partNo;
-	private Set<ContentPartDTO> contentPartList;
-	private Set<PartDetailDTO> partDetailList;
+	private List<ContentPartDTO> contentPartList;
+	private List<PartDetailDTO> partDetailList;
 	private LevelDTO level;
 	private CodeDTO code;
 	private Boolean active;
@@ -17,8 +17,8 @@ public class PartDTO {
 
 	}
 
-	public PartDTO(Integer id, Long createdDate, String name, Integer partNo, Set<ContentPartDTO> contentPartList,
-			Set<PartDetailDTO> partDetailList, LevelDTO level, CodeDTO code, Boolean active) {
+	public PartDTO(Integer id, Long createdDate, String name, Integer partNo, List<ContentPartDTO> contentPartList,
+			List<PartDetailDTO> partDetailList, LevelDTO level, CodeDTO code, Boolean active) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
@@ -55,11 +55,11 @@ public class PartDTO {
 		this.createdDate = createdDate;
 	}
 
-	public Set<PartDetailDTO> getPartDetailList() {
+	public List<PartDetailDTO> getPartDetailList() {
 		return partDetailList;
 	}
 
-	public void setPartDetailList(Set<PartDetailDTO> partDetailList) {
+	public void setPartDetailList(List<PartDetailDTO> partDetailList) {
 		this.partDetailList = partDetailList;
 	}
 
@@ -87,11 +87,11 @@ public class PartDTO {
 		this.partNo = partNo;
 	}
 
-	public Set<ContentPartDTO> getContentPartList() {
+	public List<ContentPartDTO> getContentPartList() {
 		return contentPartList;
 	}
 
-	public void setContentPartList(Set<ContentPartDTO> contentPartList) {
+	public void setContentPartList(List<ContentPartDTO> contentPartList) {
 		this.contentPartList = contentPartList;
 	}
 

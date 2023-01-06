@@ -22,7 +22,7 @@ import com.lima.dto.PartDTO;
 import com.lima.entity.Part;
 import com.lima.exception.PartException;
 import com.lima.payload.request.PartDTORequest;
-import com.lima.repository.PartRepositoty;
+import com.lima.repository.PartRepository;
 import com.lima.service.IPartService;
 
 @RestController
@@ -34,7 +34,7 @@ public class PartController {
 	private IPartService partService;
 
 	@Autowired
-	private PartRepositoty partRepositoty;
+	private PartRepository partRepositoty;
 
 	@GetMapping("/hello2")
 	public String hello() {

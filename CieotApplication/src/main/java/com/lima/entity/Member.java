@@ -2,6 +2,7 @@ package com.lima.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ public class Member {
 	private String email;
 	private Boolean deleteFlag;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "account_id", unique = true)
 	@NotNull
 	private Account account;

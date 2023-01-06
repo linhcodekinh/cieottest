@@ -23,14 +23,14 @@ import com.lima.exception.PartException;
 import com.lima.payload.request.PartDTORequest;
 import com.lima.repository.LevelRepository;
 import com.lima.repository.PartDetailRepository;
-import com.lima.repository.PartRepositoty;
+import com.lima.repository.PartRepository;
 import com.lima.service.IPartService;
 
 @Service
 public class PartServiceImpl implements IPartService {
 
 	@Autowired
-	private PartRepositoty partRepository;
+	private PartRepository partRepository;
 
 	@Autowired
 	private PartDetailRepository partDetailRepository;

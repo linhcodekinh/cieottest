@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,7 @@ import com.lima.service.impl.AccountDetailsImpl;
 
 @RestController
 @RequestMapping("api/public")
+@CrossOrigin("http://localhost:3000")
 public class SecurityController {
 
 	@Autowired
@@ -88,14 +90,14 @@ public class SecurityController {
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		Authentication authenticatation = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticatation);
-		String jwt = jwtUtility.generateJwtToken(loginRequest.getUserName());
+		String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
 		AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
-		Account account = accountService.findAccountByUserName(loginRequest.getUserName());
+		Account account = accountService.findAccountByUserName(loginRequest.getUsername());
 		Member member = memberService.findByAccountIdAndDeleteFlag(account.getId(), false);
 
 		return ResponseEntity
@@ -117,8 +119,8 @@ public class SecurityController {
 	@PostMapping("/reset-password")
 	public ResponseEntity<?> resetPassword(@RequestBody LoginRequest loginRequest)
 			throws MessagingException, UnsupportedEncodingException {
-		if (accountService.existsByUserName(loginRequest.getUserName()) != null) {
-			accountService.addVerificationCode(loginRequest.getUserName());
+		if (accountService.existsByUserName(loginRequest.getUsername()) != null) {
+			accountService.addVerificationCode(loginRequest.getUsername());
 			return ResponseEntity.ok(new MessageResponse("Sent mail"));
 		}
 		return ResponseEntity.badRequest().body(new MessageResponse("Tai khoan khong dung"));

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.lima.entity.Part;
 
 @Repository
-public interface PartRepositoty extends JpaRepository<Part, Integer> {
+public interface PartRepository extends JpaRepository<Part, Integer> {
 
 	@Query(value = "SELECT * FROM part WHERE code_id = :code", nativeQuery = true)
 	List<Part> findListByCode(@Param("code") Integer code);
@@ -21,7 +21,7 @@ public interface PartRepositoty extends JpaRepository<Part, Integer> {
 	@Query(value = "SELECT * FROM part WHERE part_no = :partNo", nativeQuery = true)
 	List<Part> findListByPartNo(@Param("partNo") Integer partNo);
 
-	@Query(value = "UPDATE part SET active = 1 WHERE id = :id", nativeQuery = true)
+	@Query(value = "UPDATE part SET active = 0 WHERE id = :id", nativeQuery = true)
 	void deletePart(@Param("id") Integer id);
 
 }
