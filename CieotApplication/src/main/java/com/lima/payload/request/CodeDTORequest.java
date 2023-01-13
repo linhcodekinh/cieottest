@@ -1,7 +1,6 @@
 package com.lima.payload.request;
 
 public class CodeDTORequest {
-	private Integer id;
 	private String name;
 	private Boolean active;
 
@@ -9,19 +8,10 @@ public class CodeDTORequest {
 
 	}
 
-	public CodeDTORequest(Integer id, String name, Boolean active) {
+	public CodeDTORequest(String name, Boolean active) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.active = active;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {

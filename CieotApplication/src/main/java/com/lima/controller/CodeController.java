@@ -1,7 +1,6 @@
 package com.lima.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,43 +16,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.dto.CodeDTO;
-import com.lima.entity.Code;
-import com.lima.exception.CodeException;
 import com.lima.payload.request.CodeDTORequest;
-import com.lima.repository.CodeRepository;
 import com.lima.service.ICodeService;
 
 @RestController
-@RequestMapping("api/public/code")
+@RequestMapping("api/public")
 @CrossOrigin(origins = "*")
 public class CodeController {
 	@Autowired
 	private ICodeService codeService;
-	@Autowired
-	private CodeRepository codeRepository;
+
 	//GET ALL
-	@GetMapping("/")
+	@GetMapping("/code")
 	public ResponseEntity<List<CodeDTO>> getAll(){
 		List<CodeDTO> listCode = codeService.getAll();
 		return new ResponseEntity<>(listCode, HttpStatus.OK);
 	}
 	//DELETE
-	@PatchMapping("delete/{id}")
+	@PatchMapping("/code/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
 		codeService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	//UPDATE
-	@PutMapping("/update")
-	public ResponseEntity<CodeDTO> update(@RequestBody CodeDTORequest codeDTORequest){
-		Optional<Code> codeOptional = codeRepository.findById(codeDTORequest.getId());
-		if(!codeOptional.isPresent())
-			throw new CodeException("Code id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
-		CodeDTO codeDTO = codeService.update(codeDTORequest);
+	@PutMapping("/code/{id}")
+	public ResponseEntity<CodeDTO> update(@PathVariable Integer id, @RequestBody CodeDTORequest codeDTORequest){
+		CodeDTO codeDTO = codeService.update(id, codeDTORequest);
 		return new ResponseEntity<>(codeDTO, HttpStatus.OK);
 	}
 	//INSERT
-	@PostMapping("/create")
+	@PostMapping("/code")
 	public ResponseEntity<CodeDTO> create(@RequestBody CodeDTORequest codeDTORequest){
 		CodeDTO codeDTO = codeService.create(codeDTORequest);
 		return new ResponseEntity<>(codeDTO, HttpStatus.OK);

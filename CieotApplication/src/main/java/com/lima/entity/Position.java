@@ -1,38 +1,32 @@
 package com.lima.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-@Table(name = "grammar")
-public class Grammar {
+@Table(name = "position")
+public class Position {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "category_gv_id")
-	private CategoryGV category_gv;
+	@OneToMany(mappedBy = "position")
+	@JsonBackReference // tranh loi de quy VD: position -> employee -> position -> employee
+	private List<Employee> employeeList;
 
-	public Grammar(Integer id, String name, CategoryGV category_gv) {
+	public Position(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.category_gv = category_gv;
-	}
-
-	public CategoryGV getCategory_gv() {
-		return category_gv;
-	}
-
-	public void setCategory_gv(CategoryGV category_gv) {
-		this.category_gv = category_gv;
 	}
 
 	public Integer getId() {

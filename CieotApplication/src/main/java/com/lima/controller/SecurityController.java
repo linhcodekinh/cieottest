@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +30,15 @@ import com.lima.jwt.JwtUtility;
 import com.lima.payload.request.LoginRequest;
 import com.lima.payload.request.SignupRequest;
 import com.lima.payload.request.VerifyRequest;
+import com.lima.payload.response.ErrorMessageResponse;
 import com.lima.payload.response.JwtLoginResponse;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.IAccountService;
 import com.lima.service.IMemberService;
 import com.lima.service.IRoleService;
 import com.lima.service.impl.AccountDetailsImpl;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 
 @RestController
 @RequestMapping("api/public")
@@ -88,9 +92,17 @@ public class SecurityController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+			BindingResult bindingResult) throws Exception {
+		
+		if (bindingResult.hasErrors())
+            throw new Exception("...User name");
+		if (accountService.existsByUserName(loginRequest.getUsername()) == null) {
+			throw new Exception("User name ko tồn tại");
+		}
 		Authentication authenticatation = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+		Object obj = authenticatation.getCredentials();
 		SecurityContextHolder.getContext().setAuthentication(authenticatation);
 		String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
 		AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication()

@@ -8,7 +8,6 @@ import com.lima.dto.PartDetailDTO;
 
 public class PartDTORequest {
 
-	private Integer id;
 	private String name;
 	private Integer partNo;
 	private CodeDTO code;
@@ -19,10 +18,9 @@ public class PartDTORequest {
 
 	}
 
-	public PartDTORequest(Integer id, String name, Integer partNo, CodeDTO code, List<PartDetailDTO> partDetailList,
+	public PartDTORequest(String name, Integer partNo, CodeDTO code, List<PartDetailDTO> partDetailList,
 			LevelDTO level) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.partNo = partNo;
 		this.code = code;
@@ -44,14 +42,6 @@ public class PartDTORequest {
 
 	public void setPartDetailList(List<PartDetailDTO> partDetailList) {
 		this.partDetailList = partDetailList;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {

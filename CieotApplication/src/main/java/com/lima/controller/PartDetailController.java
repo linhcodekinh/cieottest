@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,7 @@ import com.lima.payload.request.PartDetailDTORequest;
 import com.lima.service.IPartDetailService;
 
 @RestController
-@RequestMapping("api/public/part-detail")
+@RequestMapping("api/public")
 @CrossOrigin(origins = "*")
 public class PartDetailController {
 
@@ -26,22 +28,29 @@ public class PartDetailController {
 	private IPartDetailService partDetailService;
 
 	// INSERT
-	@PostMapping("/create")
+	@PostMapping("/part-detail")
 	public ResponseEntity<PartDetailDTO> create(@RequestBody PartDetailDTORequest partDetailDTORequest) {
 		PartDetailDTO partDetailDTO = partDetailService.create(partDetailDTORequest);
 		return new ResponseEntity<>(partDetailDTO, HttpStatus.OK);
 	}
 
 	// DELETE
+	@PatchMapping("part-detail/{id}")
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+		partDetailService.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	// UPDATE
-	@PutMapping("/update")
-	public ResponseEntity<PartDetailDTO> update(@RequestBody PartDetailDTORequest partDetailDTORequest) {
-		PartDetailDTO partDetailDTO = partDetailService.update(partDetailDTORequest);
+	@PutMapping("/part-detail/{id}")
+	public ResponseEntity<PartDetailDTO> update(@PathVariable Integer id,
+			@RequestBody PartDetailDTORequest partDetailDTORequest) {
+		PartDetailDTO partDetailDTO = partDetailService.update(id, partDetailDTORequest);
 		return new ResponseEntity<>(partDetailDTO, HttpStatus.OK);
 	}
 
 	// GETALL
-	@GetMapping("/")
+	@GetMapping("/part-detail")
 	public ResponseEntity<List<PartDetailDTO>> getAll() {
 		List<PartDetailDTO> listPartDetail = partDetailService.getAll();
 		return new ResponseEntity<>(listPartDetail, HttpStatus.OK);

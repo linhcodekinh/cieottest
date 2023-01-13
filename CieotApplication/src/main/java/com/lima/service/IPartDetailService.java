@@ -11,6 +11,8 @@ public interface IPartDetailService {
 
 	PartDetailDTO create(PartDetailDTORequest partDetailDTORequest);
 
-	PartDetailDTO update(PartDetailDTORequest partDetailDTORequest);
+	PartDetailDTO update(Integer id, PartDetailDTORequest partDetailDTORequest);
+
+	void deleteById(Integer id);
 
 }

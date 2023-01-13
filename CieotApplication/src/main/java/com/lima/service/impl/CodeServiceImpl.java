@@ -1,14 +1,17 @@
 package com.lima.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.lima.dto.CodeDTO;
 import com.lima.entity.Code;
+import com.lima.exception.CodeException;
 import com.lima.payload.request.CodeDTORequest;
 import com.lima.repository.CodeRepository;
 import com.lima.service.ICodeService;
@@ -34,8 +37,12 @@ public class CodeServiceImpl implements ICodeService {
 	}
 
 	@Override
-	public CodeDTO update(CodeDTORequest codeDTORequest) {
-		Code code = codeRepository.findById(codeDTORequest.getId()).get();
+	public CodeDTO update(Integer id, CodeDTORequest codeDTORequest) {
+		Optional<Code> codeOptional = codeRepository.findById(id);
+		if (!codeOptional.isPresent())
+			throw new CodeException("Code id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
+
+		Code code = codeOptional.get();
 		code.setActive(codeDTORequest.getActive());
 		code.setName(codeDTORequest.getName());
 		codeRepository.save(code);

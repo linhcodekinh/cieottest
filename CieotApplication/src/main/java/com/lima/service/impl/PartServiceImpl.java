@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -21,7 +23,7 @@ import com.lima.entity.Part;
 import com.lima.entity.PartDetail;
 import com.lima.exception.PartException;
 import com.lima.payload.request.PartDTORequest;
-import com.lima.repository.LevelRepository;
+import com.lima.repository.CodeRepository;
 import com.lima.repository.PartDetailRepository;
 import com.lima.repository.PartRepository;
 import com.lima.service.IPartService;
@@ -36,7 +38,7 @@ public class PartServiceImpl implements IPartService {
 	private PartDetailRepository partDetailRepository;
 
 	@Autowired
-	private LevelRepository levelRepository;
+	private CodeRepository codeRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -51,6 +53,19 @@ public class PartServiceImpl implements IPartService {
 		part.setPartDetailList(partDetailList);
 		PartDTO partDTO = modelMapper.map(part, PartDTO.class);
 		return partDTO;
+	}
+	
+	@Override
+	public List<PartDTO> getAllByPartNo(Integer partNo) {
+		List<Part> parts = partRepository.findListByPartNo(partNo);
+		List<PartDTO> partDTOList = new ArrayList<PartDTO>();
+		for (Part part : parts) {
+			List<PartDetail> partDetailList = partDetailRepository.findByPartId(part.getId());
+			part.setPartDetailList(partDetailList);
+			PartDTO partDTO = modelMapper.map(part, PartDTO.class);
+			partDTOList.add(partDTO);
+		}
+		return partDTOList;
 	}
 
 	@Override
@@ -80,21 +95,35 @@ public class PartServiceImpl implements IPartService {
 	}
 
 	@Override
-	public List<PartDTO> getAllByPartNo(Integer partNo) {
-		List<Part> parts = partRepository.findListByPartNo(partNo);
-		List<PartDTO> partDTOList = new ArrayList<PartDTO>();
-		for (Part part : parts) {
-			List<PartDetail> partDetailList = partDetailRepository.findByPartId(part.getId());
-			part.setPartDetailList(partDetailList);
-			PartDTO partDTO = modelMapper.map(part, PartDTO.class);
-			partDTOList.add(partDTO);
+	public Map<String, List<PartDTO>> getAllByCodePartNo(Integer partNo) {
+		Map<String, List<PartDTO>> mapPartDTOList = new HashMap<>();
+		List<Code> codeList = codeRepository.findAll();
+
+		for (Code code : codeList) {
+			Integer codeId = code.getId();
+			String codeName = code.getName();
+			List<Part> partList = partRepository.findListByCodePartNo(codeId, partNo);
+			List<PartDTO> partDTOList = new ArrayList<PartDTO>();
+			for (Part part : partList) {
+
+				List<PartDetail> partDetailList = partDetailRepository.findByPartId(part.getId());
+				part.setPartDetailList(partDetailList);
+				PartDTO partDTO = modelMapper.map(part, PartDTO.class);
+				partDTOList.add(partDTO);
+			}
+			mapPartDTOList.put(codeName, partDTOList);
 		}
-		return partDTOList;
+
+		return mapPartDTOList;
 	}
 
 	@Override
-	public PartDTO update(PartDTORequest partDTORequest) {
-		Part part = partRepository.findById(partDTORequest.getId()).get();
+	public PartDTO update(Integer id, PartDTORequest partDTORequest) {
+		Optional<Part> partOptional = partRepository.findById(id);
+		if (!partOptional.isPresent())
+			throw new PartException("Part id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
+
+		Part part = partOptional.get();
 		// level
 		Level levelOld = part.getLevel();
 		Level levelNew = modelMapper.map(partDTORequest.getLevel(), Level.class);

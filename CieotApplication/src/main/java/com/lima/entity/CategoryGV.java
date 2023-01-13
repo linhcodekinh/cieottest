@@ -1,53 +1,47 @@
 package com.lima.entity;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "code")
-public class Code {
+@Table(name = "category_gv")
+public class CategoryGV {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private Boolean active;
+	private Integer type;
 
-	@OneToMany(mappedBy = "code")
+	@OneToMany(mappedBy = "category_gv")
 	@JsonBackReference
-	private List<Part> partList;
+	private List<Grammar> grammarList;
+	
+	@OneToMany(mappedBy = "category_gv")
+	@JsonBackReference
+	private List<Vocabulary> vocabularyList;
 
-//	@OneToOne(mappedBy = "code", fetch = FetchType.LAZY)
-//	private Part part;
-
-	public Code() {
-
-	}
-
-	public Code(Integer id, String name, Boolean active, List<Part> partList) {
+	public CategoryGV(Integer id, String name, Integer type, List<Grammar> grammarList) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.active = active;
-		this.partList = partList;
+		this.type = type;
+		this.grammarList = grammarList;
 	}
 
-	public List<Part> getPartList() {
-		return partList;
+	public List<Grammar> getGrammarList() {
+		return grammarList;
 	}
 
-	public void setPartList(List<Part> partList) {
-		this.partList = partList;
+	public void setGrammarList(List<Grammar> grammarList) {
+		this.grammarList = grammarList;
 	}
 
 	public Integer getId() {
@@ -66,12 +60,12 @@ public class Code {
 		this.name = name;
 	}
 
-	public Boolean getActive() {
-		return active;
+	public Integer getType() {
+		return type;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 }

@@ -17,9 +17,12 @@ public interface PartRepository extends JpaRepository<Part, Integer> {
 
 	@Query(value = "SELECT * FROM part WHERE level_id = :level", nativeQuery = true)
 	List<Part> findListByLevel(@Param("level") Integer level);
-
+	
 	@Query(value = "SELECT * FROM part WHERE part_no = :partNo", nativeQuery = true)
 	List<Part> findListByPartNo(@Param("partNo") Integer partNo);
+
+	@Query(value = "SELECT * FROM part WHERE part_no = :partNo AND code_id = :codeId", nativeQuery = true)
+	List<Part> findListByCodePartNo(@Param("codeId") Integer codeId, @Param("partNo") Integer partNo);
 
 	@Query(value = "UPDATE part SET active = 0 WHERE id = :id", nativeQuery = true)
 	void deletePart(@Param("id") Integer id);

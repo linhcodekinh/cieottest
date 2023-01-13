@@ -1,7 +1,6 @@
 package com.lima.payload.request;
 
 public class PartDetailDTORequest {
-	private Integer id;
 	private Integer partId;
 	private String question;
 	private Integer questionNo;
@@ -19,11 +18,10 @@ public class PartDetailDTORequest {
 
 	}
 
-	public PartDetailDTORequest(Integer id, Integer partId, String question, Integer questionNo, String correctAnswer,
+	public PartDetailDTORequest(Integer partId, String question, Integer questionNo, String correctAnswer,
 			String answer1, String answer2, String answer3, String answer4, String demonstrate, String photoName,
 			String linkAudio, Boolean active) {
 		super();
-		this.id = id;
 		this.partId = partId;
 		this.question = question;
 		this.questionNo = questionNo;
@@ -36,14 +34,6 @@ public class PartDetailDTORequest {
 		this.photoName = photoName;
 		this.linkAudio = linkAudio;
 		this.active = active;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Integer getPartId() {

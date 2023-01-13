@@ -11,7 +11,7 @@ public interface ICodeService {
 
 	void deleteById(Integer id);
 
-	CodeDTO update(CodeDTORequest codeDTORequest);
+	CodeDTO update(Integer id, CodeDTORequest codeDTORequest);
 
 	CodeDTO create(CodeDTORequest codeDTORequest);
 

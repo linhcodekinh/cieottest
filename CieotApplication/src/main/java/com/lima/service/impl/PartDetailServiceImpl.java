@@ -62,9 +62,9 @@ public class PartDetailServiceImpl implements IPartDetailService {
 	}
 
 	@Override
-	public PartDetailDTO update(PartDetailDTORequest partDetailDTORequest) {
+	public PartDetailDTO update(Integer id, PartDetailDTORequest partDetailDTORequest) {
 		Integer partIdNew = partDetailDTORequest.getPartId();
-		Optional<PartDetail> partDetailOptional = partDetailRepositoty.findById(partDetailDTORequest.getId());
+		Optional<PartDetail> partDetailOptional = partDetailRepositoty.findById(id);
 		if (!partDetailOptional.isPresent())
 			throw new PartDetailException("part detail id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
 		PartDetail partDetail = partDetailOptional.get();
@@ -92,6 +92,11 @@ public class PartDetailServiceImpl implements IPartDetailService {
 
 		PartDetailDTO partDetailDTO = moldelMapper.map(partDetail, PartDetailDTO.class);
 		return partDetailDTO;
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		partDetailRepositoty.deletePartDetail(id);
 	}
 
 }
