@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 public class SignupRequest {
-	private String userName;
+	private String username;
 	private String gender;
 	private String dateOfBirth;
 	private String address;
@@ -17,18 +17,18 @@ public class SignupRequest {
 	private String email;
 
 	@NotBlank
-	@Length(min = 8, max = 32)
+	@Length(min = 3, max = 32)
 	private String password;
 
 	public SignupRequest() {
 
 	}
 
-	public SignupRequest(String userName, String gender, String dateOfBirth, String address, String phone,
+	public SignupRequest(String username, String gender, String dateOfBirth, String address, String phone,
 			@NotBlank @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ") String email,
-			@NotBlank @Length(min = 8, max = 32) String password) {
+			@NotBlank @Length(min = 3, max = 32) String password) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.address = address;
@@ -37,12 +37,12 @@ public class SignupRequest {
 		this.password = password;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String name) {
-		this.userName = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getGender() {

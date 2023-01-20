@@ -1,9 +1,11 @@
 package com.lima.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
+import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 
 public interface IAccountService {
@@ -24,4 +26,8 @@ public interface IAccountService {
 	Boolean findAccountByVerificationCode(String verifyCode);
 
 	void addVerificationCode(String userName) throws UnsupportedEncodingException, MessagingException;
+
+//	String existsByUserNameAndPassword(String username, String password);
+
+	List<AccountDTO> getAllAccount();
 }

@@ -1,16 +1,20 @@
 package com.lima.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.lima.common.MyConstants;
+import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 import com.lima.repository.AccountRepository;
 import com.lima.service.IAccountService;
@@ -26,10 +30,18 @@ public class AccountServiceImpl implements IAccountService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
 	public Account findAccountByUserName(String userName) {
 		return accountRepository.findAccountByUserName(userName);
 	}
+
+//	@Override
+//	public String existsByUserNameAndPassword(String username, String password) {
+//		return accountRepository.existsByUserNameAndPassword(username, password);
+//	}
 
 	@Override
 	public Long findIdUserByUserName(String userName) {
@@ -109,6 +121,14 @@ public class AccountServiceImpl implements IAccountService {
 				+ "'>Link Xác thực( nhấn vào đây)!</a></h3>" + "<p>LIMA CIEOT</p>";
 		helper.setText(mailContent, true);
 		javaMailSender.send(message);
+	}
+
+	@Override
+	public List<AccountDTO> getAllAccount() {
+		List<Account> accountList = accountRepository.getAllAccount();
+		List<AccountDTO> accountDTOList = modelMapper.map(accountList, new TypeToken<List<AccountDTO>>() {
+		}.getType());
+		return accountDTOList;
 	}
 
 }

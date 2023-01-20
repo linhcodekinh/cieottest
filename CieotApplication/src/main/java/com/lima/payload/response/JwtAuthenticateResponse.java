@@ -2,27 +2,25 @@ package com.lima.payload.response;
 
 import java.util.List;
 
-import com.lima.entity.Account;
+import com.lima.entity.Member;
 
-public class JwtLoginResponse {
+public class JwtAuthenticateResponse {
 	private String token;
 	private String type = "Bearer";
 	private Long id;
 	private String userName;
 	private List<String> roles;
-	private Account account;
 
-	public JwtLoginResponse() {
+	public JwtAuthenticateResponse() {
 
 	}
 
-	public JwtLoginResponse(String token, Long id, String userName, List<String> roles, Account account) {
+	public JwtAuthenticateResponse(String token, Long id, String userName, List<String> roles) {
 		super();
 		this.token = token;
 		this.id = id;
 		this.userName = userName;
 		this.roles = roles;
-		this.account = account;
 	}
 
 	public String getToken() {
@@ -63,14 +61,6 @@ public class JwtLoginResponse {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 }

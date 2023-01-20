@@ -1,5 +1,7 @@
 package com.lima.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 
 @Repository
@@ -19,6 +22,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	@Query(value = "select user_name from account where user_name = ?1", nativeQuery = true)
 	String existsByUserName(String userName);
+
+//	@Query(value = "select user_name from account where user_name = ?1 and encrypt_pw = ?2", nativeQuery = true)
+//	String existsByUserNameAndPassword(String username, String password);
 
 	@Query(value = "select email from account where email = ?1", nativeQuery = true)
 	String existsByEmail(String email);
@@ -33,4 +39,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	@Modifying
 	@Query(value = "update account set verification_code = ?1 where user_name = ?2", nativeQuery = true)
 	void addVerificationCode(String code, String userName);
+
+	@Query(value = "select * from account", nativeQuery = true)
+	List<Account> getAllAccount();
+
 }

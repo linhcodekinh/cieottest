@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.lima.jwt.JwtAuthenticationEntryPoint;
 import com.lima.jwt.JwtFilter;
 import com.lima.service.impl.AccountDetailServiceImpl;
 
@@ -19,41 +20,45 @@ import com.lima.service.impl.AccountDetailServiceImpl;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AccountDetailServiceImpl accountService;
-    @Autowired
-    private JwtFilter jwtFilter;
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(accountService);
-    }
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Autowired
+	private AccountDetailServiceImpl accountService;
+	@Autowired
+	private JwtFilter jwtFilter;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(accountService);
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-        		.csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/api/public/**")
-                .permitAll()
-                .antMatchers("/api/user/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("api/admin/**").hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(12);
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// Don't need CSRF for this example
+		http.csrf().disable()
+				// dont authenticate this particular request
+				.authorizeRequests().antMatchers("/api/public/**").permitAll()
+				//.authorizeRequests().antMatchers("/api/public/signup", "/api/public/login").permitAll()
+				// all other requests need to be authenticated
+				.antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN").antMatchers("api/admin/**").hasRole("ADMIN")
+				.anyRequest().authenticated().and()
+				// make sure we use stateless session; session won't be used to
+				// store user's state.
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		// Add a filter to validate the tokens with every request
+		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+	}
 }

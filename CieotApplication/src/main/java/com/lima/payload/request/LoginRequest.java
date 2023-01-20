@@ -1,13 +1,11 @@
 package com.lima.payload.request;
 
-import javax.validation.constraints.NotEmpty;
-
 public class LoginRequest {
 
-	@NotEmpty(message = "Thiếu username")
+//	@NotEmpty(message = "Thiếu username")
 	private String username;
 	
-	@NotEmpty(message = "Thiếu password")
+//	@NotEmpty(message = "Thiếu password")
 	private String password;
 
 	public LoginRequest() {
