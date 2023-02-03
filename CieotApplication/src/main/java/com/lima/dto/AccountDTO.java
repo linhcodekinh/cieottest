@@ -1,21 +1,33 @@
 package com.lima.dto;
 
+import java.util.List;
+
 public class AccountDTO {
 	private Long id;
 	private String userName;
 	private String isEnabled;
 	private String email;
+	private List<AccountRoleDTO> accountRoleList;
 
 	public AccountDTO() {
 
 	}
 
-	public AccountDTO(Long id, String userName, String isEnabled, String email) {
+	public AccountDTO(Long id, String userName, String isEnabled, String email, List<AccountRoleDTO> accountRoleList) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.isEnabled = isEnabled;
 		this.email = email;
+		this.accountRoleList = accountRoleList;
+	}
+
+	public List<AccountRoleDTO> getAccountRoleList() {
+		return accountRoleList;
+	}
+
+	public void setAccountRoleList(List<AccountRoleDTO> accountRoleList) {
+		this.accountRoleList = accountRoleList;
 	}
 
 	public Long getId() {
@@ -30,8 +42,8 @@ public class AccountDTO {
 		return userName;
 	}
 
-	public void setUserName(String username) {
-		this.userName = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getIsEnabled() {
