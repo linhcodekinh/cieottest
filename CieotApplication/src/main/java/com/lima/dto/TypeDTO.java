@@ -1,14 +1,14 @@
 package com.lima.dto;
 
-public class PositionDTO {
+public class TypeDTO {
 	private Integer id;
 	private String name;
 
-	public PositionDTO() {
+	public TypeDTO() {
 
 	}
 
-	public PositionDTO(Integer id, String name) {
+	public TypeDTO(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

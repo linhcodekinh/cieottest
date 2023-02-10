@@ -1,7 +1,6 @@
 package com.lima.entity;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,6 +40,10 @@ public class Account {
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
 	private List<AccountRole> accountRoleList;
+
+	@OneToMany(mappedBy = "account")
+	@JsonBackReference
+	private List<AccountType> accountTypeList;
 
 	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
 	@JsonBackReference
@@ -96,6 +99,14 @@ public class Account {
 		this.isEnabled = isEnabled;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -122,6 +133,14 @@ public class Account {
 
 	public void setMember(Member member) {
 		this.member = member;
+	}
+
+	public List<AccountType> getAccountTypeList() {
+		return accountTypeList;
+	}
+
+	public void setAccountTypeList(List<AccountType> accountTypeList) {
+		this.accountTypeList = accountTypeList;
 	}
 
 }

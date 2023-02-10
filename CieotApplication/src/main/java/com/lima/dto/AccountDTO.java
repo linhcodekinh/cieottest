@@ -8,26 +8,21 @@ public class AccountDTO {
 	private String isEnabled;
 	private String email;
 	private List<AccountRoleDTO> accountRoleList;
+	private List<AccountTypeDTO> accountTypeList;
 
 	public AccountDTO() {
 
 	}
 
-	public AccountDTO(Long id, String userName, String isEnabled, String email, List<AccountRoleDTO> accountRoleList) {
+	public AccountDTO(Long id, String userName, String isEnabled, String email, List<AccountRoleDTO> accountRoleList,
+			List<AccountTypeDTO> accountTypeList) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.isEnabled = isEnabled;
 		this.email = email;
 		this.accountRoleList = accountRoleList;
-	}
-
-	public List<AccountRoleDTO> getAccountRoleList() {
-		return accountRoleList;
-	}
-
-	public void setAccountRoleList(List<AccountRoleDTO> accountRoleList) {
-		this.accountRoleList = accountRoleList;
+		this.accountTypeList = accountTypeList;
 	}
 
 	public Long getId() {
@@ -60,6 +55,22 @@ public class AccountDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<AccountRoleDTO> getAccountRoleList() {
+		return accountRoleList;
+	}
+
+	public void setAccountRoleList(List<AccountRoleDTO> accountRoleList) {
+		this.accountRoleList = accountRoleList;
+	}
+
+	public List<AccountTypeDTO> getAccountTypeList() {
+		return accountTypeList;
+	}
+
+	public void setAccountTypeList(List<AccountTypeDTO> accountTypeList) {
+		this.accountTypeList = accountTypeList;
 	}
 
 }

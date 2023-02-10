@@ -40,7 +40,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	@Query(value = "update account set verification_code = ?1 where user_name = ?2", nativeQuery = true)
 	void addVerificationCode(String code, String userName);
 
-	@Query(value = "select account.* from account \n", nativeQuery = true)
+	@Query(value = "select account.* from account", nativeQuery = true)
 	List<Account> getAllAccount();
 
 }

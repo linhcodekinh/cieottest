@@ -2,7 +2,7 @@ package com.lima.dto;
 
 public class RoleDTO {
 	private Integer id;
-	private String namee;
+	private String name;
 
 	public Integer getId() {
 		return id;
@@ -13,17 +13,17 @@ public class RoleDTO {
 	}
 
 	public String getName() {
-		return namee;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.namee = name;
+		this.name = name;
 	}
 
 	public RoleDTO(Integer id, String namee) {
 		super();
 		this.id = id;
-		this.namee = namee;
+		this.name = namee;
 	}
 
 	public RoleDTO() {

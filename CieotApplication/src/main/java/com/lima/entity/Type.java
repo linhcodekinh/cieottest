@@ -12,25 +12,27 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "position")
-public class Position {
+@Table(name = "type")
+public class Type {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 
-	@OneToMany(mappedBy = "position")
-	@JsonBackReference // tranh loi de quy VD: position -> employee -> position -> employee
-	private List<Employee> employeeList;
-	
-	public Position() {
-		
+	@OneToMany(mappedBy = "type")
+	@JsonBackReference
+	private List<AccountType> accountTypeList;
+
+	public Type() {
+
 	}
 
-	public Position(Integer id, String name) {
+	public Type(Integer id, String name, List<AccountType> accountTypeList) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.accountTypeList = accountTypeList;
 	}
 
 	public Integer getId() {
@@ -47,6 +49,14 @@ public class Position {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<AccountType> getAccountTypeList() {
+		return accountTypeList;
+	}
+
+	public void setAccountTypeList(List<AccountType> accountTypeList) {
+		this.accountTypeList = accountTypeList;
 	}
 
 }
