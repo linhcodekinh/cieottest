@@ -67,6 +67,11 @@ public class AccountServiceImpl implements IAccountService {
 		sendVerificationEmail(userName, email, randomCode);
 	}
 
+	@Override
+	public void addNew(String userName, String email, String password, Boolean isEnable, String verificationCode) {
+		accountRepository.addNew(userName, email, password, isEnable, verificationCode);
+	}
+
 	private void sendVerificationEmail(String userName, String email, String randomCode)
 			throws MessagingException, UnsupportedEncodingException {
 		String subject = "Hay xac thuc email cua ban";

@@ -16,6 +16,7 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String gender;
 	private String dateOfBirth;
 	private String idCard;
 	private String address;
@@ -29,17 +30,24 @@ public class Employee {
 	@OneToOne
 	@JoinColumn(name = "account_id")
 	private Account account;
+	
+	public Employee() {
+		
+	}
 
-	public Employee(Integer id, String name, String dateOfBirth, String idCard, String address, String phone,
-			String deleteFlag) {
+	public Employee(Integer id, String name, String gender, String dateOfBirth, String idCard, String address,
+			String phone, String deleteFlag, Position position, Account account) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
 		this.address = address;
 		this.phone = phone;
 		this.deleteFlag = deleteFlag;
+		this.position = position;
+		this.account = account;
 	}
 
 	public Integer getId() {
@@ -56,6 +64,14 @@ public class Employee {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getDateOfBirth() {
@@ -96,6 +112,22 @@ public class Employee {
 
 	public void setDeleteFlag(String deleteFlag) {
 		this.deleteFlag = deleteFlag;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

@@ -7,14 +7,39 @@ public class EmployeeDTO {
 	private String idCard;
 	private String phone;
 	private String deleteFlag;
+	private String gender;
+	private PositionDTO positionDTO;
+	
+	public EmployeeDTO() {
+		
+	}
 
-	public EmployeeDTO(String name, String dateOfBirth, String idCard, String phone, String deleteFlag) {
+	public EmployeeDTO(String name, String dateOfBirth, String idCard, String phone, String deleteFlag, String gender,
+			PositionDTO positionDTO) {
 		super();
 		this.name = name;
 		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
 		this.phone = phone;
 		this.deleteFlag = deleteFlag;
+		this.gender = gender;
+		this.positionDTO = positionDTO;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public PositionDTO getPositionDTO() {
+		return positionDTO;
+	}
+
+	public void setPositionDTO(PositionDTO positionDTO) {
+		this.positionDTO = positionDTO;
 	}
 
 	public String getName() {

@@ -2,9 +2,14 @@ package com.lima.service.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lima.dto.PositionDTO;
+import com.lima.dto.RoleDTO;
+import com.lima.entity.Position;
 import com.lima.entity.Role;
 import com.lima.repository.RoleRepository;
 import com.lima.service.IRoleService;
@@ -14,6 +19,9 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public List<Role> findAllRole() {
@@ -27,9 +35,17 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public List<Role> getAllRoles() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setRole(Long accountId, Integer roleId) {
+		roleRepository.setRole(accountId, roleId);
 	}
+	
+	@Override
+	public List<RoleDTO> getAllRole() {
+		List<Role> roleList = roleRepository.getAllRole();
+		List<RoleDTO> roleDTOList = modelMapper.map(roleList, new TypeToken<List<RoleDTO>>() {
+		}.getType());
+		return roleDTOList;
+	}
+
 
 }

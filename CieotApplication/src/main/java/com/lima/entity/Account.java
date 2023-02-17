@@ -63,6 +63,14 @@ public class Account {
 		this.encryptPw = encryptPw;
 	}
 
+	public Account(String userName, String email, String encryptPw, Boolean isEnable, String verificationCode) {
+		this.userName = userName;
+		this.email = email;
+		this.encryptPw = encryptPw;
+		this.isEnabled = isEnable;
+		this.verificationCode = verificationCode;
+	}
+
 	public Long getId() {
 		return id;
 	}

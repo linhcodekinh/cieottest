@@ -14,10 +14,10 @@ public class MemberServiceImpl implements IMemberService {
 	private MemberRepository memberRepository;
 
 	@Override
-	public void addNewMember(String name, String dateOfBirth, String gender, String phone, String address, String email,
+	public void addNewMember(String name, String dateOfBirth, String gender, String phone, String address,
 			Long accountId, Boolean deleteFlag) {
 		// TODO Auto-generated method stub
-		memberRepository.saveMemberToRegister(name, dateOfBirth, gender, phone, address, email, accountId, deleteFlag);
+		memberRepository.saveMemberToRegister(name, dateOfBirth, gender, phone, address, accountId, deleteFlag);
 	}
 
 	@Override

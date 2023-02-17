@@ -15,9 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "insert into member(name, date_of_birth,gender,phone,address,email,account_id,delete_flag) value (?1,?2,?3,?4,?5,?6,?7,?8)", nativeQuery = true)
+	@Query(value = "insert into member(name, date_of_birth,gender,phone,address,account_id,delete_flag) value (?1,?2,?3,?4,?5,?6,?7)", nativeQuery = true)
 	void saveMemberToRegister(String name, String dateOfBirth, String gender, String phone, String address,
-			String email, Long accountId, Boolean deleteFlag);
+			Long accountId, Boolean deleteFlag);
 
 	Member findByAccountIdAndDeleteFlag(Long id, Boolean b);
 }

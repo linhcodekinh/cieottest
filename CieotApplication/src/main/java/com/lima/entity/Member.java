@@ -24,7 +24,6 @@ public class Member {
 	private String gender;
 	private String phone;
 	private String address;
-	private String email;
 	private Boolean deleteFlag;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -36,7 +35,7 @@ public class Member {
 
 	}
 
-	public Member(Long id, String name, String dateOfBirth, String gender, String phone, String address, String email,
+	public Member(Long id, String name, String dateOfBirth, String gender, String phone, String address,
 			Boolean deleteFlag) {
 		super();
 		this.id = id;
@@ -45,7 +44,6 @@ public class Member {
 		this.gender = gender;
 		this.phone = phone;
 		this.address = address;
-		this.email = email;
 		this.deleteFlag = deleteFlag;
 	}
 
@@ -95,14 +93,6 @@ public class Member {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Boolean getDeleteFlag() {

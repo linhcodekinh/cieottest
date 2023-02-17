@@ -92,8 +92,8 @@ public class SecurityController {
 		roleService.setDefaultRole(idAccountAfterCreated, 1);
 		// insert into table member
 		memberService.addNewMember(signUpRequest.getUsername(), signUpRequest.getDateOfBirth(),
-				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(),
-				signUpRequest.getEmail(), idAccountAfterCreated, false);
+				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(), idAccountAfterCreated,
+				false);
 
 		return ResponseEntity.ok(new MessageResponse("Đăng ký tài khoản thành công!"));
 	}
@@ -105,7 +105,7 @@ public class SecurityController {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
 		Authentication authenticatation = authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-	
+
 		SecurityContextHolder.getContext().setAuthentication(authenticatation);
 		String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
 		AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
