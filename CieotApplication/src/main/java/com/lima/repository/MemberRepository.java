@@ -11,13 +11,18 @@ import com.lima.entity.Member;
 
 @Repository
 @Transactional
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	@Modifying
 	@Transactional
 	@Query(value = "insert into member(name, date_of_birth,gender,phone,address,account_id,delete_flag) value (?1,?2,?3,?4,?5,?6,?7)", nativeQuery = true)
 	void saveMemberToRegister(String name, String dateOfBirth, String gender, String phone, String address,
-			Long accountId, Boolean deleteFlag);
+			Integer accountId, Boolean deleteFlag);
 
-	Member findByAccountIdAndDeleteFlag(Long id, Boolean b);
+	Member findByAccountIdAndDeleteFlag(Integer id, Boolean b);
+
+	@Modifying
+	@Query(value = "UPDATE member SET delete_flag = 1 WHERE account_id = :id", nativeQuery = true)
+	void deleteByAccountId(Integer id);
+
 }

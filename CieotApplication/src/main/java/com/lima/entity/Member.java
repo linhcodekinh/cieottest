@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@Column
 	private String name;
@@ -35,7 +35,7 @@ public class Member {
 
 	}
 
-	public Member(Long id, String name, String dateOfBirth, String gender, String phone, String address,
+	public Member(Integer id, String name, String dateOfBirth, String gender, String phone, String address,
 			Boolean deleteFlag) {
 		super();
 		this.id = id;
@@ -47,11 +47,11 @@ public class Member {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

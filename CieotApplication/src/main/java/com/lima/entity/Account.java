@@ -20,7 +20,7 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@Column(name = "user_name")
 	private String userName;
@@ -36,6 +36,9 @@ public class Account {
 
 	@Column(name = "email")
 	private String email;
+
+	@Column(name = "delete_flag")
+	private Boolean deleteFlag;
 
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
@@ -71,11 +74,11 @@ public class Account {
 		this.verificationCode = verificationCode;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -149,6 +152,14 @@ public class Account {
 
 	public void setAccountTypeList(List<AccountType> accountTypeList) {
 		this.accountTypeList = accountTypeList;
+	}
+
+	public Boolean getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(Boolean deleteFlag) {
+		this.deleteFlag = deleteFlag;
 	}
 
 }

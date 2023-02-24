@@ -18,7 +18,7 @@ import com.lima.entity.Account;
 public class AccountDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
+	private Integer id;
 	private String username;
 	private Boolean enabled;
 
@@ -26,7 +26,7 @@ public class AccountDetailsImpl implements UserDetails {
 	private String password;
 	List<GrantedAuthority> authorities = null;
 
-	public AccountDetailsImpl(Long id, String username, String password, List<GrantedAuthority> authorities,
+	public AccountDetailsImpl(Integer id, String username, String password, List<GrantedAuthority> authorities,
 			Boolean enabled) {
 		this.id = id;
 		this.username = username;
@@ -48,7 +48,7 @@ public class AccountDetailsImpl implements UserDetails {
 		return authorities;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 

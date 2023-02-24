@@ -16,7 +16,7 @@ import com.lima.entity.Type;
 public interface TypeRepository extends JpaRepository<Type, Integer> {
 	@Modifying
 	@Query(value = "insert into account_type(account_id, type_id) value (?1, ?2)", nativeQuery = true)
-	void setType(Long accountId, Integer roleId);
+	void setType(Integer accountId, Integer roleId);
 
 	@Query(value = "select * from type", nativeQuery = true)
 	List<Type> getAllType();

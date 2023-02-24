@@ -32,6 +32,11 @@ public class AccountRole {
         this.account = account;
         this.role = role;
     }
+    
+    public AccountRole(Account account, Role role) {
+        this.account = account;
+        this.role = role;
+    }
 
     public Long getId() {
 		return id;

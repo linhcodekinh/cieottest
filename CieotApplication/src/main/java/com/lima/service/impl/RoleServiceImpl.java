@@ -30,12 +30,12 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public void setDefaultRole(Long accountId, Integer roleId) {
+	public void setDefaultRole(Integer accountId, Integer roleId) {
 		roleRepository.setDefaultRole(accountId, roleId);
 	}
 
 	@Override
-	public void setRole(Long accountId, Integer roleId) {
+	public void setRole(Integer accountId, Integer roleId) {
 		roleRepository.setRole(accountId, roleId);
 	}
 	

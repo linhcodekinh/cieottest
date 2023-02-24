@@ -15,14 +15,24 @@ public class MemberServiceImpl implements IMemberService {
 
 	@Override
 	public void addNewMember(String name, String dateOfBirth, String gender, String phone, String address,
-			Long accountId, Boolean deleteFlag) {
+			Integer accountId, Boolean deleteFlag) {
 		// TODO Auto-generated method stub
 		memberRepository.saveMemberToRegister(name, dateOfBirth, gender, phone, address, accountId, deleteFlag);
 	}
 
 	@Override
-	public Member findByAccountIdAndDeleteFlag(Long id, Boolean b) {
+	public Member findByAccountIdAndDeleteFlag(Integer id, Boolean b) {
 		return memberRepository.findByAccountIdAndDeleteFlag(id, b);
+	}
+
+	@Override
+	public Boolean existsById(Integer id) {
+		return memberRepository.existsById(id);
+	}
+
+	@Override
+	public void deleteByAccountId(Integer id) {
+		memberRepository.deleteByAccountId(id);
 	}
 
 }

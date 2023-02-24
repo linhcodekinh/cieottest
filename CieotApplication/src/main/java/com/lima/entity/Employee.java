@@ -21,7 +21,7 @@ public class Employee {
 	private String idCard;
 	private String address;
 	private String phone;
-	private String deleteFlag;
+	private Boolean deleteFlag;
 
 	@ManyToOne
 	@JoinColumn(name = "position_id", nullable = false)
@@ -30,13 +30,13 @@ public class Employee {
 	@OneToOne
 	@JoinColumn(name = "account_id")
 	private Account account;
-	
+
 	public Employee() {
-		
+
 	}
 
 	public Employee(Integer id, String name, String gender, String dateOfBirth, String idCard, String address,
-			String phone, String deleteFlag, Position position, Account account) {
+			String phone, Position position, Account account) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,7 +45,6 @@ public class Employee {
 		this.idCard = idCard;
 		this.address = address;
 		this.phone = phone;
-		this.deleteFlag = deleteFlag;
 		this.position = position;
 		this.account = account;
 	}
@@ -106,11 +105,11 @@ public class Employee {
 		this.phone = phone;
 	}
 
-	public String getDeleteFlag() {
+	public Boolean getDeleteFlag() {
 		return deleteFlag;
 	}
 
-	public void setDeleteFlag(String deleteFlag) {
+	public void setDeleteFlag(Boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
 

@@ -9,9 +9,9 @@ public interface IRoleService {
 	
 	List<Role> findAllRole();
 
-	void setDefaultRole(Long accountId, Integer roleId);
+	void setDefaultRole(Integer accountId, Integer roleId);
 	
-	void setRole(Long accountId, Integer roleId);
+	void setRole(Integer accountId, Integer roleId);
 
 	List<RoleDTO> getAllRole();
 }

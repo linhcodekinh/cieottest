@@ -2,6 +2,7 @@ package com.lima.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -9,16 +10,25 @@ import javax.mail.internet.MimeMessage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lima.common.MyConstants;
 import com.lima.dto.AccountDTO;
-import com.lima.dto.AccountTypeDTO;
 import com.lima.entity.Account;
+import com.lima.entity.AccountRole;
+import com.lima.entity.AccountType;
+import com.lima.exception.AccountException;
+import com.lima.payload.request.AccountDTORequest;
 import com.lima.repository.AccountRepository;
 import com.lima.service.IAccountService;
+import com.lima.service.IEmployeeService;
+import com.lima.service.IMemberService;
+import com.lima.service.IRoleService;
+import com.lima.service.ITypeService;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -27,6 +37,21 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private PasswordEncoder encoder;
+
+	@Autowired
+	private IRoleService roleService;
+
+	@Autowired
+	private ITypeService typeService;
+
+	@Autowired
+	private IMemberService memberService;
+
+	@Autowired
+	private IEmployeeService employeeService;
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -45,7 +70,7 @@ public class AccountServiceImpl implements IAccountService {
 //	}
 
 	@Override
-	public Long findIdUserByUserName(String userName) {
+	public Integer findIdUserByUserName(String userName) {
 		return accountRepository.findIdUserByUserName(userName);
 	}
 
@@ -135,6 +160,82 @@ public class AccountServiceImpl implements IAccountService {
 		List<AccountDTO> accountDTOList = modelMapper.map(accountList, new TypeToken<List<AccountDTO>>() {
 		}.getType());
 		return accountDTOList;
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		accountRepository.deleteAccount(id);
+	}
+
+	@Override
+	public AccountDTO update(Integer id, AccountDTORequest accountDTORequest) {
+		Optional<Account> accOptional = accountRepository.findById(id);
+		if (!accOptional.isPresent())
+			throw new AccountException("Account id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
+		Account account = accOptional.get();
+		account.setIsEnabled(accountDTORequest.getIsEnabled());
+
+		List<AccountRole> accountRoleList;
+		List<AccountType> accountTypeList;
+		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
+		List<Integer> idTypeList = accountDTORequest.getIdTypeList();
+
+//		if(idRoleList.size() !=0 ) {
+//			for(Integer idr : idRoleList) {
+//				Role role = new R
+//				AccountRole accountRole = new AccountRole(account,)
+//				
+//			}
+//		}
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void create(AccountDTORequest accountDTORequest) {
+		// Init account
+		String userName = accountDTORequest.getUserName();
+		String email = accountDTORequest.getEmail();
+		String password = accountDTORequest.getPassword();
+		String name = accountDTORequest.getName();
+		String gender = accountDTORequest.getGender();
+		String phone = accountDTORequest.getPhone();
+		String address = accountDTORequest.getAddress();
+		String dateOfBirth = accountDTORequest.getDateOfBirth();
+		String idCard = accountDTORequest.getIdCard();
+		Integer positionId = accountDTORequest.getPositionId();
+		Boolean isEnabled = accountDTORequest.getIsEnabled();
+		String verificationCode = "";
+		Account account = new Account(userName, email, encoder.encode(password), isEnabled, verificationCode);
+		// insert to db
+		accountRepository.addNew(account.getUserName(), account.getEmail(), account.getEncryptPw(),
+				account.getIsEnabled(), account.getVerificationCode());
+		// get ID
+		Integer idAccountAfterCreated = accountRepository.findIdUserByUserName(account.getUserName());
+		// set role if have
+		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
+		if (idRoleList != null && !idRoleList.isEmpty()) {
+			for (Integer idRole : idRoleList) {
+				roleService.setRole(idAccountAfterCreated, idRole);
+			}
+		}
+		// set type
+		List<Integer> idTypeList = accountDTORequest.getIdTypeList();
+		if (idTypeList != null && !idTypeList.isEmpty()) {
+			for (Integer idType : idTypeList) {
+				// System.out.println("idType: " + idType);
+				typeService.setType(idAccountAfterCreated, idType);
+				if ("1".equals(idType.toString())) {
+					memberService.addNewMember(name, dateOfBirth, gender, phone, address, idAccountAfterCreated, false);
+				}
+				if ("2".equals(idType.toString())) {
+					employeeService.addNewEmployee(name, dateOfBirth, gender, phone, address, idAccountAfterCreated,
+							idCard, positionId, false);
+				}
+			}
+		}
+
 	}
 
 }

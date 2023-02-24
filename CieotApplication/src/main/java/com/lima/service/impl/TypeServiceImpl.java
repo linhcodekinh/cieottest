@@ -22,7 +22,7 @@ public class TypeServiceImpl implements ITypeService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public void setType(Long accountId, Integer typeId) {
+	public void setType(Integer accountId, Integer typeId) {
 		typeRepository.setType(accountId, typeId);
 	}
 

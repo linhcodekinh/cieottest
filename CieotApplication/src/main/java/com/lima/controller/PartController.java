@@ -82,7 +82,7 @@ public class PartController {
 		return new ResponseEntity<>(partDTO, HttpStatus.OK);
 	}
 
-	@PostMapping("/part/{id}")
+	@PostMapping("/part")
 	public ResponseEntity<PartDTO> create(@RequestBody PartDTORequest partDTORequest) {
 		PartDTO partDTO = partService.create(partDTORequest);
 		return new ResponseEntity<>(partDTO, HttpStatus.OK);

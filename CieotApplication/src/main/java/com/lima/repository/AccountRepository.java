@@ -14,11 +14,11 @@ import com.lima.entity.Account;
 
 @Repository
 @Transactional
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 	Account findAccountByUserName(String username);
 
 	@Query(value = "select id from account where user_name = ?1", nativeQuery = true)
-	Long findIdUserByUserName(String userName);
+	Integer findIdUserByUserName(String userName);
 
 	@Query(value = "select user_name from account where user_name = ?1", nativeQuery = true)
 	String existsByUserName(String userName);
@@ -30,7 +30,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	String existsByEmail(String email);
 
 	@Modifying
-	@Query(value = "insert into account(user_name, email, encrypt_pw, is_enabled, verification_code) value (?1,?2,?3,?4,?5)", nativeQuery = true)
+	@Query(value = "insert into account(user_name, email, encrypt_pw, is_enabled, verification_code, delete_flag) value (?1,?2,?3,?4,?5,0)", nativeQuery = true)
 	void addNew(String userName, String email, String password, Boolean is_enabled, String randomCode);
 
 	@Query(value = "select * from account where verification_code = ?1", nativeQuery = true)
@@ -40,7 +40,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	@Query(value = "update account set verification_code = ?1 where user_name = ?2", nativeQuery = true)
 	void addVerificationCode(String code, String userName);
 
-	@Query(value = "select account.* from account", nativeQuery = true)
+	@Query(value = "select account.* from account where delete_flag = 0", nativeQuery = true)
 	List<Account> getAllAccount();
+
+	@Modifying
+	@Query(value = "UPDATE account SET delete_flag = 1 WHERE id = :id", nativeQuery = true)
+	void deleteAccount(Integer id);
 
 }

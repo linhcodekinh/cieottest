@@ -3,7 +3,7 @@ package com.lima.dto;
 import java.util.List;
 
 public class AccountDTO {
-	private Long id;
+	private Integer id;
 	private String userName;
 	private String isEnabled;
 	private String email;
@@ -14,7 +14,7 @@ public class AccountDTO {
 
 	}
 
-	public AccountDTO(Long id, String userName, String isEnabled, String email, List<AccountRoleDTO> accountRoleList,
+	public AccountDTO(Integer id, String userName, String isEnabled, String email, List<AccountRoleDTO> accountRoleList,
 			List<AccountTypeDTO> accountTypeList) {
 		super();
 		this.id = id;
@@ -25,11 +25,11 @@ public class AccountDTO {
 		this.accountTypeList = accountTypeList;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

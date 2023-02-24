@@ -37,6 +37,7 @@ public class Role {
 		this.accountRoleList = accountRoleList;
 	}
 
+
 	public Integer getId() {
 		return id;
 	}

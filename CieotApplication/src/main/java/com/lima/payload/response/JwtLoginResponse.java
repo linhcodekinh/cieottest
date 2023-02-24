@@ -7,7 +7,7 @@ import com.lima.entity.Account;
 public class JwtLoginResponse {
 	private String token;
 	private String type = "Bearer";
-	private Long id;
+	private Integer id;
 	private String userName;
 	private List<String> roles;
 	private Account account;
@@ -16,7 +16,7 @@ public class JwtLoginResponse {
 
 	}
 
-	public JwtLoginResponse(String token, Long id, String userName, List<String> roles, Account account) {
+	public JwtLoginResponse(String token, Integer id, String userName, List<String> roles, Account account) {
 		super();
 		this.token = token;
 		this.id = id;
@@ -41,11 +41,11 @@ public class JwtLoginResponse {
 		this.type = type;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

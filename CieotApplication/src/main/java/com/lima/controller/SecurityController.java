@@ -87,7 +87,7 @@ public class SecurityController {
 		// insert into table account
 		accountService.addNew(account.getUserName(), account.getEmail(), account.getEncryptPw());
 		// get ID of new created account
-		Long idAccountAfterCreated = accountService.findIdUserByUserName(account.getUserName());
+		Integer idAccountAfterCreated = accountService.findIdUserByUserName(account.getUserName());
 		// set default role is USER_ROLE
 		roleService.setDefaultRole(idAccountAfterCreated, 1);
 		// insert into table member

@@ -17,5 +17,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Transactional
 	@Query(value = "insert into employee(name, date_of_birth, gender, phone, address, account_id, id_card, position_id, delete_flag) value (?1,?2,?3,?4,?5,?6,?7,?8,?9)", nativeQuery = true)
 	void saveEmployee(String name, String dateOfBirth, String gender, String phone, String address,
-			Long accountId, String idCard, Integer positionId, Boolean deleteFlag);
+			Integer accountId, String idCard, Integer positionId, Boolean deleteFlag);
+	
+	@Modifying
+	@Query(value = "UPDATE employee SET delete_flag = 1 WHERE account_id = :id", nativeQuery = true)
+	void deleteByAccountId(Integer id);
+
+	Employee findByAccountIdAndDeleteFlag(Integer id, boolean b);
 }

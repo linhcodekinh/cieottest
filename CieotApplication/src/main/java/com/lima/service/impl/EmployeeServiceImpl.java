@@ -3,6 +3,7 @@ package com.lima.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lima.entity.Employee;
 import com.lima.repository.EmployeeRepository;
 import com.lima.service.IEmployeeService;
 
@@ -14,9 +15,25 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public void addNewEmployee(String name, String dateOfBirth, String gender, String phone, String address,
-			Long accountId, String idCard, Integer positionId, Boolean deleteFlag) {
+			Integer accountId, String idCard, Integer positionId, Boolean deleteFlag) {
 		employeeRepository.saveEmployee(name, dateOfBirth, gender, phone, address, accountId, idCard, positionId,
 				deleteFlag);
 	}
+
+	@Override
+	public Boolean existsById(Integer id) {
+		return employeeRepository.existsById(id);
+	}
+
+	@Override
+	public void deleteByAccountId(Integer id) {
+		employeeRepository.deleteByAccountId(id);		
+	}
+
+	@Override
+	public Employee findByAccountIdAndDeleteFlag(Integer id, boolean b) {
+		return employeeRepository.findByAccountIdAndDeleteFlag(id, b);
+	}
+
 
 }
