@@ -21,4 +21,7 @@ public interface TypeRepository extends JpaRepository<Type, Integer> {
 	@Query(value = "select * from type", nativeQuery = true)
 	List<Type> getAllType();
 
+	@Query(value = "select name from type where id = ?1", nativeQuery = true)
+	String getTypeById(Integer idType);
+
 }

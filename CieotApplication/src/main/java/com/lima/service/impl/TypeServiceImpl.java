@@ -34,4 +34,9 @@ public class TypeServiceImpl implements ITypeService {
 		return typeDTOList;
 	}
 
+	@Override
+	public String getTypeById(Integer idType) {
+		return typeRepository.getTypeById(idType);
+	}
+
 }

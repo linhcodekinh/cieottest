@@ -58,14 +58,7 @@ public class AccountController {
 	// DELETE BY ID
 	@PatchMapping("/account/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Integer id) {
-//		accountService.deleteById(id);
-//		if (memberService.findByAccountIdAndDeleteFlag(id, false) != null ) {
-//			memberService.deleteByAccountId(id);
-//		}
-//		if (employeeService.findByAccountIdAndDeleteFlag(id, false) != null) {
-//			employeeService.deleteByAccountId(id);
-//		}
-//		return new ResponseEntity<>(HttpStatus.OK);
+		accountService.deleteById(id);
 		return ResponseEntity.ok(new MessageResponse("Xoa tài khoản thành công!"));
 	}
 

@@ -8,4 +8,6 @@ public interface ITypeService {
 	void setType(Integer accountId, Integer typeId);
 
 	List<TypeDTO> getAllType();
+
+	String getTypeById(Integer idType);
 }

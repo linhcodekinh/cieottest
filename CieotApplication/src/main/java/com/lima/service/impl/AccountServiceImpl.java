@@ -165,6 +165,12 @@ public class AccountServiceImpl implements IAccountService {
 	@Override
 	public void deleteById(Integer id) {
 		accountRepository.deleteAccount(id);
+		if (memberService.findByAccountIdAndDeleteFlag(id, false) != null) {
+			memberService.deleteByAccountId(id);
+		}
+		if (employeeService.findByAccountIdAndDeleteFlag(id, false) != null) {
+			employeeService.deleteByAccountId(id);
+		}
 	}
 
 	@Override
@@ -226,10 +232,11 @@ public class AccountServiceImpl implements IAccountService {
 			for (Integer idType : idTypeList) {
 				// System.out.println("idType: " + idType);
 				typeService.setType(idAccountAfterCreated, idType);
-				if ("1".equals(idType.toString())) {
+				String typeName = typeService.getTypeById(idType);
+				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
 					memberService.addNewMember(name, dateOfBirth, gender, phone, address, idAccountAfterCreated, false);
 				}
-				if ("2".equals(idType.toString())) {
+				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
 					employeeService.addNewEmployee(name, dateOfBirth, gender, phone, address, idAccountAfterCreated,
 							idCard, positionId, false);
 				}
