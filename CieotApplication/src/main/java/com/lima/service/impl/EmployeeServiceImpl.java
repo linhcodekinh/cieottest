@@ -35,5 +35,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return employeeRepository.findByAccountIdAndDeleteFlag(id, b);
 	}
 
+	@Override
+	public void updateEmployee(String name, String dateOfBirth, String gender, String phone, String address,
+			Integer accountId, String idCard, Integer positionId, boolean delete_flag) {
+		employeeRepository.updateEmployee(name, dateOfBirth, gender, phone, address, accountId, idCard, positionId, delete_flag);
+		
+	}
+
 
 }

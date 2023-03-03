@@ -35,4 +35,10 @@ public class MemberServiceImpl implements IMemberService {
 		memberRepository.deleteByAccountId(id);
 	}
 
+	@Override
+	public void updateMember(String name, String dateOfBirth, String gender, String phone, String address,
+			Integer accountId, boolean delete_flag) {
+		memberRepository.updateMember(name, dateOfBirth, gender, phone, address, accountId, delete_flag);
+	}
+
 }

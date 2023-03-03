@@ -11,4 +11,7 @@ public interface IMemberService {
 	Boolean existsById(Integer id);
 
 	void deleteByAccountId(Integer id);
+
+	void updateMember(String name, String dateOfBirth, String gender, String phone, String address, Integer accountId,
+			boolean b);
 }

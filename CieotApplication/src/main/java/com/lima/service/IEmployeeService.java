@@ -13,4 +13,7 @@ public interface IEmployeeService {
 
 	Employee findByAccountIdAndDeleteFlag(Integer id, boolean b);
 
+	void updateEmployee(String name, String dateOfBirth, String gender, String phone, String address, Integer accountId,
+			String idCard, Integer positionId, boolean b);
+
 }

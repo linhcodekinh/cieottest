@@ -25,4 +25,16 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@Query(value = "UPDATE member SET delete_flag = 1 WHERE account_id = :id", nativeQuery = true)
 	void deleteByAccountId(Integer id);
 
+	@Modifying
+	@Query(value = "UPDATE member "
+			+ "SET name = ?1, "
+			+ "	   dateOfBirth = ?2	"
+			+ "	   gender = ?3	"
+			+ "	   phone = ?4	"
+			+ "	   address = ?5	"
+			+ "	   delete_flag = ?7	"
+			+ "WHERE account_id = ?6", nativeQuery = true)
+	void updateMember(String name, String dateOfBirth, String gender, String phone, String address,
+			Integer accountId, boolean delete_flag);
+
 }

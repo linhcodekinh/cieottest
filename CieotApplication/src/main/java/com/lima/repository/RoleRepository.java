@@ -23,6 +23,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 	@Modifying
 	@Query(value = "insert into account_role(account_id, role_id) value (?1, ?2)", nativeQuery = true)
 	void setRole(Integer accountId, Integer roleId);
+	
+	@Modifying
+	@Query(value = "delete from account_role where account_id = ?1", nativeQuery = true)
+	void deleteRole(Integer id);
 
 	@Query(value = "select * from role", nativeQuery = true)
 	List<Role> getAllRole();

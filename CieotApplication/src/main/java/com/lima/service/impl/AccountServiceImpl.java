@@ -174,25 +174,45 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO update(Integer id, AccountDTORequest accountDTORequest) {
-		Optional<Account> accOptional = accountRepository.findById(id);
+	public AccountDTO update(Integer accountId, AccountDTORequest accountDTORequest) {
+		Optional<Account> accOptional = accountRepository.findById(accountId);
 		if (!accOptional.isPresent())
 			throw new AccountException("Account id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
 		Account account = accOptional.get();
 		account.setIsEnabled(accountDTORequest.getIsEnabled());
-
-		List<AccountRole> accountRoleList;
-		List<AccountType> accountTypeList;
+		roleService.deleteRole(accountId);
+		//typeService.deleteType(accountId);
+		
+		// set role
 		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
-		List<Integer> idTypeList = accountDTORequest.getIdTypeList();
+		if (idRoleList != null && !idRoleList.isEmpty()) {
+			for (Integer idRole : idRoleList) {
+				roleService.setRole(accountId, idRole);
+			}
+		}
+		List<AccountType> accountTypeList = account.getAccountTypeList();
+		//set type
+		if (accountTypeList != null && !accountTypeList.isEmpty()) {
+			String name = accountDTORequest.getName();
+			String dateOfBirth = accountDTORequest.getDateOfBirth();
+			String gender = accountDTORequest.getGender();
+			String phone = accountDTORequest.getPhone();
+			String address = accountDTORequest.getAddress();
+			String idCard = accountDTORequest.getIdCard();
+			Integer positionId = accountDTORequest.getPositionId();
+			for (AccountType accountType : accountTypeList) {
+				Integer accId = accountType.getAccount().getId();
+				String typeName = accountType.getType().getName();
 
-//		if(idRoleList.size() !=0 ) {
-//			for(Integer idr : idRoleList) {
-//				Role role = new R
-//				AccountRole accountRole = new AccountRole(account,)
-//				
-//			}
-//		}
+				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
+					memberService.updateMember(name, dateOfBirth, gender, phone, address, accountId, false);
+				}
+				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
+					employeeService.updateEmployee(name, dateOfBirth, gender, phone, address, accountId,
+							idCard, positionId, false);
+				}
+			}
+		}
 
 		// TODO Auto-generated method stub
 		return null;

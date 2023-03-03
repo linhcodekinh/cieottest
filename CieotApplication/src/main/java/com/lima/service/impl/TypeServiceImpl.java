@@ -17,7 +17,7 @@ public class TypeServiceImpl implements ITypeService {
 
 	@Autowired
 	private TypeRepository typeRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -37,6 +37,12 @@ public class TypeServiceImpl implements ITypeService {
 	@Override
 	public String getTypeById(Integer idType) {
 		return typeRepository.getTypeById(idType);
+	}
+
+	@Override
+	public void deleteType(Integer id) {
+		typeRepository.deleteType(id);
+
 	}
 
 }

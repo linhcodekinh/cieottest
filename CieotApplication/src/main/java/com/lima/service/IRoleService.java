@@ -14,4 +14,6 @@ public interface IRoleService {
 	void setRole(Integer accountId, Integer roleId);
 
 	List<RoleDTO> getAllRole();
+
+	void deleteRole(Integer id);
 }

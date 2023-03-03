@@ -24,4 +24,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	void deleteByAccountId(Integer id);
 
 	Employee findByAccountIdAndDeleteFlag(Integer id, boolean b);
+
+	@Modifying
+	@Query(value = "UPDATE employee "
+			+ "SET name = ?1, "
+			+ "	   dateOfBirth = ?2	"
+			+ "	   gender = ?3	"
+			+ "	   phone = ?4	"
+			+ "	   address = ?5	"
+			+ "	   idCard = ?7	"
+			+ "	   positionId = ?8	"
+			+ "	   delete_flag = ?9	"
+			+ "WHERE account_id = ?6", nativeQuery = true)
+	void updateEmployee(String name, String dateOfBirth, String gender, String phone, String address,
+			Integer accountId, String idCard, Integer positionId, boolean delete_flag);
 }

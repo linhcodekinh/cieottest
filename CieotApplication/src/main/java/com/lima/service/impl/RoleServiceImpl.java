@@ -14,12 +14,12 @@ import com.lima.entity.Role;
 import com.lima.repository.RoleRepository;
 import com.lima.service.IRoleService;
 
-@Service 
+@Service
 public class RoleServiceImpl implements IRoleService {
 
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -38,7 +38,7 @@ public class RoleServiceImpl implements IRoleService {
 	public void setRole(Integer accountId, Integer roleId) {
 		roleRepository.setRole(accountId, roleId);
 	}
-	
+
 	@Override
 	public List<RoleDTO> getAllRole() {
 		List<Role> roleList = roleRepository.getAllRole();
@@ -47,5 +47,9 @@ public class RoleServiceImpl implements IRoleService {
 		return roleDTOList;
 	}
 
+	@Override
+	public void deleteRole(Integer id) {
+		roleRepository.deleteRole(id);
+	}
 
 }

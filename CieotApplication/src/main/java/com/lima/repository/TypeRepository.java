@@ -24,4 +24,8 @@ public interface TypeRepository extends JpaRepository<Type, Integer> {
 	@Query(value = "select name from type where id = ?1", nativeQuery = true)
 	String getTypeById(Integer idType);
 
+	@Modifying
+	@Query(value = "delete from account_type where account_id = ?1", nativeQuery = true)
+	void deleteType(Integer id);
+
 }

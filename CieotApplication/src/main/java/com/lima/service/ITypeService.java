@@ -10,4 +10,6 @@ public interface ITypeService {
 	List<TypeDTO> getAllType();
 
 	String getTypeById(Integer idType);
+
+	void deleteType(Integer id);
 }
