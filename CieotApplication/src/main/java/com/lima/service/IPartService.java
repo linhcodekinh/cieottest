@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.lima.dto.PartDTO;
 import com.lima.payload.request.PartDTORequest;
+import com.lima.payload.request.PartDTOWithFileRequest;
 
 @Service
 public interface IPartService {
@@ -28,4 +29,6 @@ public interface IPartService {
 	PartDTO create(PartDTORequest partDTORequest);
 
 	void deleteById(Integer id);
+
+	PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest);
 }

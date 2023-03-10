@@ -3,11 +3,14 @@ package com.lima.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.dto.PartDTO;
 import com.lima.payload.request.PartDTORequest;
+import com.lima.payload.request.PartDTOWithFileRequest;
 import com.lima.service.IPartService;
 
 @RestController
@@ -86,7 +90,15 @@ public class PartController {
 	public ResponseEntity<PartDTO> create(@RequestBody PartDTORequest partDTORequest) {
 		PartDTO partDTO = partService.create(partDTORequest);
 		return new ResponseEntity<>(partDTO, HttpStatus.OK);
+		
 	}
+	
+	@PostMapping("/partByExcel")
+	public ResponseEntity<PartDTO> createByExcelFile(@RequestBody PartDTOWithFileRequest partDTOWithFileRequest, HttpServletRequest request) {
+		PartDTO partDTO = partService.createByExcelFile(partDTOWithFileRequest);
+		return new ResponseEntity<>(partDTO, HttpStatus.OK);
+	}
+	
 
 	// delete by id
 	@PatchMapping("/part/{id}")

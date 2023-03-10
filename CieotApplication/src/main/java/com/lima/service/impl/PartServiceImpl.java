@@ -23,6 +23,7 @@ import com.lima.entity.Part;
 import com.lima.entity.PartDetail;
 import com.lima.exception.PartException;
 import com.lima.payload.request.PartDTORequest;
+import com.lima.payload.request.PartDTOWithFileRequest;
 import com.lima.repository.CodeRepository;
 import com.lima.repository.PartDetailRepository;
 import com.lima.repository.PartRepository;
@@ -213,6 +214,12 @@ public class PartServiceImpl implements IPartService {
 	@Override
 	public void deleteById(Integer id) {
 		partRepository.deletePart(id);
+	}
+
+	@Override
+	public PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
