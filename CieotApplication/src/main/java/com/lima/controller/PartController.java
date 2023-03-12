@@ -1,12 +1,12 @@
 package com.lima.controller;
 
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.dto.PartDTO;
 import com.lima.payload.request.PartDTORequest;
@@ -38,28 +40,28 @@ public class PartController {
 		return "hello";
 	}
 
-	//GET ALL
+	// GET ALL
 	@GetMapping("/part")
 	public ResponseEntity<List<PartDTO>> getAll() {
 		List<PartDTO> listPart = partService.getAll();
 		return new ResponseEntity<>(listPart, HttpStatus.OK);
 	}
 
-	//GET part detail by part id
+	// GET part detail by part id
 	@GetMapping("/part/{id}")
 	public PartDTO getPartDetail(@PathVariable Integer id) {
 		PartDTO partDTO = partService.getPartDetail(id);
 		return partDTO;
 	}
 
-	//GET list by code and part no
+	// GET list by code and part no
 	@GetMapping("/part/list-by-code-part-no")
 	public ResponseEntity<Map<String, List<PartDTO>>> getAllByCodePartNo(
 			@RequestParam(name = "partNo", required = false, defaultValue = "") Integer partNo) {
 		Map<String, List<PartDTO>> maplistPart = partService.getAllByCodePartNo(partNo);
 		return new ResponseEntity<>(maplistPart, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/part/list-by-part-no")
 	public ResponseEntity<List<PartDTO>> getAllByPartNo(
 			@RequestParam(name = "partNo", required = false, defaultValue = "") Integer partNo) {
@@ -90,15 +92,19 @@ public class PartController {
 	public ResponseEntity<PartDTO> create(@RequestBody PartDTORequest partDTORequest) {
 		PartDTO partDTO = partService.create(partDTORequest);
 		return new ResponseEntity<>(partDTO, HttpStatus.OK);
-		
+
 	}
-	
-	@PostMapping("/partByExcel")
-	public ResponseEntity<PartDTO> createByExcelFile(@RequestBody PartDTOWithFileRequest partDTOWithFileRequest, HttpServletRequest request) {
-		PartDTO partDTO = partService.createByExcelFile(partDTOWithFileRequest);
-		return new ResponseEntity<>(partDTO, HttpStatus.OK);
+
+	@PostMapping(value = "/partByExcel", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<PartDTOWithFileRequest> createByExcelFile(@RequestPart("partDetail") String partDetail, @RequestPart("listFiles") List<MultipartFile> listFiles) {
+		//PartDTO partDTO = partService.createByExcelFile(partDTOWithFileRequest);
+		PartDTOWithFileRequest partDTOWithFileRequest = partService.getJson(partDetail, listFiles);
+		for(MultipartFile file : listFiles) {
+			System.out.println("file name: " + file.getOriginalFilename());
+		}
+		return new ResponseEntity<>(partDTOWithFileRequest, HttpStatus.OK);
 	}
-	
 
 	// delete by id
 	@PatchMapping("/part/{id}")

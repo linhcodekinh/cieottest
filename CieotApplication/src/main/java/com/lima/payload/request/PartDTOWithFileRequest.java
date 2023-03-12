@@ -1,10 +1,7 @@
 package com.lima.payload.request;
 
-import javax.persistence.Transient;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lima.dto.CodeDTO;
 import com.lima.dto.LevelDTO;
 
@@ -15,16 +12,10 @@ public class PartDTOWithFileRequest {
 	private CodeDTO code;
 	private LevelDTO level;
 
-	@JsonIgnore
-	@Transient
 	private MultipartFile photoName; // ảnh nếu có
 
-	@JsonIgnore
-	@Transient
 	private MultipartFile audio; // audio bài nghe
 
-	@JsonIgnore
-	@Transient
 	private MultipartFile questionExcelFile;
 
 	public PartDTOWithFileRequest() {
@@ -69,6 +60,30 @@ public class PartDTOWithFileRequest {
 
 	public void setLevel(LevelDTO level) {
 		this.level = level;
+	}
+
+	public MultipartFile getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(MultipartFile photoName) {
+		this.photoName = photoName;
+	}
+
+	public MultipartFile getAudio() {
+		return audio;
+	}
+
+	public void setAudio(MultipartFile audio) {
+		this.audio = audio;
+	}
+
+	public MultipartFile getQuestionExcelFile() {
+		return questionExcelFile;
+	}
+
+	public void setQuestionExcelFile(MultipartFile questionExcelFile) {
+		this.questionExcelFile = questionExcelFile;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.dto.PartDTO;
 import com.lima.payload.request.PartDTORequest;
@@ -31,4 +32,6 @@ public interface IPartService {
 	void deleteById(Integer id);
 
 	PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest);
+
+	PartDTOWithFileRequest getJson(String part, List<MultipartFile> lFiles);
 }

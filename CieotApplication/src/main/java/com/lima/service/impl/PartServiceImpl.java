@@ -1,5 +1,6 @@
 package com.lima.service.impl;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -14,7 +15,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lima.dto.PartDTO;
 import com.lima.dto.PartDetailDTO;
 import com.lima.entity.Code;
@@ -55,7 +58,7 @@ public class PartServiceImpl implements IPartService {
 		PartDTO partDTO = modelMapper.map(part, PartDTO.class);
 		return partDTO;
 	}
-	
+
 	@Override
 	public List<PartDTO> getAllByPartNo(Integer partNo) {
 		List<Part> parts = partRepository.findListByPartNo(partNo);
@@ -220,6 +223,18 @@ public class PartServiceImpl implements IPartService {
 	public PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public PartDTOWithFileRequest getJson(String part, List<MultipartFile> lFiles) {
+		PartDTOWithFileRequest partDTOWithFileRequestJson = new PartDTOWithFileRequest();
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			partDTOWithFileRequestJson = objectMapper.readValue(part, PartDTOWithFileRequest.class);
+		} catch (IOException e) {
+			System.out.println("Error: " + e.toString());
+		}
+		return partDTOWithFileRequestJson;
 	}
 
 }
