@@ -2,6 +2,7 @@ package com.lima.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,12 @@ public class Part {
 
 	private Boolean active;
 
+	private String photoLink;
+
+	private String audioLink;
+
+	private String excelLink;
+
 	@OneToMany(mappedBy = "part")
 	@JsonBackReference
 	private List<ContentPart> contentPartList;
@@ -43,30 +50,34 @@ public class Part {
 	@JsonBackReference
 	private List<PartDetail> partDetailList;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "level_id", referencedColumnName = "id")
 	private Level level;
 
 //	@OneToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "code_id", referencedColumnName = "id")
 //	private Code code;
-	
-    @ManyToOne
-    @JoinColumn(name = "code_id")
-    private Code code;
+
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "code_id")
+	private Code code;
 
 	public Part() {
 
 	}
 
-	public Part(Integer id, Long createdDate, String name, Integer partNo, Boolean active,
-			List<ContentPart> contentPartList, List<PartDetail> partDetailList, Level level, Code code) {
+	public Part(Integer id, Long createdDate, String name, Integer partNo, Boolean active, String photoLink,
+			String audioLink, String excelLink, List<ContentPart> contentPartList, List<PartDetail> partDetailList,
+			Level level, Code code) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
 		this.name = name;
 		this.partNo = partNo;
 		this.active = active;
+		this.photoLink = photoLink;
+		this.audioLink = audioLink;
+		this.excelLink = excelLink;
 		this.contentPartList = contentPartList;
 		this.partDetailList = partDetailList;
 		this.level = level;
@@ -143,6 +154,30 @@ public class Part {
 
 	public void setPartDetailList(List<PartDetail> partDetailList) {
 		this.partDetailList = partDetailList;
+	}
+
+	public String getPhotoLink() {
+		return photoLink;
+	}
+
+	public void setPhotoLink(String photoLink) {
+		this.photoLink = photoLink;
+	}
+
+	public String getAudioLink() {
+		return audioLink;
+	}
+
+	public void setAudioLink(String audioLink) {
+		this.audioLink = audioLink;
+	}
+
+	public String getExcelLink() {
+		return excelLink;
+	}
+
+	public void setExcelLink(String excelLink) {
+		this.excelLink = excelLink;
 	}
 
 }

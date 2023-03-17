@@ -52,8 +52,8 @@ public class PartDetailServiceImpl implements IPartDetailService {
 		partDetail.setAnswer4(partDetailDTORequest.getAnswer4());
 		partDetail.setCorrectAnswer(partDetailDTORequest.getCorrectAnswer());
 		partDetail.setDemonstrate(partDetailDTORequest.getDemonstrate());
-		partDetail.setLinkAudio(partDetailDTORequest.getLinkAudio());
-		partDetail.setPhotoName(partDetailDTORequest.getPhotoName());
+		partDetail.setAudioLink(partDetailDTORequest.getLinkAudio());
+		//partDetail.setPhotoName(partDetailDTORequest.getPhotoName());
 		partDetail.setQuestion(partDetailDTORequest.getQuestion());
 		partDetail.setQuestionNo(partDetailDTORequest.getQuestionNo());
 		partDetail.setPart(part);
@@ -85,8 +85,8 @@ public class PartDetailServiceImpl implements IPartDetailService {
 		partDetail.setAnswer4(partDetailDTORequest.getAnswer4());
 		partDetail.setCorrectAnswer(partDetailDTORequest.getCorrectAnswer());
 		partDetail.setDemonstrate(partDetailDTORequest.getDemonstrate());
-		partDetail.setLinkAudio(partDetailDTORequest.getLinkAudio());
-		partDetail.setPhotoName(partDetailDTORequest.getPhotoName());
+		partDetail.setAudioLink(partDetailDTORequest.getLinkAudio());
+		//partDetail.setPhotoName(partDetailDTORequest.getPhotoName());
 		partDetail.setQuestion(partDetailDTORequest.getQuestion());
 		partDetail.setQuestionNo(partDetailDTORequest.getQuestionNo());
 

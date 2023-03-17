@@ -2,6 +2,8 @@ package com.lima.dto;
 
 public class PartDetailDTO {
 	private Integer id;
+	private Boolean active;
+	private Integer passage;
 	private String question;
 	private Integer questionNo;
 	private String correctAnswer;
@@ -10,19 +12,21 @@ public class PartDetailDTO {
 	private String answer3;
 	private String answer4;
 	private String demonstrate;
-	private String photoName;
-	private String linkAudio;
-	private Boolean active;
+	private String photoLink;
+	private String audioLink;
+	private String script;
 
 	public PartDetailDTO() {
 
 	}
 
-	public PartDetailDTO(Integer id, String question, Integer questionNo, String correctAnswer, String answer1,
-			String answer2, String answer3, String answer4, String demonstrate, String photoName, String linkAudio,
-			Boolean active) {
+	public PartDetailDTO(Integer id, Boolean active, Integer passage, String question, Integer questionNo,
+			String correctAnswer, String answer1, String answer2, String answer3, String answer4, String demonstrate,
+			String photoLink, String audioLink, String script) {
 		super();
 		this.id = id;
+		this.active = active;
+		this.passage = passage;
 		this.question = question;
 		this.questionNo = questionNo;
 		this.correctAnswer = correctAnswer;
@@ -31,9 +35,9 @@ public class PartDetailDTO {
 		this.answer3 = answer3;
 		this.answer4 = answer4;
 		this.demonstrate = demonstrate;
-		this.photoName = photoName;
-		this.linkAudio = linkAudio;
-		this.active = active;
+		this.photoLink = photoLink;
+		this.audioLink = audioLink;
+		this.script = script;
 	}
 
 	public Integer getId() {
@@ -116,20 +120,36 @@ public class PartDetailDTO {
 		this.demonstrate = demonstrate;
 	}
 
-	public String getPhotoName() {
-		return photoName;
+	public String getScript() {
+		return script;
 	}
 
-	public void setPhotoName(String photoName) {
-		this.photoName = photoName;
+	public void setScript(String script) {
+		this.script = script;
 	}
 
-	public String getLinkAudio() {
-		return linkAudio;
+	public String getPhotoLink() {
+		return photoLink;
 	}
 
-	public void setLinkAudio(String linkAudio) {
-		this.linkAudio = linkAudio;
+	public void setPhotoLink(String photoLink) {
+		this.photoLink = photoLink;
+	}
+
+	public String getAudioLink() {
+		return audioLink;
+	}
+
+	public void setAudioLink(String audioLink) {
+		this.audioLink = audioLink;
+	}
+
+	public Integer getPassage() {
+		return passage;
+	}
+
+	public void setPassage(Integer passage) {
+		this.passage = passage;
 	}
 
 }

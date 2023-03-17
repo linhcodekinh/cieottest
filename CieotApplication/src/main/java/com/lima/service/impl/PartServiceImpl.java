@@ -1,6 +1,10 @@
 package com.lima.service.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -31,6 +35,8 @@ import com.lima.repository.CodeRepository;
 import com.lima.repository.PartDetailRepository;
 import com.lima.repository.PartRepository;
 import com.lima.service.IPartService;
+import com.lima.utils.ExcelUtil;
+import com.lima.utils.SaveFileUtil;
 
 @Service
 public class PartServiceImpl implements IPartService {
@@ -46,6 +52,12 @@ public class PartServiceImpl implements IPartService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private SaveFileUtil saveFileUtil;
+
+	@Autowired
+	private ExcelUtil excelUtil;
 
 	@Override
 	public PartDTO getPartDetail(Integer id) {
@@ -220,20 +232,61 @@ public class PartServiceImpl implements IPartService {
 	}
 
 	@Override
-	public PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest)
+			throws IllegalStateException, IOException {
+		Level level = modelMapper.map(partDTOWithFileRequest.getLevel(), Level.class);
+		Code code = modelMapper.map(partDTOWithFileRequest.getCode(), Code.class);
+
+		Part part = new Part();
+		part.setActive(true);
+		part.setLevel(level);
+		part.setCode(code);
+		part.setName(partDTOWithFileRequest.getName());
+		part.setPartNo(partDTOWithFileRequest.getPartNo());
+		partRepository.save(part);
+
+		Integer idPart = part.getId();
+		String namePart = part.getName();
+
+		Optional<Part> partOptional = partRepository.findById(idPart);
+		if (!partOptional.isPresent())
+			throw new PartException("Part id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
+		Part partUpdate = partOptional.get();
+		partUpdate.setAudioLink(idPart + ".mp3");
+		partUpdate.setExcelLink(idPart + ".xlsx");
+		partUpdate.setPhotoLink(idPart + ".png");
+		partRepository.save(partUpdate);
+
+		Path partNamePath = Paths.get(idPart + "-" + namePart);
+		Path excelNamePath = saveFileUtil.excelPath.resolve(partNamePath).resolve(idPart + ".xlsx");
+
+		saveFileUtil.saveFilesForPart(partDTOWithFileRequest, idPart, namePart);
+		List<PartDetailDTO> partDetailDTOList = excelUtil.getListPartDetailFromFileExcel(excelNamePath, idPart,
+				namePart);
+
+		for (PartDetailDTO partDetailDTO : partDetailDTOList) {
+			PartDetail partDetail = modelMapper.map(partDetailDTO, PartDetail.class);
+			partDetail.setPart(partUpdate);
+			partDetailRepository.save(partDetail);
+		}
+
+		PartDTO partDTO = modelMapper.map(partUpdate, PartDTO.class);
+		return partDTO;
 	}
 
 	@Override
-	public PartDTOWithFileRequest getJson(String part, List<MultipartFile> lFiles) {
+	public PartDTOWithFileRequest getJson(String partDetail, MultipartFile photoFile, MultipartFile audioFile,
+			MultipartFile questionExcelFile) {
 		PartDTOWithFileRequest partDTOWithFileRequestJson = new PartDTOWithFileRequest();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			partDTOWithFileRequestJson = objectMapper.readValue(part, PartDTOWithFileRequest.class);
+			partDTOWithFileRequestJson = objectMapper.readValue(partDetail, PartDTOWithFileRequest.class);
 		} catch (IOException e) {
 			System.out.println("Error: " + e.toString());
 		}
+		partDTOWithFileRequestJson.setPhotoFile(photoFile);
+		partDTOWithFileRequestJson.setAudioFile(audioFile);
+		partDTOWithFileRequestJson.setQuestionExcelFile(questionExcelFile);
 		return partDTOWithFileRequestJson;
 	}
 

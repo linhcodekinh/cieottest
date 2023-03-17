@@ -16,6 +16,7 @@ public class PartDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Boolean active;
+	private Integer passage;
 	private String question;
 	private Integer questionNo;
 	private String correctAnswer;
@@ -24,12 +25,38 @@ public class PartDetail {
 	private String answer3;
 	private String answer4;
 	private String demonstrate;
-	private String photoName;
-	private String linkAudio;
+	private String photoLink;
+	private String audioLink;
+	private String script;
 
 	@ManyToOne
 	@JoinColumn(name = "part_id")
 	private Part part;
+
+	public PartDetail() {
+
+	}
+
+	public PartDetail(Integer id, Boolean active, Integer passage, String question, Integer questionNo,
+			String correctAnswer, String answer1, String answer2, String answer3, String answer4, String demonstrate,
+			String photoLink, String audioLink, String script, Part part) {
+		super();
+		this.id = id;
+		this.active = active;
+		this.passage = passage;
+		this.question = question;
+		this.questionNo = questionNo;
+		this.correctAnswer = correctAnswer;
+		this.answer1 = answer1;
+		this.answer2 = answer2;
+		this.answer3 = answer3;
+		this.answer4 = answer4;
+		this.demonstrate = demonstrate;
+		this.photoLink = photoLink;
+		this.audioLink = audioLink;
+		this.script = script;
+		this.part = part;
+	}
 
 	public Boolean getActive() {
 		return active;
@@ -37,14 +64,6 @@ public class PartDetail {
 
 	public void setActive(Boolean active) {
 		this.active = active;
-	}
-
-	public String getLinkAudio() {
-		return linkAudio;
-	}
-
-	public void setLinkAudio(String linkAudio) {
-		this.linkAudio = linkAudio;
 	}
 
 	public Part getPart() {
@@ -127,12 +146,36 @@ public class PartDetail {
 		this.questionNo = questionNo;
 	}
 
-	public String getPhotoName() {
-		return photoName;
+	public String getScript() {
+		return script;
 	}
 
-	public void setPhotoName(String photoName) {
-		this.photoName = photoName;
+	public void setScript(String script) {
+		this.script = script;
+	}
+
+	public String getPhotoLink() {
+		return photoLink;
+	}
+
+	public void setPhotoLink(String photoLink) {
+		this.photoLink = photoLink;
+	}
+
+	public String getAudioLink() {
+		return audioLink;
+	}
+
+	public void setAudioLink(String audioLink) {
+		this.audioLink = audioLink;
+	}
+
+	public Integer getPassage() {
+		return passage;
+	}
+
+	public void setPassage(Integer passage) {
+		this.passage = passage;
 	}
 
 }

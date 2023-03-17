@@ -12,6 +12,9 @@ public class PartDTO {
 	private LevelDTO level;
 	private CodeDTO code;
 	private Boolean active;
+	private String photoLink;
+	private String audioLink;
+	private String excelLink;
 
 	public PartDTO() {
 
@@ -102,5 +105,32 @@ public class PartDTO {
 	public void setLevel(LevelDTO level) {
 		this.level = level;
 	}
+
+	public String getPhotoLink() {
+		return photoLink;
+	}
+
+	public void setPhotoLink(String photoLink) {
+		this.photoLink = photoLink;
+	}
+
+	public String getAudioLink() {
+		return audioLink;
+	}
+
+	public void setAudioLink(String audioLink) {
+		this.audioLink = audioLink;
+	}
+
+	public String getExcelLink() {
+		return excelLink;
+	}
+
+	public void setExcelLink(String excelLink) {
+		this.excelLink = excelLink;
+	}
+	
+	
+	
 
 }

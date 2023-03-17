@@ -1,5 +1,6 @@
 package com.lima.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,10 @@ public interface IPartService {
 
 	void deleteById(Integer id);
 
-	PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest);
+	PartDTO createByExcelFile(PartDTOWithFileRequest partDTOWithFileRequest) throws IllegalStateException, IOException;
 
-	PartDTOWithFileRequest getJson(String part, List<MultipartFile> lFiles);
+	PartDTOWithFileRequest getJson(String partDetail, MultipartFile photoFile, MultipartFile audioFile,
+			MultipartFile questionExcelFile);
+
+	
 }

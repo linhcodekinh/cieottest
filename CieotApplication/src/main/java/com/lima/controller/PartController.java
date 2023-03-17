@@ -1,6 +1,6 @@
 package com.lima.controller;
 
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -97,12 +96,21 @@ public class PartController {
 
 	@PostMapping(value = "/partByExcel", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<PartDTOWithFileRequest> createByExcelFile(@RequestPart("partDetail") String partDetail, @RequestPart("listFiles") List<MultipartFile> listFiles) {
-		//PartDTO partDTO = partService.createByExcelFile(partDTOWithFileRequest);
-		PartDTOWithFileRequest partDTOWithFileRequest = partService.getJson(partDetail, listFiles);
-		for(MultipartFile file : listFiles) {
-			System.out.println("file name: " + file.getOriginalFilename());
-		}
+	public ResponseEntity<PartDTOWithFileRequest> createByExcelFile(@RequestPart("partDetail") String partDetail,
+			@RequestPart("photoFile") MultipartFile photoFile, @RequestPart("audioFile") MultipartFile audioFile,
+			@RequestPart("questionExcelFile") MultipartFile questionExcelFile)
+			throws IllegalStateException, IOException {
+
+		PartDTOWithFileRequest partDTOWithFileRequest = partService.getJson(partDetail, photoFile, audioFile,
+				questionExcelFile);
+
+		PartDTO partDTO = partService.createByExcelFile(partDTOWithFileRequest);
+
+		System.out.println("file audioFile: " + partDTOWithFileRequest.getPhotoFile().getOriginalFilename());
+		System.out.println("file photoFile: " + partDTOWithFileRequest.getAudioFile().getOriginalFilename());
+		System.out.println(
+				"file questionExcelFile: " + partDTOWithFileRequest.getQuestionExcelFile().getOriginalFilename());
+
 		return new ResponseEntity<>(partDTOWithFileRequest, HttpStatus.OK);
 	}
 
