@@ -27,7 +27,7 @@ public class SaveFileUtil {
 	public Path audioPath = MyConstants.CURRENT_FOLDER.resolve(staticP).resolve(audioP);
 	public Path excelPath = MyConstants.CURRENT_FOLDER.resolve(staticP).resolve(excelP);
 
-	public void saveFilesForPart(PartDTOWithFileRequest partDTOWithFileRequest, Integer idPart, String namePart)
+	public void saveFileForPart(PartDTOWithFileRequest partDTOWithFileRequest, Integer idPart, String namePart)
 			throws IllegalStateException, IOException {
 		MultipartFile fileAudio = partDTOWithFileRequest.getAudioFile();
 		MultipartFile filePhoto = partDTOWithFileRequest.getPhotoFile();
@@ -60,19 +60,28 @@ public class SaveFileUtil {
 
 	}
 
-	public void saveFilesForFartDetail(Integer idPart, String namePart, Integer questionNo, byte[] filePhoto)
+	public void saveFileForFartDetail(Integer idPart, String namePart, Integer questionNo, byte[] file, Integer check)
 			throws IOException {
 		Path partNamePath = Paths.get(idPart + "-" + namePart);
 
-		Path imagePartNamePath = imagePath.resolve(partNamePath).resolve(partDetailP);
+		Path filePartNamePath;
+		Path filePath;
 
-		// create path for part detail
-		if (!Files.exists(imagePartNamePath)) {
-			Files.createDirectories(imagePartNamePath);
+		if (check == 0) {
+			filePartNamePath = imagePath.resolve(partNamePath).resolve(partDetailP);
+			if (!Files.exists(filePartNamePath)) {
+				Files.createDirectories(filePartNamePath);
+			}
+			filePath = filePartNamePath.resolve(questionNo + ".png");
+		} else {
+			filePartNamePath = audioPath.resolve(partNamePath).resolve(partDetailP);
+			if (!Files.exists(filePartNamePath)) {
+				Files.createDirectories(filePartNamePath);
+			}
+			filePath = filePartNamePath.resolve(questionNo + ".mp3");
 		}
 
-		Path filePhotoPath = imagePartNamePath.resolve(questionNo + ".png");
-		Files.write(filePhotoPath, filePhoto);
+		Files.write(filePath, file);
 	}
 
 }

@@ -3,7 +3,7 @@ package com.lima.dto;
 public class PartDetailDTO {
 	private Integer id;
 	private Boolean active;
-	private Integer passage;
+	private String passage;
 	private String question;
 	private Integer questionNo;
 	private String correctAnswer;
@@ -20,7 +20,7 @@ public class PartDetailDTO {
 
 	}
 
-	public PartDetailDTO(Integer id, Boolean active, Integer passage, String question, Integer questionNo,
+	public PartDetailDTO(Integer id, Boolean active, String passage, String question, Integer questionNo,
 			String correctAnswer, String answer1, String answer2, String answer3, String answer4, String demonstrate,
 			String photoLink, String audioLink, String script) {
 		super();
@@ -144,11 +144,11 @@ public class PartDetailDTO {
 		this.audioLink = audioLink;
 	}
 
-	public Integer getPassage() {
+	public String getPassage() {
 		return passage;
 	}
 
-	public void setPassage(Integer passage) {
+	public void setPassage(String passage) {
 		this.passage = passage;
 	}
 

@@ -260,7 +260,7 @@ public class PartServiceImpl implements IPartService {
 		Path partNamePath = Paths.get(idPart + "-" + namePart);
 		Path excelNamePath = saveFileUtil.excelPath.resolve(partNamePath).resolve(idPart + ".xlsx");
 
-		saveFileUtil.saveFilesForPart(partDTOWithFileRequest, idPart, namePart);
+		saveFileUtil.saveFileForPart(partDTOWithFileRequest, idPart, namePart);
 		List<PartDetailDTO> partDetailDTOList = excelUtil.getListPartDetailFromFileExcel(excelNamePath, idPart,
 				namePart);
 
