@@ -19,6 +19,10 @@ public class Grammar {
 	@ManyToOne
 	@JoinColumn(name = "category_gv_id")
 	private CategoryGV category_gv;
+	
+	public Grammar () {
+		
+	}
 
 	public Grammar(Integer id, String name, CategoryGV category_gv) {
 		super();

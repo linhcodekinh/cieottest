@@ -23,6 +23,10 @@ public class ContentPart {
 	@ManyToOne
 	@JoinColumn(name = "part_id")
 	private Part part;
+	
+	public ContentPart () {
+		
+	}
 
 	public ContentPart(Integer id, Content content, Part part) {
 		super();

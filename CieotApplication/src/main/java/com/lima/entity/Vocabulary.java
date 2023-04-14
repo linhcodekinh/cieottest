@@ -19,6 +19,10 @@ public class Vocabulary {
 	@ManyToOne
 	@JoinColumn(name = "category_gv_id")
 	private CategoryGV category_gv;
+	
+	public Vocabulary () {
+		
+	}
 
 	public Vocabulary(Integer id, String name, CategoryGV category_gv) {
 		super();

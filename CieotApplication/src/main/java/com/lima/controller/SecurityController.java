@@ -20,22 +20,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.BindingResultUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.entity.Account;
-import com.lima.entity.Member;
 import com.lima.jwt.JwtUtility;
 import com.lima.payload.request.LoginRequest;
 import com.lima.payload.request.SignupRequest;
 import com.lima.payload.request.VerifyRequest;
-import com.lima.payload.response.ErrorMessageResponse;
 import com.lima.payload.response.JwtLoginResponse;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.IAccountService;
@@ -44,8 +40,6 @@ import com.lima.service.IRoleService;
 import com.lima.service.impl.AccountDetailsImpl;
 import com.lima.vadidation.LoginRequestValidator;
 import com.lima.vadidation.SignupRequestValidator;
-
-import net.bytebuddy.implementation.bytecode.Throw;
 
 @RestController
 @RequestMapping("api/public")

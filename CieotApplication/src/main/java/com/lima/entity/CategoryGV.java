@@ -27,6 +27,10 @@ public class CategoryGV {
 	@OneToMany(mappedBy = "category_gv")
 	@JsonBackReference
 	private List<Vocabulary> vocabularyList;
+	
+	public CategoryGV() {
+		
+	}
 
 	public CategoryGV(Integer id, String name, Integer type, List<Grammar> grammarList) {
 		super();
