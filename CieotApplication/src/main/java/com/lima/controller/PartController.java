@@ -96,7 +96,7 @@ public class PartController {
 
 	@PostMapping(value = "/partByExcel", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<PartDTOWithFileRequest> createByExcelFile(@RequestPart("partDetail") String partDetail,
+	public ResponseEntity<PartDTO> createByExcelFile(@RequestPart("partDetail") String partDetail,
 			@RequestPart("photoFile") MultipartFile photoFile, @RequestPart("audioFile") MultipartFile audioFile,
 			@RequestPart("questionExcelFile") MultipartFile questionExcelFile)
 			throws IllegalStateException, IOException {
@@ -111,7 +111,7 @@ public class PartController {
 		System.out.println(
 				"file questionExcelFile: " + partDTOWithFileRequest.getQuestionExcelFile().getOriginalFilename());
 
-		return new ResponseEntity<>(partDTOWithFileRequest, HttpStatus.OK);
+		return new ResponseEntity<>(partDTO, HttpStatus.OK);
 	}
 
 	// delete by id
