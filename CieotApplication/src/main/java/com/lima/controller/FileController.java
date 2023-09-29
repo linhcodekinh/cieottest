@@ -10,11 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lima.dto.FileDTORequest;
 import com.lima.service.FileService;
 
 @RestController
@@ -46,11 +48,12 @@ public class FileController {
 //    }
 
 	@GetMapping
-	public ResponseEntity<Object> findByName(HttpServletRequest request,
-			@RequestBody(required = false) Map<String, String> params) {
-		final String path = request.getServletPath();
-		if (params.containsKey(FILE_NAME))
-			return new ResponseEntity<>(fileService.findByName(params.get(FILE_NAME)), HttpStatus.OK);
+	// public ResponseEntity<Object> findByName(HttpServletRequest request,
+	// @RequestBody(required = false) Map<String, String> params) {
+	public ResponseEntity<String> findByName(@RequestBody FileDTORequest fileDTORequest) {
+		// final String path = request.getServletPath();
+		if (fileDTORequest.getFileName().isEmpty() != false || !"".equals(fileDTORequest.getFileName()))
+			return new ResponseEntity<>(fileService.findByName(fileDTORequest.getFileName()), HttpStatus.OK);
 		return new ResponseEntity<>("Ko tim thay file name", HttpStatus.BAD_REQUEST);
 	}
 
@@ -59,4 +62,8 @@ public class FileController {
 		return new ResponseEntity<>(fileService.save(extension), HttpStatus.OK);
 	}
 
+	@PutMapping
+	public String testPut() {
+		return "put";
+	}
 }

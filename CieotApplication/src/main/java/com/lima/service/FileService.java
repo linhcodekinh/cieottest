@@ -61,7 +61,10 @@ public class FileService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DATE, 1); // Generated URL will be valid for 24 hours
+        String presignedUrl = amazonS3.generatePresignedUrl(s3BucketName, fileName, calendar.getTime(), httpMethod).toString();
+       // amazonS3.putObject(presignedUrl);
         return amazonS3.generatePresignedUrl(s3BucketName, fileName, calendar.getTime(), httpMethod).toString();
+        
     }
 
     @Async
@@ -74,7 +77,8 @@ public class FileService {
 
     @Async
     public String save(String extension) {
-        String fileName = UUID.randomUUID().toString() + extension;
+    	// change file name here
+        String fileName = "image/" + UUID.randomUUID().toString() + extension;
         return generateUrl(fileName, HttpMethod.PUT);
     }
 
