@@ -1,20 +1,13 @@
 package com.lima.utils;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.poi.hpsf.ClassIDPredefined;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.ChildAnchor;
-import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.ObjectData;
 import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Shape;
@@ -28,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFShape;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.dto.PartDetailDTO;
 
@@ -37,6 +29,9 @@ public class ExcelUtil {
 
 	@Autowired
 	private SaveFileUtil saveFileUtil;
+	
+	@Autowired
+	private CustomMultipartFile customMultipartFile;
 
 	public List<PartDetailDTO> getListPartDetailFromFileExcel(Path excelNamePath, Integer idPart, String namePart) {
 		try {
@@ -85,11 +80,13 @@ public class ExcelUtil {
 						byte[] data = pict.getData();
 						if (clientAnchor.getCol1() == 9 && clientAnchor.getRow1() == currentRow.getRowNum()) {
 							byte[] pictureData = data;
-							saveFileUtil.saveFileForFartDetail(idPart, namePart, questionNo, pictureData, 0);
+							customMultipartFile = new CustomMultipartFile(pictureData);
+							customMultipartFile.setFileName("filePhoto.png");
+							saveFileUtil.saveFileForFartDetail(idPart, namePart, questionNo, customMultipartFile, 0);
 							partDetailDTO.setPhotoLink(questionNo + ".png");
 						}
 					} else if (sh instanceof XSSFObjectData) {
-						//mp3
+						// mp3
 						XSSFObjectData inpObj = (XSSFObjectData) sh;
 						XSSFClientAnchor clientAnchor = (XSSFClientAnchor) inpObj.getAnchor();
 						System.out.println("vao obj data: currentRow.getRowNum(): " + currentRow.getRowNum()
@@ -99,7 +96,9 @@ public class ExcelUtil {
 						byte[] data = inpObj.getObjectData();
 						if (clientAnchor.getCol1() == 10 && clientAnchor.getRow1() == currentRow.getRowNum()) {
 							byte[] audioData = data;
-							saveFileUtil.saveFileForFartDetail(idPart, namePart, questionNo, audioData, 1);
+							customMultipartFile = new CustomMultipartFile(audioData);
+							customMultipartFile.setFileName("fileMp3.png");
+							saveFileUtil.saveFileForFartDetail(idPart, namePart, questionNo, customMultipartFile, 1);
 							System.out.println("data audio hhohoho: ");
 							partDetailDTO.setAudioLink(questionNo + ".mp3");
 						}
