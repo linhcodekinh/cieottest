@@ -14,10 +14,10 @@ public class MemberServiceImpl implements IMemberService {
 	private MemberRepository memberRepository;
 
 	@Override
-	public void addNewMember(String name, String dateOfBirth, String gender, String phone, String address,
+	public void addNewMember(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
 			Integer accountId, Boolean deleteFlag) {
 		// TODO Auto-generated method stub
-		memberRepository.saveMemberToRegister(name, dateOfBirth, gender, phone, address, accountId, deleteFlag);
+		memberRepository.saveMemberToRegister(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, deleteFlag);
 	}
 
 	@Override
@@ -36,9 +36,9 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public void updateMember(String name, String dateOfBirth, String gender, String phone, String address,
+	public void updateMember(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
 			Integer accountId, boolean delete_flag) {
-		memberRepository.updateMember(name, dateOfBirth, gender, phone, address, accountId, delete_flag);
+		memberRepository.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, delete_flag);
 	}
 
 }

@@ -7,7 +7,8 @@ public class AccountDTORequest {
 	private String email;
 	private String password;
 	private Boolean isEnabled;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String gender;
 	private String phone;
 	private String address;
@@ -23,7 +24,7 @@ public class AccountDTORequest {
 	
 	
 
-	public AccountDTORequest(String userName, String email, String password, Boolean isEnabled, String name,
+	public AccountDTORequest(String userName, String email, String password, Boolean isEnabled, String firstName, String lastName,
 			String gender, String phone, String address, String dateOfBirth, String idCard, Integer positionId,
 			List<Integer> idRoleList, List<Integer> idTypeList) {
 		super();
@@ -31,7 +32,8 @@ public class AccountDTORequest {
 		this.email = email;
 		this.password = password;
 		this.isEnabled = isEnabled;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.gender = gender;
 		this.phone = phone;
 		this.address = address;
@@ -76,12 +78,20 @@ public class AccountDTORequest {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getGender() {

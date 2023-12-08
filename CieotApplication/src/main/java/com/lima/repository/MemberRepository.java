@@ -15,8 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "insert into member(name, date_of_birth,gender,phone,address,account_id,delete_flag) value (?1,?2,?3,?4,?5,?6,?7)", nativeQuery = true)
-	void saveMemberToRegister(String name, String dateOfBirth, String gender, String phone, String address,
+	@Query(value = "insert into member(name, first_name, last_name, date_of_birth,gender,phone,address,account_id,delete_flag) value (?1,?2,?3,?4,?5,?6,?7)", nativeQuery = true)
+	void saveMemberToRegister(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
 			Integer accountId, Boolean deleteFlag);
 
 	Member findByAccountIdAndDeleteFlag(Integer id, Boolean b);
@@ -28,13 +28,15 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@Modifying
 	@Query(value = "UPDATE member "
 			+ "SET name = ?1, "
-			+ "	   dateOfBirth = ?2	"
-			+ "	   gender = ?3	"
-			+ "	   phone = ?4	"
-			+ "	   address = ?5	"
-			+ "	   delete_flag = ?7	"
-			+ "WHERE account_id = ?6", nativeQuery = true)
-	void updateMember(String name, String dateOfBirth, String gender, String phone, String address,
+			+ "	   first_name = ?2	"
+			+ "	   last_name = ?3	"
+			+ "	   dateOfBirth = ?4	"
+			+ "	   gender = ?5	"
+			+ "	   phone = ?6	"
+			+ "	   address = ?7	"
+			+ "	   delete_flag = ?9	"
+			+ "WHERE account_id = ?8", nativeQuery = true)
+	void updateMember(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
 			Integer accountId, boolean delete_flag);
 
 }

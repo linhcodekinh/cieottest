@@ -56,7 +56,7 @@ public class S3FileService {
 			LOG.info("Uploading file with name {}", pathName);
 			final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, pathName, file);
 			amazonS3.putObject(putObjectRequest);
-			//les.delete(file.toPath()); // Remove the file locally created in the project folder
+			//Files.delete(file.toPath()); // Remove the file locally created in the project folder
 		} catch (AmazonServiceException e) {
 			LOG.error("Error {} occurred while uploading file", e.getLocalizedMessage());
 		} 

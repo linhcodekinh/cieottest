@@ -25,7 +25,9 @@ public class AccountDTORequestValidator implements Validator {
 		AccountDTORequest accountDTORequest = (AccountDTORequest) target;
 		String userName = accountDTORequest.getUserName();
 		String email = accountDTORequest.getEmail();
-		String name = accountDTORequest.getName();
+		String firstName = accountDTORequest.getFirstName();
+		String lastName = accountDTORequest.getLastName();
+		String name = firstName + " " + lastName;
 		String gender = accountDTORequest.getGender();
 		String phone = accountDTORequest.getPhone();
 		String address = accountDTORequest.getAddress();

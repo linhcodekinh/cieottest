@@ -19,6 +19,8 @@ public class Member {
 	private Integer id;
 
 	@Column
+	private String firstName;
+	private String lastName;
 	private String name;
 	private String dateOfBirth;
 	private String gender;
@@ -35,11 +37,12 @@ public class Member {
 
 	}
 
-	public Member(Integer id, String name, String dateOfBirth, String gender, String phone, String address,
+	public Member(Integer id, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
 			Boolean deleteFlag) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.phone = phone;
@@ -61,6 +64,22 @@ public class Member {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getDateOfBirth() {

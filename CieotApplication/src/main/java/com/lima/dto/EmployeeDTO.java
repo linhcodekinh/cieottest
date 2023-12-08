@@ -2,7 +2,8 @@ package com.lima.dto;
 
 public class EmployeeDTO {
 
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String dateOfBirth;
 	private String idCard;
 	private String phone;
@@ -14,10 +15,11 @@ public class EmployeeDTO {
 		
 	}
 
-	public EmployeeDTO(String name, String dateOfBirth, String idCard, String phone, String deleteFlag, String gender,
+	public EmployeeDTO(String firstName, String lastName, String dateOfBirth, String idCard, String phone, String deleteFlag, String gender,
 			PositionDTO positionDTO) {
 		super();
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
 		this.phone = phone;
@@ -42,12 +44,20 @@ public class EmployeeDTO {
 		this.positionDTO = positionDTO;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getDateOfBirth() {

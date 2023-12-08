@@ -16,6 +16,8 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String firstName;
+	private String lastName;
 	private String gender;
 	private String dateOfBirth;
 	private String idCard;
@@ -35,11 +37,12 @@ public class Employee {
 
 	}
 
-	public Employee(Integer id, String name, String gender, String dateOfBirth, String idCard, String address,
+	public Employee(Integer id, String firstName, String lastName, String gender, String dateOfBirth, String idCard, String address,
 			String phone, Position position, Account account) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
@@ -63,6 +66,22 @@ public class Employee {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getGender() {

@@ -193,7 +193,9 @@ public class AccountServiceImpl implements IAccountService {
 		List<AccountType> accountTypeList = account.getAccountTypeList();
 		//set type
 		if (accountTypeList != null && !accountTypeList.isEmpty()) {
-			String name = accountDTORequest.getName();
+			String firstName = accountDTORequest.getFirstName();
+			String lastName = accountDTORequest.getLastName();
+			String name = firstName + " " + lastName;
 			String dateOfBirth = accountDTORequest.getDateOfBirth();
 			String gender = accountDTORequest.getGender();
 			String phone = accountDTORequest.getPhone();
@@ -205,10 +207,10 @@ public class AccountServiceImpl implements IAccountService {
 				String typeName = accountType.getType().getName();
 
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.updateMember(name, dateOfBirth, gender, phone, address, accountId, false);
+					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, false);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.updateEmployee(name, dateOfBirth, gender, phone, address, accountId,
+					employeeService.updateEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId,
 							idCard, positionId, false);
 				}
 			}
@@ -224,7 +226,9 @@ public class AccountServiceImpl implements IAccountService {
 		String userName = accountDTORequest.getUserName();
 		String email = accountDTORequest.getEmail();
 		String password = accountDTORequest.getPassword();
-		String name = accountDTORequest.getName();
+		String firstName = accountDTORequest.getFirstName();
+		String lastName = accountDTORequest.getLastName();
+		String name = firstName + " " + lastName;
 		String gender = accountDTORequest.getGender();
 		String phone = accountDTORequest.getPhone();
 		String address = accountDTORequest.getAddress();
@@ -254,10 +258,10 @@ public class AccountServiceImpl implements IAccountService {
 				typeService.setType(idAccountAfterCreated, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.addNewMember(name, dateOfBirth, gender, phone, address, idAccountAfterCreated, false);
+					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address, idAccountAfterCreated, false);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.addNewEmployee(name, dateOfBirth, gender, phone, address, idAccountAfterCreated,
+					employeeService.addNewEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, idAccountAfterCreated,
 							idCard, positionId, false);
 				}
 			}
