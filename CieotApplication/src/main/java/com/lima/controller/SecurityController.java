@@ -85,7 +85,8 @@ public class SecurityController {
 		// set default role is USER_ROLE
 		roleService.setDefaultRole(idAccountAfterCreated, 1);
 		// insert into table member
-		memberService.addNewMember(signUpRequest.getUsername(), signUpRequest.getDateOfBirth(),
+		String name = signUpRequest.getFirstName() + " " + signUpRequest.getLastName();
+		memberService.addNewMember(name, signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getDateOfBirth(),
 				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(), idAccountAfterCreated,
 				false);
 
