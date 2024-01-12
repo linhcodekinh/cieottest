@@ -23,7 +23,7 @@ public class Member {
 	private String lastName;
 	private String name;
 	private String dateOfBirth;
-	private String gender;
+	private Integer gender;
 	private String phone;
 	private String address;
 	private Boolean deleteFlag;
@@ -37,7 +37,7 @@ public class Member {
 
 	}
 
-	public Member(Integer id, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
+	public Member(Integer id, String firstName, String lastName, String dateOfBirth, Integer gender, String phone, String address,
 			Boolean deleteFlag) {
 		super();
 		this.id = id;
@@ -90,11 +90,11 @@ public class Member {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 

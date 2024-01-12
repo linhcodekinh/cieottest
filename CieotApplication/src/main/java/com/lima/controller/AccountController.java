@@ -35,7 +35,7 @@ public class AccountController {
 	@Autowired
 	private AccountDTORequestValidator accountDTORequestValidator;
 
-	// GET ACC
+	// GET ALL ACC
 	@GetMapping("/account")
 	public ResponseEntity<List<AccountDTO>> getAllAccount() {
 		List<AccountDTO> accountDTOList = accountService.getAllAccount();
@@ -43,6 +43,16 @@ public class AccountController {
 			return new ResponseEntity<List<AccountDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<AccountDTO>>(accountDTOList, HttpStatus.OK);
+	}
+	
+	// GET ONE ACC
+	@GetMapping("/account/{id}")
+	public ResponseEntity<AccountDTO> getAccount(@PathVariable Integer id) {
+		AccountDTO accountDTO = accountService.getAccountById(id);
+		if (accountDTO == null) {
+			return new ResponseEntity<AccountDTO>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
 	}
 
 	@PostMapping("/account")
@@ -59,7 +69,7 @@ public class AccountController {
 	@PatchMapping("/account/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Integer id) {
 		accountService.deleteById(id);
-		return ResponseEntity.ok(new MessageResponse("Xoa tài khoản thành công!"));
+		return ResponseEntity.ok(new MessageResponse("Xóa tài khoản thành công!"));
 	}
 
 	// UPDATE

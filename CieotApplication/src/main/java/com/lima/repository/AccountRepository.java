@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 
 @Repository
@@ -45,5 +46,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	@Modifying
 	@Query(value = "UPDATE account SET delete_flag = 1 WHERE id = :id", nativeQuery = true)
 	void deleteAccount(Integer id);
+	
+	@Query(value = "select account.* from account where id = :id", nativeQuery = true)
+	Account findAccountById(Integer id);
+	
 
 }

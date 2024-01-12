@@ -15,14 +15,7 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
-	private String firstName;
-	private String lastName;
-	private String gender;
-	private String dateOfBirth;
 	private String idCard;
-	private String address;
-	private String phone;
 	private Boolean deleteFlag;
 
 	@ManyToOne
@@ -37,17 +30,10 @@ public class Employee {
 
 	}
 
-	public Employee(Integer id, String firstName, String lastName, String gender, String dateOfBirth, String idCard, String address,
-			String phone, Position position, Account account) {
+	public Employee(Integer id, String idCard, Position position, Account account) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.gender = gender;
-		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
-		this.address = address;
-		this.phone = phone;
 		this.position = position;
 		this.account = account;
 	}
@@ -60,68 +46,12 @@ public class Employee {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
 	public String getIdCard() {
 		return idCard;
 	}
 
 	public void setIdCard(String idCard) {
 		this.idCard = idCard;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public Boolean getDeleteFlag() {

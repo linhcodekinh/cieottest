@@ -35,6 +35,8 @@ public interface IAccountService {
 
 	List<AccountDTO> getAllAccount();
 	
+	AccountDTO getAccountById(Integer id);
+	
 	void deleteById(Integer id);
 
 	AccountDTO update(Integer id, AccountDTORequest accountDTORequest);

@@ -14,9 +14,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	@Override
-	public void addNewEmployee(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
+	public void addNewEmployee(
 			Integer accountId, String idCard, Integer positionId, Boolean deleteFlag) {
-		employeeRepository.saveEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, idCard, positionId,
+		employeeRepository.saveEmployee(accountId, idCard, positionId,
 				deleteFlag);
 	}
 
@@ -36,9 +36,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public void updateEmployee(String name, String firstName, String lastName, String dateOfBirth, String gender, String phone, String address,
-			Integer accountId, String idCard, Integer positionId, boolean delete_flag) {
-		employeeRepository.updateEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, idCard, positionId, delete_flag);
+	public void updateEmployee(Integer accountId, String idCard, Integer positionId, boolean delete_flag) {
+		employeeRepository.updateEmployee(accountId, idCard, positionId, delete_flag);
 		
 	}
 

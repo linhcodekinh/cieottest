@@ -23,11 +23,6 @@ public class RoleServiceImpl implements IRoleService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@Override
-	public List<Role> findAllRole() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void setDefaultRole(Integer accountId, Integer roleId) {

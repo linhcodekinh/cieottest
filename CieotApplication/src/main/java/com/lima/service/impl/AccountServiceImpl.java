@@ -1,6 +1,7 @@
 package com.lima.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,29 @@ import org.springframework.stereotype.Service;
 
 import com.lima.common.MyConstants;
 import com.lima.dto.AccountDTO;
+import com.lima.dto.CodeDTO;
+import com.lima.dto.EmployeeDTO;
+import com.lima.dto.MemberDTO;
+import com.lima.dto.PartDTO;
+import com.lima.dto.PositionDTO;
+import com.lima.dto.RoleDTO;
+import com.lima.dto.TypeDTO;
 import com.lima.entity.Account;
 import com.lima.entity.AccountRole;
 import com.lima.entity.AccountType;
+import com.lima.entity.Employee;
+import com.lima.entity.Member;
+import com.lima.entity.Part;
+import com.lima.entity.PartDetail;
+import com.lima.entity.Position;
+import com.lima.entity.Role;
 import com.lima.exception.AccountException;
+import com.lima.exception.PartException;
 import com.lima.payload.request.AccountDTORequest;
 import com.lima.repository.AccountRepository;
+import com.lima.repository.EmployeeRepository;
+import com.lima.repository.MemberRepository;
+import com.lima.repository.PositionRepository;
 import com.lima.service.IAccountService;
 import com.lima.service.IEmployeeService;
 import com.lima.service.IMemberService;
@@ -37,6 +55,15 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private MemberRepository memberRepository;
+
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private PositionRepository positionRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -181,8 +208,8 @@ public class AccountServiceImpl implements IAccountService {
 		Account account = accOptional.get();
 		account.setIsEnabled(accountDTORequest.getIsEnabled());
 		roleService.deleteRole(accountId);
-		//typeService.deleteType(accountId);
-		
+		// typeService.deleteType(accountId);
+
 		// set role
 		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
 		if (idRoleList != null && !idRoleList.isEmpty()) {
@@ -191,7 +218,7 @@ public class AccountServiceImpl implements IAccountService {
 			}
 		}
 		List<AccountType> accountTypeList = account.getAccountTypeList();
-		//set type
+		// set type
 		if (accountTypeList != null && !accountTypeList.isEmpty()) {
 			String firstName = accountDTORequest.getFirstName();
 			String lastName = accountDTORequest.getLastName();
@@ -207,11 +234,11 @@ public class AccountServiceImpl implements IAccountService {
 				String typeName = accountType.getType().getName();
 
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId, false);
+					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address,
+							accountId, false);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.updateEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, accountId,
-							idCard, positionId, false);
+					employeeService.updateEmployee(accountId, idCard, positionId, false);
 				}
 			}
 		}
@@ -258,15 +285,80 @@ public class AccountServiceImpl implements IAccountService {
 				typeService.setType(idAccountAfterCreated, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address, idAccountAfterCreated, false);
+					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address,
+							idAccountAfterCreated, false);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.addNewEmployee(name, firstName, lastName, dateOfBirth, gender, phone, address, idAccountAfterCreated,
-							idCard, positionId, false);
+					employeeService.addNewEmployee(idAccountAfterCreated, idCard, positionId, false);
 				}
 			}
 		}
 
+	}
+
+	@Override
+	public AccountDTO getAccountById(Integer id) {
+		Optional<Account> accountOptional = accountRepository.findById(id);
+		Account account = accountOptional.get();
+
+		AccountDTO accountDTO = null;
+		Member member = null;
+		Employee employee = null;
+		Position position = null;
+
+		MemberDTO memberDTO = null;
+		EmployeeDTO employeeDTO = null;
+		PositionDTO positionDTO = null;
+
+		Integer arrRoleId[], arrTypeId[];
+
+		if (account != null) {
+			accountDTO = modelMapper.map(account, AccountDTO.class);
+			member = memberRepository.findByAccountIdAndDeleteFlag(id, false);
+			employee = employeeRepository.findByAccountIdAndDeleteFlag(id, false);
+
+			String emailHead[] = account.getEmail().split("@");
+			accountDTO.setEmail(emailHead[0]);
+			String emailTail[] =  emailHead[1].split("\\.");
+			accountDTO.setEmail1(emailTail[0]);
+			accountDTO.setEmail2(emailTail[1]);
+			
+			int sizeRole = account.getAccountRoleList().size();
+			arrRoleId = new Integer[sizeRole];
+			for (int i = 0; i < sizeRole; i++) {
+				arrRoleId[i] = account.getAccountRoleList().get(i).getRole().getId();
+			}
+
+			int sizeType = account.getAccountTypeList().size();
+			arrTypeId = new Integer[sizeType];
+			for (int i = 0; i < sizeType; i++) {
+				arrTypeId[i] = account.getAccountTypeList().get(i).getType().getId();
+			}
+			accountDTO.setArrTypeId(arrTypeId);
+			accountDTO.setArrRoleId(arrRoleId);
+		}
+		if (member != null) {
+			memberDTO = modelMapper.map(member, MemberDTO.class);
+			String address[] = member.getAddress().split("\\|");
+			memberDTO.setAddress1(address[0]);
+			memberDTO.setAddress2(address[1]);
+		}
+		if (employee != null) {
+			position = employee.getPosition();
+			employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
+		}
+		if (position != null) {
+			positionDTO = modelMapper.map(position, PositionDTO.class);
+		}
+
+		if (memberDTO != null) {
+			accountDTO.setMember(memberDTO);
+		}
+		if (positionDTO != null && employeeDTO != null) {
+			employeeDTO.setPositionDTO(positionDTO);
+			accountDTO.setEmployee(employeeDTO);
+		}
+		return accountDTO;
 	}
 
 }
