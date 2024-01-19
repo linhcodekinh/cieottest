@@ -49,6 +49,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	
 	@Query(value = "select account.* from account where id = :id", nativeQuery = true)
 	Account findAccountById(Integer id);
+
+	@Query(value = "select count(user_name) from account where user_name = :userName", nativeQuery = true)
+	Integer countByUserName(String userName);
 	
 
 }

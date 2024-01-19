@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 import com.lima.payload.request.AccountDTORequest;
+import com.lima.payload.request.AccountDTOUpdateRequest;
 
 public interface IAccountService {
 	/**
@@ -39,7 +40,9 @@ public interface IAccountService {
 	
 	void deleteById(Integer id);
 
-	AccountDTO update(Integer id, AccountDTORequest accountDTORequest);
+	void update(Integer id, AccountDTOUpdateRequest accountDTORequest);
 
 	void create(AccountDTORequest accountDTORequest);
+
+	Integer countByUserName(String userName);
 }

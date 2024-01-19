@@ -6,7 +6,7 @@ public class MemberDTO {
 	private String lastName;
 	private String name;
 	private String dateOfBirth;
-	private String gender;
+	private Integer gender;
 	private String phone;
 	private String address1;
 	private String address2;
@@ -17,7 +17,7 @@ public class MemberDTO {
 	}
 	
 
-	public MemberDTO(String firstName, String lastName, String name, String dateOfBirth, String gender, String phone,
+	public MemberDTO(String firstName, String lastName, String name, String dateOfBirth, Integer gender, String phone,
 			String address1, String address2, Boolean deleteFlag) {
 		super();
 		this.firstName = firstName;
@@ -66,11 +66,11 @@ public class MemberDTO {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 

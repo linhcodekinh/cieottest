@@ -38,6 +38,7 @@ import com.lima.entity.Role;
 import com.lima.exception.AccountException;
 import com.lima.exception.PartException;
 import com.lima.payload.request.AccountDTORequest;
+import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.repository.AccountRepository;
 import com.lima.repository.EmployeeRepository;
 import com.lima.repository.MemberRepository;
@@ -201,50 +202,67 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO update(Integer accountId, AccountDTORequest accountDTORequest) {
+	public void update(Integer accountId, AccountDTOUpdateRequest accountDTOUpdateRequest) {
 		Optional<Account> accOptional = accountRepository.findById(accountId);
 		if (!accOptional.isPresent())
 			throw new AccountException("Account id supplied is not exists", HttpStatus.UNPROCESSABLE_ENTITY);
 		Account account = accOptional.get();
-		account.setIsEnabled(accountDTORequest.getIsEnabled());
+		account.setIsEnabled(accountDTOUpdateRequest.getIsEnabled());
+		account.setUserName(accountDTOUpdateRequest.getUserName());
+		accountRepository.save(account);
+
 		roleService.deleteRole(accountId);
-		// typeService.deleteType(accountId);
 
 		// set role
-		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
+		List<Integer> idRoleList = accountDTOUpdateRequest.getIdRoleList();
 		if (idRoleList != null && !idRoleList.isEmpty()) {
 			for (Integer idRole : idRoleList) {
 				roleService.setRole(accountId, idRole);
 			}
 		}
 		List<AccountType> accountTypeList = account.getAccountTypeList();
-		// set type
 		if (accountTypeList != null && !accountTypeList.isEmpty()) {
-			String firstName = accountDTORequest.getFirstName();
-			String lastName = accountDTORequest.getLastName();
-			String name = firstName + " " + lastName;
-			String dateOfBirth = accountDTORequest.getDateOfBirth();
-			String gender = accountDTORequest.getGender();
-			String phone = accountDTORequest.getPhone();
-			String address = accountDTORequest.getAddress();
-			String idCard = accountDTORequest.getIdCard();
-			Integer positionId = accountDTORequest.getPositionId();
 			for (AccountType accountType : accountTypeList) {
-				Integer accId = accountType.getAccount().getId();
-				String typeName = accountType.getType().getName();
-
-				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address,
-							accountId, false);
-				}
-				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.updateEmployee(accountId, idCard, positionId, false);
+				if ((MyConstants.TYPE_EMPLOYEE).equals(accountType.getType().getName())) {
+					employeeService.deleteByAccountId(accountId);
 				}
 			}
 		}
+		typeService.deleteType(accountId);
+
+		// set type
+		List<Integer> idTypeList = accountDTOUpdateRequest.getIdTypeList();
+		if (idTypeList != null && !idTypeList.isEmpty()) {
+			String firstName = accountDTOUpdateRequest.getFirstName();
+			String lastName = accountDTOUpdateRequest.getLastName();
+			String name = firstName + " " + lastName;
+			String dateOfBirth = accountDTOUpdateRequest.getDateOfBirth();
+			Integer gender = accountDTOUpdateRequest.getGender();
+			String phone = accountDTOUpdateRequest.getPhone();
+			String address = accountDTOUpdateRequest.getAddress();
+			String idCard = accountDTOUpdateRequest.getIdCard();
+			Integer positionId = accountDTOUpdateRequest.getPositionId();
+			for (Integer idType : idTypeList) {
+				// System.out.println("idType: " + idType);
+				typeService.setType(accountId, idType);
+				String typeName = typeService.getTypeById(idType);
+				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
+					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, false,
+							accountId);
+				}
+				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
+					if (employeeService.existsByAccountId(accountId) != null) {
+						employeeService.updateEmployee(idCard, positionId, false, accountId);
+					} else {
+						employeeService.addNewEmployee(idCard, positionId, false, accountId);
+					}
+				}
+			}
+		}
+		// accountRepository.save(acc);
 
 		// TODO Auto-generated method stub
-		return null;
+		// return null;
 	}
 
 	@Override
@@ -256,7 +274,7 @@ public class AccountServiceImpl implements IAccountService {
 		String firstName = accountDTORequest.getFirstName();
 		String lastName = accountDTORequest.getLastName();
 		String name = firstName + " " + lastName;
-		String gender = accountDTORequest.getGender();
+		Integer gender = accountDTORequest.getGender();
 		String phone = accountDTORequest.getPhone();
 		String address = accountDTORequest.getAddress();
 		String dateOfBirth = accountDTORequest.getDateOfBirth();
@@ -285,11 +303,11 @@ public class AccountServiceImpl implements IAccountService {
 				typeService.setType(idAccountAfterCreated, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address,
-							idAccountAfterCreated, false);
+					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address, false,
+							idAccountAfterCreated);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
-					employeeService.addNewEmployee(idAccountAfterCreated, idCard, positionId, false);
+					employeeService.addNewEmployee(idCard, positionId, false, idAccountAfterCreated);
 				}
 			}
 		}
@@ -319,10 +337,10 @@ public class AccountServiceImpl implements IAccountService {
 
 			String emailHead[] = account.getEmail().split("@");
 			accountDTO.setEmail(emailHead[0]);
-			String emailTail[] =  emailHead[1].split("\\.");
+			String emailTail[] = emailHead[1].split("\\.");
 			accountDTO.setEmail1(emailTail[0]);
 			accountDTO.setEmail2(emailTail[1]);
-			
+
 			int sizeRole = account.getAccountRoleList().size();
 			arrRoleId = new Integer[sizeRole];
 			for (int i = 0; i < sizeRole; i++) {
@@ -359,6 +377,12 @@ public class AccountServiceImpl implements IAccountService {
 			accountDTO.setEmployee(employeeDTO);
 		}
 		return accountDTO;
+	}
+
+	@Override
+	public Integer countByUserName(String userName) {
+		Integer check = accountRepository.countByUserName(userName);
+		return check;
 	}
 
 }

@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.dto.AccountDTO;
 import com.lima.payload.request.AccountDTORequest;
+import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.IAccountService;
 import com.lima.vadidation.AccountDTORequestValidator;
+import com.lima.vadidation.AccountDTOUpdateRequestValidator;
 
 @RestController
 @RequestMapping("api/public")
@@ -34,6 +36,9 @@ public class AccountController {
 
 	@Autowired
 	private AccountDTORequestValidator accountDTORequestValidator;
+	
+	@Autowired
+	private AccountDTOUpdateRequestValidator accountDTOUpdateRequestValidator;
 
 	// GET ALL ACC
 	@GetMapping("/account")
@@ -44,7 +49,7 @@ public class AccountController {
 		}
 		return new ResponseEntity<List<AccountDTO>>(accountDTOList, HttpStatus.OK);
 	}
-	
+
 	// GET ONE ACC
 	@GetMapping("/account/{id}")
 	public ResponseEntity<AccountDTO> getAccount(@PathVariable Integer id) {
@@ -74,9 +79,12 @@ public class AccountController {
 
 	// UPDATE
 	@PutMapping("/account/{id}")
-	public ResponseEntity<AccountDTO> update(@PathVariable Integer id,
-			@RequestBody AccountDTORequest accountDTORequest) {
-		AccountDTO accountDTO = accountService.update(id, accountDTORequest);
-		return new ResponseEntity<>(accountDTO, HttpStatus.OK);
+	public ResponseEntity<?> updateAccount(@PathVariable Integer id, @RequestBody AccountDTOUpdateRequest accountDTOUpdateRequest,
+			BindingResult bindingResult) {
+		accountDTOUpdateRequestValidator.validate(accountDTOUpdateRequest, bindingResult);
+		if (bindingResult.hasErrors())
+			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
+		accountService.update(id, accountDTOUpdateRequest);
+		return ResponseEntity.ok(new MessageResponse("Cập nhật tài khoản thành công!"));
 	}
 }

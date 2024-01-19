@@ -2,10 +2,8 @@ package com.lima.payload.request;
 
 import java.util.List;
 
-public class AccountDTORequest {
+public class AccountDTOUpdateRequest {
 	private String userName;
-	private String email;
-	private String password;
 	private Boolean isEnabled;
 	private String firstName;
 	private String lastName;
@@ -18,19 +16,15 @@ public class AccountDTORequest {
 	private List<Integer> idRoleList;
 	private List<Integer> idTypeList;
 
-	public AccountDTORequest() {
+	public AccountDTOUpdateRequest() {
 
 	}
-	
-	
 
-	public AccountDTORequest(String userName, String email, String password, Boolean isEnabled, String firstName, String lastName,
+	public AccountDTOUpdateRequest(String userName, Boolean isEnabled, String firstName, String lastName,
 			Integer gender, String phone, String address, String dateOfBirth, String idCard, Integer positionId,
 			List<Integer> idRoleList, List<Integer> idTypeList) {
 		super();
 		this.userName = userName;
-		this.email = email;
-		this.password = password;
 		this.isEnabled = isEnabled;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -60,22 +54,6 @@ public class AccountDTORequest {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFirstName() {

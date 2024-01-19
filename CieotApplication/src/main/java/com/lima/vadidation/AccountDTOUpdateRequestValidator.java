@@ -6,10 +6,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.lima.payload.request.AccountDTORequest;
+import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.service.IAccountService;
 
 @Component
-public class AccountDTORequestValidator implements Validator {
+public class AccountDTOUpdateRequestValidator implements Validator {
 
 	@Autowired
 	private IAccountService accountService;
@@ -22,9 +23,8 @@ public class AccountDTORequestValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
-		AccountDTORequest accountDTORequest = (AccountDTORequest) target;
+		AccountDTOUpdateRequest accountDTORequest = (AccountDTOUpdateRequest) target;
 		String userName = accountDTORequest.getUserName();
-		String email = accountDTORequest.getEmail();
 		String firstName = accountDTORequest.getFirstName();
 		String lastName = accountDTORequest.getLastName();
 		String name = firstName + " " + lastName;
@@ -37,13 +37,8 @@ public class AccountDTORequestValidator implements Validator {
 		
 		if (userName == "" || userName == null) {
 			errors.rejectValue("userName", "userName.null", "Username khong duoc de trong");
-		} else if (accountService.existsByUserName(userName) != null) {
+		} else if (accountService.countByUserName(userName) > 1) {
 			errors.rejectValue("userName", "userName.exists", "Username da ton tai");
-		}
-		if (email == "" || email == null) {
-			errors.rejectValue("email", "email.null", "Email khong duoc de trong");
-		} else if (accountService.existsByEmail(email) != null) {
-			errors.rejectValue("email", "email.exists", "Email da ton tai");
 		}
 		if (name == "" || name == null) {
 			errors.rejectValue("name", "name.null", "Name khong duoc de trong");

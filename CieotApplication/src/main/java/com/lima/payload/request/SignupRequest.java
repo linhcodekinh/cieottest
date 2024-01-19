@@ -9,7 +9,7 @@ public class SignupRequest {
 	private String username;
 	private String firstName;
 	private String lastName;
-	private String gender;
+	private Integer gender;
 	private String dateOfBirth;
 	private String address;
 	private String phone;
@@ -26,7 +26,7 @@ public class SignupRequest {
 
 	}
 
-	public SignupRequest(String username, String firstName, String lastName,String gender, String dateOfBirth, String address, String phone,
+	public SignupRequest(String username, String firstName, String lastName,Integer gender, String dateOfBirth, String address, String phone,
 			@NotBlank @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ") String email,
 			@NotBlank @Length(min = 3, max = 32) String password) {
 		super();
@@ -65,11 +65,11 @@ public class SignupRequest {
 		this.lastName = lastName;
 	}
 
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 

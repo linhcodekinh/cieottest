@@ -15,9 +15,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public void addNewEmployee(
-			Integer accountId, String idCard, Integer positionId, Boolean deleteFlag) {
-		employeeRepository.saveEmployee(accountId, idCard, positionId,
-				deleteFlag);
+			String idCard, Integer positionId, Boolean deleteFlag, Integer accountId) {
+		employeeRepository.saveEmployee(idCard, positionId,
+				deleteFlag, accountId);
 	}
 
 	@Override
@@ -36,10 +36,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public void updateEmployee(Integer accountId, String idCard, Integer positionId, boolean delete_flag) {
-		employeeRepository.updateEmployee(accountId, idCard, positionId, delete_flag);
+	public void updateEmployee(String idCard, Integer positionId, boolean delete_flag, Integer accountId) {
+		employeeRepository.updateEmployee(idCard, positionId, delete_flag, accountId);
 		
 	}
 
+	@Override
+	public String existsByAccountId(Integer accountId) {
+		return employeeRepository.existsByAccountId(accountId);
+	}
 
 }

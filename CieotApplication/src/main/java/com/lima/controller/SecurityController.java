@@ -87,8 +87,7 @@ public class SecurityController {
 		// insert into table member
 		String name = signUpRequest.getFirstName() + " " + signUpRequest.getLastName();
 		memberService.addNewMember(name, signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getDateOfBirth(),
-				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(), idAccountAfterCreated,
-				false);
+				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(), false, idAccountAfterCreated);
 
 		return ResponseEntity.ok(new MessageResponse("Đăng ký tài khoản thành công!"));
 	}
