@@ -34,7 +34,8 @@ cloud:
       stack.auto: false
 app: 
    awsServices: 
-      bucketName: mybucketttest1
+      bucketNameTest: mybucketttest1
+      bucketUser: userbucketlima
 logging:
   level:
     com:

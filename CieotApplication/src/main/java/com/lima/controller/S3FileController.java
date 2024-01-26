@@ -52,9 +52,9 @@ public class S3FileController {
 		return new ResponseEntity<>("Ko tim thay file name", HttpStatus.BAD_REQUEST);
 	}
 
-//	@PostMapping
-//	public ResponseEntity<Object> saveFile(@RequestParam("extension") String extension) {
-//		return new ResponseEntity<>(fileService.save(extension), HttpStatus.OK);
-//	}
+	@PostMapping
+	public ResponseEntity<Object> saveFile(@RequestParam("extension") String extension) {
+		return new ResponseEntity<>(fileService.save(extension), HttpStatus.OK);
+	}
 
 }

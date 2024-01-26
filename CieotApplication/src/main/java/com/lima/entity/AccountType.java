@@ -19,10 +19,12 @@ public class AccountType {
 	private Integer id;
 
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "account_id")
 	private Account account;
 
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "type_id")
 	private Type type;
 

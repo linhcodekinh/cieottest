@@ -58,9 +58,9 @@ public class SaveFileUtil {
 		Path filePhotoPath = imagePartNamePath.resolve(idPart + ".png");
 		Path fileAudioPath = audioPartNamePath.resolve(idPart + ".mp3");
 		Path fileExcelPath = excelPartNamePath.resolve(idPart + ".xlsx");
-		s3FileService.save(filePhoto, imageP + "/" + partNamePath, idPart + ".png");
-		s3FileService.save(fileAudio, audioP + "/" + partNamePath, idPart + ".mp3");
-		s3FileService.save(fileExcel, excelP + "/" + partNamePath, idPart + ".xlsx");
+		s3FileService.save(MyConstants.BUCKET_PART, filePhoto, imageP + "/" + partNamePath, idPart + ".png");
+		s3FileService.save(MyConstants.BUCKET_PART, fileAudio, audioP + "/" + partNamePath, idPart + ".mp3");
+		s3FileService.save(MyConstants.BUCKET_PART, fileExcel, excelP + "/" + partNamePath, idPart + ".xlsx");
 		filePhoto.transferTo(new File(filePhotoPath.toString()));
 		fileAudio.transferTo(new File(fileAudioPath.toString()));
 		fileExcel.transferTo(new File(fileExcelPath.toString()));
@@ -78,14 +78,14 @@ public class SaveFileUtil {
 				Files.createDirectories(filePartNamePath);
 			}
 			filePath = filePartNamePath.resolve(questionNo + ".png");
-			s3FileService.save(file, imageP + "/" + partNamePath + "/" + partDetailP, questionNo + ".png");
+			s3FileService.save(MyConstants.BUCKET_PART ,file, imageP + "/" + partNamePath + "/" + partDetailP, questionNo + ".png");
 		} else {
 			filePartNamePath = audioPath.resolve(partNamePath).resolve(partDetailP);
 			if (!Files.exists(filePartNamePath)) {
 				Files.createDirectories(filePartNamePath);
 			}
 			filePath = filePartNamePath.resolve(questionNo + ".mp3");
-			s3FileService.save(file, audioP + "/" + partNamePath + "/" + partDetailP, questionNo + ".mp3");
+			s3FileService.save(MyConstants.BUCKET_PART, file, audioP + "/" + partNamePath + "/" + partDetailP, questionNo + ".mp3");
 		}
 		file.transferTo(new File(filePath.toString()));
 	}

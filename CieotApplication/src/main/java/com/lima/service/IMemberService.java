@@ -3,7 +3,7 @@ package com.lima.service;
 import com.lima.entity.Member;
 
 public interface IMemberService {
-	void addNewMember(String name, String firstName, String lastName, String dateOfBirth, Integer gender, String phone, String address,
+	void addNewMember(String name, String firstName, String lastName, String dateOfBirth, Integer gender, String phone, String image, String address,
 			Boolean deleteFlag, Integer accountId);
 
 	Member findByAccountIdAndDeleteFlag(Integer id, Boolean b);

@@ -1,9 +1,6 @@
 package com.lima.payload.request;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.NonNull;
 
 public class SignupRequest {
 	private String username;
@@ -14,12 +11,13 @@ public class SignupRequest {
 	private String address;
 	private String phone;
 
-	@NotBlank
-	@Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ")
+	@NonNull
+//	@Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ")
 	private String email;
 
-	@NotBlank
-	@Length(min = 3, max = 32)
+	@NonNull
+//	@NotBlank
+//	@Length(min = 3, max = 32)
 	private String password;
 
 	public SignupRequest() {
@@ -27,8 +25,10 @@ public class SignupRequest {
 	}
 
 	public SignupRequest(String username, String firstName, String lastName,Integer gender, String dateOfBirth, String address, String phone,
-			@NotBlank @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ") String email,
-			@NotBlank @Length(min = 3, max = 32) String password) {
+//			@NotBlank @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "wrong format, should be abc@abc.com ") 
+	String email,
+//			@NotBlank @Length(min = 3, max = 32) 
+	String password) {
 		super();
 		this.username = username;
 		this.firstName = firstName;

@@ -11,11 +11,15 @@ import javax.mail.internet.MimeMessage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.common.MyConstants;
 import com.lima.dto.AccountDTO;
@@ -37,6 +41,7 @@ import com.lima.entity.Position;
 import com.lima.entity.Role;
 import com.lima.exception.AccountException;
 import com.lima.exception.PartException;
+import com.lima.payload.request.AccountDTOAddRequest;
 import com.lima.payload.request.AccountDTORequest;
 import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.repository.AccountRepository;
@@ -48,6 +53,7 @@ import com.lima.service.IEmployeeService;
 import com.lima.service.IMemberService;
 import com.lima.service.IRoleService;
 import com.lima.service.ITypeService;
+import com.lima.service.S3FileService;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -86,6 +92,9 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private S3FileService s3FileService;
 
 	@Override
 	public Account findAccountByUserName(String userName) {
@@ -183,6 +192,47 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
+	public List<AccountDTO> getAllAccount(int offset, int pageSize) {
+		List<Account> accountList = accountRepository.getAllAccount(PageRequest.of(offset, pageSize));
+		List<AccountDTO> accountDTOList = modelMapper.map(accountList, new TypeToken<List<AccountDTO>>() {
+		}.getType());
+		return accountDTOList;
+	}
+
+	@Override
+	public List<AccountDTO> getAllAccount(int offset, int pageSize, String field, String direction, String textSearch) {
+		List<Account> accountList = null;
+		if (!"".equals(textSearch)) {
+			if (!"".equals(field)) {
+				if ("ASC".equals(direction)) {
+					accountList = accountRepository.getAllAccount(
+							PageRequest.of(offset, pageSize).withSort(Sort.by(field).descending()), textSearch);
+				} else {
+					accountList = accountRepository.getAllAccount(
+							PageRequest.of(offset, pageSize).withSort(Sort.by(field).ascending()), textSearch);
+				}
+			} else {
+				accountList = accountRepository.getAllAccount(PageRequest.of(offset, pageSize), textSearch);
+			}
+		} else {
+			if (!"".equals(field)) {
+				if ("ASC".equals(direction)) {
+					accountList = accountRepository
+							.getAllAccount(PageRequest.of(offset, pageSize).withSort(Sort.by(field).descending()));
+				} else {
+					accountList = accountRepository
+							.getAllAccount(PageRequest.of(offset, pageSize).withSort(Sort.by(field).ascending()));
+				}
+			} else {
+				accountList = accountRepository.getAllAccount(PageRequest.of(offset, pageSize));
+			}
+		}
+		List<AccountDTO> accountDTOList = modelMapper.map(accountList, new TypeToken<List<AccountDTO>>() {
+		}.getType());
+		return accountDTOList;
+	}
+
+	@Override
 	public List<AccountDTO> getAllAccount() {
 		List<Account> accountList = accountRepository.getAllAccount();
 		List<AccountDTO> accountDTOList = modelMapper.map(accountList, new TypeToken<List<AccountDTO>>() {
@@ -266,21 +316,22 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public void create(AccountDTORequest accountDTORequest) {
+	public void create(AccountDTOAddRequest accountDTOAddRequest) {
 		// Init account
-		String userName = accountDTORequest.getUserName();
-		String email = accountDTORequest.getEmail();
-		String password = accountDTORequest.getPassword();
-		String firstName = accountDTORequest.getFirstName();
-		String lastName = accountDTORequest.getLastName();
+		String userName = accountDTOAddRequest.getUserName();
+		String email = accountDTOAddRequest.getEmail();
+		String password = accountDTOAddRequest.getPassword();
+		String firstName = accountDTOAddRequest.getFirstName();
+		String lastName = accountDTOAddRequest.getLastName();
 		String name = firstName + " " + lastName;
-		Integer gender = accountDTORequest.getGender();
-		String phone = accountDTORequest.getPhone();
-		String address = accountDTORequest.getAddress();
-		String dateOfBirth = accountDTORequest.getDateOfBirth();
-		String idCard = accountDTORequest.getIdCard();
-		Integer positionId = accountDTORequest.getPositionId();
-		Boolean isEnabled = accountDTORequest.getIsEnabled();
+		Integer gender = accountDTOAddRequest.getGender();
+		String phone = accountDTOAddRequest.getPhone();
+		String address = accountDTOAddRequest.getAddress();
+		String dateOfBirth = accountDTOAddRequest.getDateOfBirth();
+		String idCard = accountDTOAddRequest.getIdCard();
+		Integer positionId = accountDTOAddRequest.getPositionId();
+		Boolean isEnabled = accountDTOAddRequest.getIsEnabled();
+		MultipartFile imageFile = accountDTOAddRequest.getImageFile();
 		String verificationCode = "";
 		Account account = new Account(userName, email, encoder.encode(password), isEnabled, verificationCode);
 		// insert to db
@@ -289,21 +340,22 @@ public class AccountServiceImpl implements IAccountService {
 		// get ID
 		Integer idAccountAfterCreated = accountRepository.findIdUserByUserName(account.getUserName());
 		// set role if have
-		List<Integer> idRoleList = accountDTORequest.getIdRoleList();
+		List<Integer> idRoleList = accountDTOAddRequest.getIdRoleList();
 		if (idRoleList != null && !idRoleList.isEmpty()) {
 			for (Integer idRole : idRoleList) {
 				roleService.setRole(idAccountAfterCreated, idRole);
 			}
 		}
 		// set type
-		List<Integer> idTypeList = accountDTORequest.getIdTypeList();
+		List<Integer> idTypeList = accountDTOAddRequest.getIdTypeList();
 		if (idTypeList != null && !idTypeList.isEmpty()) {
 			for (Integer idType : idTypeList) {
 				// System.out.println("idType: " + idType);
 				typeService.setType(idAccountAfterCreated, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, address, false,
+					s3FileService.save(MyConstants.BUCKET_USER, imageFile, "", idAccountAfterCreated + ".png");
+					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, idAccountAfterCreated + ".png", address, false,
 							idAccountAfterCreated);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
@@ -375,6 +427,8 @@ public class AccountServiceImpl implements IAccountService {
 		if (positionDTO != null && employeeDTO != null) {
 			employeeDTO.setPositionDTO(positionDTO);
 			accountDTO.setEmployee(employeeDTO);
+		} else {
+			accountDTO.setEmployee(null);
 		}
 		return accountDTO;
 	}
@@ -383,6 +437,18 @@ public class AccountServiceImpl implements IAccountService {
 	public Integer countByUserName(String userName) {
 		Integer check = accountRepository.countByUserName(userName);
 		return check;
+	}
+
+	@Override
+	public Integer getTotalItem() {
+		Integer totalItem = accountRepository.getTotalItem();
+		return totalItem;
+	}
+
+	@Override
+	public Integer getTotalItem(String textSearch) {
+		Integer totalItem = accountRepository.getTotalItem(textSearch);
+		return totalItem;
 	}
 
 }

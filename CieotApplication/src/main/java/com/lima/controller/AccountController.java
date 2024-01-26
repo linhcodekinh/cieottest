@@ -2,12 +2,11 @@ package com.lima.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,11 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lima.dto.AccountDTO;
+import com.lima.payload.request.AccountDTOAddRequest;
 import com.lima.payload.request.AccountDTORequest;
 import com.lima.payload.request.AccountDTOUpdateRequest;
+import com.lima.payload.response.AccountListResponse;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.IAccountService;
 import com.lima.vadidation.AccountDTORequestValidator;
@@ -36,19 +38,42 @@ public class AccountController {
 
 	@Autowired
 	private AccountDTORequestValidator accountDTORequestValidator;
-	
+
 	@Autowired
 	private AccountDTOUpdateRequestValidator accountDTOUpdateRequestValidator;
 
 	// GET ALL ACC
 	@GetMapping("/account")
-	public ResponseEntity<List<AccountDTO>> getAllAccount() {
-		List<AccountDTO> accountDTOList = accountService.getAllAccount();
-		if (accountDTOList.isEmpty()) {
-			return new ResponseEntity<List<AccountDTO>>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> getAllAccount(
+			@RequestParam(name = "offset", required = false) Integer offset,
+			@RequestParam(name = "pageSize", required = false) Integer pageSize,
+			@RequestParam(name = "field", required = false) String field,
+			@RequestParam(name = "direction", required = false) String direction,
+			@RequestParam(name = "textSearch", required = false) String textSearch) {
+		List<AccountDTO> accountDTOList = accountService.getAllAccount(offset, pageSize, field, direction, textSearch);
+		Integer totalItem = 0;
+		if(!"".equals(textSearch)) {
+			totalItem = accountService.getTotalItem(textSearch);
+		}else {
+			totalItem = accountService.getTotalItem();
 		}
-		return new ResponseEntity<List<AccountDTO>>(accountDTOList, HttpStatus.OK);
+		AccountListResponse accountListResponse = new AccountListResponse(accountDTOList, totalItem);
+		if (accountDTOList.isEmpty()) {
+			return new ResponseEntity<AccountListResponse>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<AccountListResponse>(accountListResponse, HttpStatus.OK);
 	}
+	
+	// GET ALL ACC
+//	@GetMapping("/account")
+//	public ResponseEntity<List<AccountDTO>> getAllAccount(){
+//		List<AccountDTO> accountDTOList = accountService.getAllAccount();
+//		if (accountDTOList.isEmpty()) {
+//			return new ResponseEntity<List<AccountDTO>>(HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<AccountDTO>>(accountDTOList, HttpStatus.OK);
+//	}
+
 
 	// GET ONE ACC
 	@GetMapping("/account/{id}")
@@ -61,12 +86,12 @@ public class AccountController {
 	}
 
 	@PostMapping("/account")
-	public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDTORequest accountDTORequest,
+	public ResponseEntity<?> createAccount(@Validated @RequestBody AccountDTOAddRequest accountDTOAddRequest,
 			BindingResult bindingResult) {
-		accountDTORequestValidator.validate(accountDTORequest, bindingResult);
+		accountDTORequestValidator.validate(accountDTOAddRequest, bindingResult);
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
-		accountService.create(accountDTORequest);
+		accountService.create(accountDTOAddRequest);
 		return ResponseEntity.ok(new MessageResponse("Tao tài khoản thành công!"));
 	}
 
@@ -79,8 +104,8 @@ public class AccountController {
 
 	// UPDATE
 	@PutMapping("/account/{id}")
-	public ResponseEntity<?> updateAccount(@PathVariable Integer id, @RequestBody AccountDTOUpdateRequest accountDTOUpdateRequest,
-			BindingResult bindingResult) {
+	public ResponseEntity<?> updateAccount(@PathVariable Integer id,
+			@RequestBody AccountDTOUpdateRequest accountDTOUpdateRequest, BindingResult bindingResult) {
 		accountDTOUpdateRequestValidator.validate(accountDTOUpdateRequest, bindingResult);
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);

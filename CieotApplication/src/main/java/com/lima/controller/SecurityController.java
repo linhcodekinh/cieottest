@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,8 +70,8 @@ public class SecurityController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, BindingResult bindingResult)
-			throws MessagingException, UnsupportedEncodingException {
+	public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signUpRequest,
+			BindingResult bindingResult) throws MessagingException, UnsupportedEncodingException {
 		signupRequestValidator.validate(signUpRequest, bindingResult);
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -86,14 +86,15 @@ public class SecurityController {
 		roleService.setDefaultRole(idAccountAfterCreated, 1);
 		// insert into table member
 		String name = signUpRequest.getFirstName() + " " + signUpRequest.getLastName();
-		memberService.addNewMember(name, signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getDateOfBirth(),
-				signUpRequest.getGender(), signUpRequest.getPhone(), signUpRequest.getAddress(), false, idAccountAfterCreated);
+		memberService.addNewMember(name, signUpRequest.getFirstName(), signUpRequest.getLastName(),
+				signUpRequest.getDateOfBirth(), signUpRequest.getGender(), signUpRequest.getPhone(), "",
+				signUpRequest.getAddress(), false, idAccountAfterCreated);
 
 		return ResponseEntity.ok(new MessageResponse("Đăng ký tài khoản thành công!"));
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody LoginRequest loginRequest,
+	public ResponseEntity<?> createAuthenticationToken(@Validated @RequestBody LoginRequest loginRequest,
 			BindingResult bindingResult) throws Exception {
 		loginByRequestDTOValidator.validate(loginRequest, bindingResult);
 		if (bindingResult.hasErrors())

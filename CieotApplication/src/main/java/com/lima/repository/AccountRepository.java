@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,6 +42,12 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	@Query(value = "update account set verification_code = ?1 where user_name = ?2", nativeQuery = true)
 	void addVerificationCode(String code, String userName);
 
+	@Query(value = "select * from account where delete_flag = 0 and user_name like %:textSearch% or email like %:textSearch% or id like %:textSearch%", nativeQuery = true)
+	List<Account> getAllAccount(Pageable pageable, String textSearch);
+	
+	@Query(value = "select * from account where delete_flag = 0", nativeQuery = true)
+	List<Account> getAllAccount(Pageable pageable);
+
 	@Query(value = "select account.* from account where delete_flag = 0", nativeQuery = true)
 	List<Account> getAllAccount();
 
@@ -52,6 +60,13 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
 	@Query(value = "select count(user_name) from account where user_name = :userName", nativeQuery = true)
 	Integer countByUserName(String userName);
+
+	@Query(value = "select count(*) from account where delete_flag = 0", nativeQuery = true)
+	Integer getTotalItem();
+
+	@Query(value = "select count(*) from account where delete_flag = 0 and user_name like %:textSearch% or email like %:textSearch% or id like %:textSearch%", nativeQuery = true)
+	Integer getTotalItem(String textSearch);
+
 	
 
 }

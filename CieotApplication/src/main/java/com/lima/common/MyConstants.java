@@ -11,4 +11,7 @@ public class MyConstants {
 	
 	public static final String TYPE_MEMBER = "MEMBER";
 	public static final String TYPE_EMPLOYEE = "EMPLOYEE";
+	
+	public static final String BUCKET_USER = "USER";
+	public static final String BUCKET_PART = "PART";
 }

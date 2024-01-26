@@ -15,9 +15,9 @@ public class MemberServiceImpl implements IMemberService {
 
 	@Override
 	public void addNewMember(String name, String firstName, String lastName, String dateOfBirth, Integer gender,
-			String phone, String address, Boolean deleteFlag, Integer accountId) {
+			String phone,String image, String address, Boolean deleteFlag, Integer accountId) {
 		// TODO Auto-generated method stub
-		memberRepository.saveMemberToRegister(name, firstName, lastName, dateOfBirth, gender, phone, address,
+		memberRepository.saveMemberToRegister(name, firstName, lastName, dateOfBirth, gender, phone, image, address,
 				deleteFlag, accountId);
 	}
 

@@ -9,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "member")
@@ -27,18 +28,19 @@ public class Member {
 	private String phone;
 	private String address;
 	private Boolean deleteFlag;
+	private String image;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "account_id", unique = true)
-	@NotNull
+	@NonNull
 	private Account account;
 
 	public Member() {
 
 	}
 
-	public Member(Integer id, String firstName, String lastName, String dateOfBirth, Integer gender, String phone, String address,
-			Boolean deleteFlag) {
+	public Member(Integer id, String firstName, String lastName, String dateOfBirth, Integer gender, String phone,
+			String address, Boolean deleteFlag, String image) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -48,6 +50,15 @@ public class Member {
 		this.phone = phone;
 		this.address = address;
 		this.deleteFlag = deleteFlag;
+		this.image = image;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Integer getId() {

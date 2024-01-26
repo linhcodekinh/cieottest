@@ -1,7 +1,7 @@
 package com.lima.dto;
 
 public class MemberDTO {
-	
+
 	private String firstName;
 	private String lastName;
 	private String name;
@@ -11,14 +11,14 @@ public class MemberDTO {
 	private String address1;
 	private String address2;
 	private Boolean deleteFlag;
-	
+	private String imageLink;
+
 	public MemberDTO() {
-		
+
 	}
-	
 
 	public MemberDTO(String firstName, String lastName, String name, String dateOfBirth, Integer gender, String phone,
-			String address1, String address2, Boolean deleteFlag) {
+			String address1, String address2, Boolean deleteFlag, String imageLink) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -29,10 +29,16 @@ public class MemberDTO {
 		this.address1 = address1;
 		this.address2 = address2;
 		this.deleteFlag = deleteFlag;
+		this.imageLink = imageLink;
 	}
 
+	public String getImageLink() {
+		return imageLink;
+	}
 
-
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -86,21 +92,17 @@ public class MemberDTO {
 		return address1;
 	}
 
-
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
-
 
 	public String getAddress2() {
 		return address2;
 	}
 
-
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-
 
 	public Boolean getDeleteFlag() {
 		return deleteFlag;
@@ -109,8 +111,5 @@ public class MemberDTO {
 	public void setDeleteFlag(Boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
-	
 
 }
-
-

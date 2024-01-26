@@ -18,7 +18,8 @@ public class GlobalCorsConfiguration {
 		return new WebMvcConfigurerAdapter() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**").allowedMethods("HEAD", "GET", "PUT", "DELETE", "PATCH").allowedOrigins("*")
-						.allowedHeaders("*").allowCredentials(true);
+						.allowedHeaders("*");
+//						.allowCredentials(true);
 			}
 		};
 
