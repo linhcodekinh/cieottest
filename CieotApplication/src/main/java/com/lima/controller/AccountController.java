@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.dto.AccountDTO;
 import com.lima.payload.request.AccountDTOAddRequest;
@@ -25,6 +27,7 @@ import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.payload.response.AccountListResponse;
 import com.lima.payload.response.MessageResponse;
 import com.lima.service.IAccountService;
+import com.lima.vadidation.AccountDTOAddRequestValidator;
 import com.lima.vadidation.AccountDTORequestValidator;
 import com.lima.vadidation.AccountDTOUpdateRequestValidator;
 
@@ -38,23 +41,25 @@ public class AccountController {
 
 	@Autowired
 	private AccountDTORequestValidator accountDTORequestValidator;
+	
+	@Autowired
+	private AccountDTOAddRequestValidator accountDTOAddRequestValidator;
 
 	@Autowired
 	private AccountDTOUpdateRequestValidator accountDTOUpdateRequestValidator;
 
 	// GET ALL ACC
 	@GetMapping("/account")
-	public ResponseEntity<?> getAllAccount(
-			@RequestParam(name = "offset", required = false) Integer offset,
+	public ResponseEntity<?> getAllAccount(@RequestParam(name = "offset", required = false) Integer offset,
 			@RequestParam(name = "pageSize", required = false) Integer pageSize,
 			@RequestParam(name = "field", required = false) String field,
 			@RequestParam(name = "direction", required = false) String direction,
 			@RequestParam(name = "textSearch", required = false) String textSearch) {
 		List<AccountDTO> accountDTOList = accountService.getAllAccount(offset, pageSize, field, direction, textSearch);
 		Integer totalItem = 0;
-		if(!"".equals(textSearch)) {
+		if (!"".equals(textSearch)) {
 			totalItem = accountService.getTotalItem(textSearch);
-		}else {
+		} else {
 			totalItem = accountService.getTotalItem();
 		}
 		AccountListResponse accountListResponse = new AccountListResponse(accountDTOList, totalItem);
@@ -63,7 +68,7 @@ public class AccountController {
 		}
 		return new ResponseEntity<AccountListResponse>(accountListResponse, HttpStatus.OK);
 	}
-	
+
 	// GET ALL ACC
 //	@GetMapping("/account")
 //	public ResponseEntity<List<AccountDTO>> getAllAccount(){
@@ -73,7 +78,6 @@ public class AccountController {
 //		}
 //		return new ResponseEntity<List<AccountDTO>>(accountDTOList, HttpStatus.OK);
 //	}
-
 
 	// GET ONE ACC
 	@GetMapping("/account/{id}")
@@ -85,10 +89,16 @@ public class AccountController {
 		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
 	}
 
-	@PostMapping("/account")
+	@PostMapping(value = "/account", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createAccount(@Validated @RequestBody AccountDTOAddRequest accountDTOAddRequest,
-			BindingResult bindingResult) {
-		accountDTORequestValidator.validate(accountDTOAddRequest, bindingResult);
+			@RequestParam(name = "imageFile", required = false) MultipartFile imageFile, BindingResult bindingResult) {
+		if (imageFile != null) {
+			accountDTOAddRequest.setImageFile(imageFile);
+		}else {
+			return null;
+		}
+		accountDTOAddRequestValidator.validate(accountDTOAddRequest, bindingResult);
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
 		accountService.create(accountDTOAddRequest);

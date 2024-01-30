@@ -2,7 +2,11 @@ package com.lima.payload.request;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class AccountDTOAddRequest {
 	private String userName;
@@ -17,7 +21,11 @@ public class AccountDTOAddRequest {
 	private String dateOfBirth;
 	private String idCard;
 	private Integer positionId;
+
+	@Transient
+	@JsonIgnore
 	private MultipartFile imageFile;
+
 	private List<Integer> idRoleList;
 	private List<Integer> idTypeList;
 
