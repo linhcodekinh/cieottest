@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lima.dto.FileDTORequest;
+import com.lima.dto.BucketAndFileDTORequest;
 import com.lima.service.S3FileService;
 
 @RestController
@@ -20,7 +20,7 @@ import com.lima.service.S3FileService;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class S3FileController {
 
-    private static final String MESSAGE_1 = "Uploaded the file successfully";
+	private static final String MESSAGE_1 = "Uploaded the file successfully";
 	private static final String FILE_NAME = "fileName";
 
 	@Autowired
@@ -45,16 +45,26 @@ public class S3FileController {
 	@GetMapping
 	// public ResponseEntity<Object> findByName(HttpServletRequest request,
 	// @RequestBody(required = false) Map<String, String> params) {
-	public ResponseEntity<String> findByName(@RequestBody FileDTORequest fileDTORequest) {
+	public ResponseEntity<String> findByName(@RequestParam("bucketKey") String bucketKey,
+			@RequestParam("fileName") String fileName) {
 		// final String path = request.getServletPath();
-		if (fileDTORequest.getFileName().isEmpty() != false || !"".equals(fileDTORequest.getFileName()))
-			return new ResponseEntity<>(fileService.findByName(fileDTORequest.getFileName()), HttpStatus.OK);
+//		if (bucketAndFileDTORequest.getFileName().isEmpty() != false
+//				|| !"".equals(bucketAndFileDTORequest.getFileName())
+//						&& bucketAndFileDTORequest.getBucketKey().isEmpty() != false
+//				|| !"".equals(bucketAndFileDTORequest.getBucketKey()))
+//			return new ResponseEntity<>(fileService.findURLByName(bucketAndFileDTORequest.getBucketKey(),
+//					bucketAndFileDTORequest.getFileName()), HttpStatus.OK);
+		if (bucketKey.isEmpty() != false || !"".equals(bucketKey) && fileName.isEmpty() != false
+				|| !"".equals(fileName)) {
+			return new ResponseEntity<>(fileService.findURLByName(bucketKey, fileName), HttpStatus.OK);
+		}
 		return new ResponseEntity<>("Ko tim thay file name", HttpStatus.BAD_REQUEST);
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> saveFile(@RequestParam("extension") String extension) {
-		return new ResponseEntity<>(fileService.save(extension), HttpStatus.OK);
+	public ResponseEntity<Object> genPresignedURL(@RequestParam("extension") String extension,
+			@RequestParam("bucketKey") String bucketKey) {
+		return new ResponseEntity<>(fileService.genPresignedURL(bucketKey, extension), HttpStatus.OK);
 	}
 
 }

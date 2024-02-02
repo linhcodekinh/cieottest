@@ -11,14 +11,14 @@ public class MemberDTO {
 	private String address1;
 	private String address2;
 	private Boolean deleteFlag;
-	private String imageLink;
+	private String image;
 
 	public MemberDTO() {
 
 	}
 
 	public MemberDTO(String firstName, String lastName, String name, String dateOfBirth, Integer gender, String phone,
-			String address1, String address2, Boolean deleteFlag, String imageLink) {
+			String address1, String address2, Boolean deleteFlag, String image) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -29,15 +29,15 @@ public class MemberDTO {
 		this.address1 = address1;
 		this.address2 = address2;
 		this.deleteFlag = deleteFlag;
-		this.imageLink = imageLink;
+		this.image = image;
 	}
 
-	public String getImageLink() {
-		return imageLink;
+	public String getImage() {
+		return image;
 	}
 
-	public void setImageLink(String imageLink) {
-		this.imageLink = imageLink;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getFirstName() {

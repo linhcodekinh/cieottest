@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public class AccountController {
 
 	@Autowired
 	private AccountDTORequestValidator accountDTORequestValidator;
-	
+
 	@Autowired
 	private AccountDTOAddRequestValidator accountDTOAddRequestValidator;
 
@@ -91,16 +92,10 @@ public class AccountController {
 
 	@PostMapping(value = "/account", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<?> createAccount(@Validated @RequestBody AccountDTOAddRequest accountDTOAddRequest,
-			@RequestParam(name = "imageFile", required = false) MultipartFile imageFile, BindingResult bindingResult) {
-		if (imageFile != null) {
-			accountDTOAddRequest.setImageFile(imageFile);
-		}else {
-			return null;
-		}
-		accountDTOAddRequestValidator.validate(accountDTOAddRequest, bindingResult);
-		if (bindingResult.hasErrors())
-			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
+	public ResponseEntity<?> createAccount(
+			@RequestPart(name = "accountDetail", required = false) String accountDTOAddRequestString,
+			@RequestPart(name = "imageFile", required = false) MultipartFile imageFile) {
+		AccountDTOAddRequest accountDTOAddRequest = accountService.getJson(accountDTOAddRequestString, imageFile);
 		accountService.create(accountDTOAddRequest);
 		return ResponseEntity.ok(new MessageResponse("Tao tài khoản thành công!"));
 	}

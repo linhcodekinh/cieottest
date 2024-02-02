@@ -77,29 +77,41 @@ public class S3FileService {
 //		}
 	}
 
-	private String generateUrl(String fileName, HttpMethod httpMethod) {
+	private String generateUrl(String bucketName, String fileName, HttpMethod httpMethod) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.add(Calendar.DATE, 1); // Generated URL will be valid for 24 hours
 		// String presignedUrl = amazonS3.generatePresignedUrl(s3BucketUser, fileName,
 		// calendar.getTime(), httpMethod).toString();
 		// amazonS3.putObject(presignedUrl);
-		return amazonS3.generatePresignedUrl(s3BucketUser, fileName, calendar.getTime(), httpMethod).toString();
+		return amazonS3.generatePresignedUrl(bucketName, fileName, calendar.getTime(), httpMethod).toString();
 	}
 
 	@Async
-	public String findByName(String fileName) {
-		if (!amazonS3.doesObjectExist(s3BucketUser, fileName))
+	public String findURLByName(String bucketKey, String fileName) {
+		String bucketName = getBucketName(bucketKey);
+		if (!amazonS3.doesObjectExist(bucketName, fileName))
 			return "File does not exist";
 		LOG.info("Generating signed URL for file name {}", fileName);
-		return generateUrl(fileName, HttpMethod.GET);
+		return generateUrl(bucketName, fileName, HttpMethod.GET);
 	}
 
 	@Async
-	public String save(String extension) {
+	public String genPresignedURL(String bucketKey, String extension) {
+		String bucketName = getBucketName(bucketKey);
 		// change file name here
 		String fileName = "image/" + UUID.randomUUID().toString() + extension;
-		return generateUrl(fileName, HttpMethod.PUT);
+		return generateUrl(bucketName, fileName, HttpMethod.PUT);
+	}
+
+	public String getBucketName(String bucketKey) {
+		String bucketName = "";
+		if (bucketKey.equals(MyConstants.BUCKET_USER)) {
+			bucketName = s3BucketUser;
+		} else if (bucketKey.equals(MyConstants.BUCKET_PART)) {
+			bucketName = s3BucketPart;
+		}
+		return bucketName;
 	}
 
 }

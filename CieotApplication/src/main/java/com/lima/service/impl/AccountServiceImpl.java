@@ -1,5 +1,6 @@
 package com.lima.service.impl;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lima.common.MyConstants;
 import com.lima.dto.AccountDTO;
 import com.lima.dto.CodeDTO;
@@ -44,6 +46,7 @@ import com.lima.exception.PartException;
 import com.lima.payload.request.AccountDTOAddRequest;
 import com.lima.payload.request.AccountDTORequest;
 import com.lima.payload.request.AccountDTOUpdateRequest;
+import com.lima.payload.request.PartDTOWithFileRequest;
 import com.lima.repository.AccountRepository;
 import com.lima.repository.EmployeeRepository;
 import com.lima.repository.MemberRepository;
@@ -449,6 +452,19 @@ public class AccountServiceImpl implements IAccountService {
 	public Integer getTotalItem(String textSearch) {
 		Integer totalItem = accountRepository.getTotalItem(textSearch);
 		return totalItem;
+	}
+
+	@Override
+	public AccountDTOAddRequest getJson(String accountDTOAddRequestString, MultipartFile imageFile) {
+		AccountDTOAddRequest accountDTOAddRequest = new AccountDTOAddRequest();
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			accountDTOAddRequest = objectMapper.readValue(accountDTOAddRequestString, AccountDTOAddRequest.class);
+		} catch (IOException e) {
+			System.out.println("Error: " + e.toString());
+		}
+		accountDTOAddRequest.setImageFile(imageFile);
+		return accountDTOAddRequest;
 	}
 
 }

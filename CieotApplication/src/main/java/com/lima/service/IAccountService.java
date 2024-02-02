@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lima.dto.AccountDTO;
 import com.lima.entity.Account;
 import com.lima.payload.request.AccountDTOAddRequest;
@@ -53,5 +55,7 @@ public interface IAccountService {
 	Integer getTotalItem();
 
 	Integer getTotalItem(String textSearch);
+	
+	AccountDTOAddRequest getJson(String accountDTOAddRequestString, MultipartFile imageFile);
 
 }
