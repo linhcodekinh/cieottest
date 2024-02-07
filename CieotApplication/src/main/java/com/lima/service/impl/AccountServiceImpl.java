@@ -116,7 +116,8 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Override
 	public String existsByUserName(String userName) {
-		return accountRepository.existsByUserName(userName);
+		String result = accountRepository.existsByUserName(userName);
+		return result;
 	}
 
 	@Override

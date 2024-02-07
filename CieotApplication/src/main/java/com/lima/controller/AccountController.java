@@ -93,9 +93,13 @@ public class AccountController {
 	@PostMapping(value = "/account", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createAccount(
-			@RequestPart(name = "accountDetail", required = false) String accountDTOAddRequestString,
-			@RequestPart(name = "imageFile", required = false) MultipartFile imageFile) {
+			@Validated @RequestPart(name = "accountDetail", required = false) String accountDTOAddRequestString,
+			@RequestPart(name = "imageFile", required = false) MultipartFile imageFile, BindingResult bindingResult) {
 		AccountDTOAddRequest accountDTOAddRequest = accountService.getJson(accountDTOAddRequestString, imageFile);
+		accountDTOAddRequestValidator.validate(accountDTOAddRequest, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
+		}
 		accountService.create(accountDTOAddRequest);
 		return ResponseEntity.ok(new MessageResponse("Tao tài khoản thành công!"));
 	}

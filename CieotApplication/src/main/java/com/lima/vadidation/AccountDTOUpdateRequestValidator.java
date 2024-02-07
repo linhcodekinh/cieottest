@@ -37,7 +37,7 @@ public class AccountDTOUpdateRequestValidator implements Validator {
 		
 		if (userName == "" || userName == null) {
 			errors.rejectValue("userName", "userName.null", "Username khong duoc de trong");
-		} else if (accountService.countByUserName(userName) > 1) {
+		} else if (accountService.countByUserName(userName).intValue() > 1) {
 			errors.rejectValue("userName", "userName.exists", "Username da ton tai");
 		}
 		if (name == "" || name == null) {

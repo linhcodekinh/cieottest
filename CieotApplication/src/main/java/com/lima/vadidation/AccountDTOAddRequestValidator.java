@@ -18,7 +18,7 @@ public class AccountDTOAddRequestValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return AccountDTORequest.class == clazz;
+		return AccountDTOAddRequest.class == clazz;
 	}
 
 	@Override
@@ -26,6 +26,7 @@ public class AccountDTOAddRequestValidator implements Validator {
 		// TODO Auto-generated method stub
 		AccountDTOAddRequest accountDTOAddRequest = (AccountDTOAddRequest) target;
 		String userName = accountDTOAddRequest.getUserName();
+		String email = accountDTOAddRequest.getEmail();
 		String firstName = accountDTOAddRequest.getFirstName();
 		String lastName = accountDTOAddRequest.getLastName();
 		String name = firstName + " " + lastName;
@@ -38,8 +39,13 @@ public class AccountDTOAddRequestValidator implements Validator {
 		
 		if (userName == "" || userName == null) {
 			errors.rejectValue("userName", "userName.null", "Username khong duoc de trong");
-		} else if (accountService.countByUserName(userName) > 1) {
+		} else if (accountService.existsByUserName(userName) != null) {
 			errors.rejectValue("userName", "userName.exists", "Username da ton tai");
+		}
+		if (email == "" || email == null) {
+			errors.rejectValue("email", "email.null", "Email khong duoc de trong");
+		} else if (accountService.existsByEmail(email) != null) {
+			errors.rejectValue("email", "email.exists", "Email da ton tai");
 		}
 		if (name == "" || name == null) {
 			errors.rejectValue("name", "name.null", "Name khong duoc de trong");
