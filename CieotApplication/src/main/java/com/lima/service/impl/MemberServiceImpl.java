@@ -38,8 +38,8 @@ public class MemberServiceImpl implements IMemberService {
 
 	@Override
 	public void updateMember(String name, String firstName, String lastName, String dateOfBirth, Integer gender,
-			String phone, String address, boolean delete_flag, Integer accountId) {
-		memberRepository.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, delete_flag,
+			String phone, String image, String address, boolean delete_flag, Integer accountId) {
+		memberRepository.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, image, address, delete_flag,
 				accountId);
 	}
 

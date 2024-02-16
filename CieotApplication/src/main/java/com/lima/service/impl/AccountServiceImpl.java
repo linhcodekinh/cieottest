@@ -296,13 +296,15 @@ public class AccountServiceImpl implements IAccountService {
 			String address = accountDTOUpdateRequest.getAddress();
 			String idCard = accountDTOUpdateRequest.getIdCard();
 			Integer positionId = accountDTOUpdateRequest.getPositionId();
+			MultipartFile imageFile = accountDTOUpdateRequest.getImageFile();
 			for (Integer idType : idTypeList) {
 				// System.out.println("idType: " + idType);
 				typeService.setType(accountId, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone, address, false,
-							accountId);
+					s3FileService.save(MyConstants.BUCKET_USER, imageFile, "", accountId + ".png");
+					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone,
+							accountId + ".png", address, false, accountId);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
 					if (employeeService.existsByAccountId(accountId) != null) {
@@ -359,8 +361,8 @@ public class AccountServiceImpl implements IAccountService {
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
 					s3FileService.save(MyConstants.BUCKET_USER, imageFile, "", idAccountAfterCreated + ".png");
-					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone, idAccountAfterCreated + ".png", address, false,
-							idAccountAfterCreated);
+					memberService.addNewMember(name, firstName, lastName, dateOfBirth, gender, phone,
+							idAccountAfterCreated + ".png", address, false, idAccountAfterCreated);
 				}
 				if ((MyConstants.TYPE_EMPLOYEE).equals(typeName)) {
 					employeeService.addNewEmployee(idCard, positionId, false, idAccountAfterCreated);

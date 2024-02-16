@@ -2,6 +2,12 @@ package com.lima.payload.request;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class AccountDTOUpdateRequest {
 	private String userName;
 	private Boolean isEnabled;
@@ -13,6 +19,9 @@ public class AccountDTOUpdateRequest {
 	private String dateOfBirth;
 	private String idCard;
 	private Integer positionId;
+	@Transient
+	@JsonIgnore
+	private MultipartFile imageFile;
 	private List<Integer> idRoleList;
 	private List<Integer> idTypeList;
 
@@ -22,7 +31,7 @@ public class AccountDTOUpdateRequest {
 
 	public AccountDTOUpdateRequest(String userName, Boolean isEnabled, String firstName, String lastName,
 			Integer gender, String phone, String address, String dateOfBirth, String idCard, Integer positionId,
-			List<Integer> idRoleList, List<Integer> idTypeList) {
+			MultipartFile imageFile, List<Integer> idRoleList, List<Integer> idTypeList) {
 		super();
 		this.userName = userName;
 		this.isEnabled = isEnabled;
@@ -34,18 +43,9 @@ public class AccountDTOUpdateRequest {
 		this.dateOfBirth = dateOfBirth;
 		this.idCard = idCard;
 		this.positionId = positionId;
+		this.imageFile = imageFile;
 		this.idRoleList = idRoleList;
 		this.idTypeList = idTypeList;
-	}
-
-
-
-	public Boolean getIsEnabled() {
-		return isEnabled;
-	}
-
-	public void setIsEnabled(Boolean isEnabled) {
-		this.isEnabled = isEnabled;
 	}
 
 	public String getUserName() {
@@ -54,6 +54,14 @@ public class AccountDTOUpdateRequest {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public String getFirstName() {
@@ -118,6 +126,14 @@ public class AccountDTOUpdateRequest {
 
 	public void setPositionId(Integer positionId) {
 		this.positionId = positionId;
+	}
+
+	public MultipartFile getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
 	}
 
 	public List<Integer> getIdRoleList() {

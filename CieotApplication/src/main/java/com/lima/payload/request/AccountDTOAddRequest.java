@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Component
 public class AccountDTOAddRequest {
 	private String userName;
 	private String email;
@@ -54,22 +56,6 @@ public class AccountDTOAddRequest {
 		this.imageFile = imageFile;
 	}
 
-	public MultipartFile getImageFile() {
-		return imageFile;
-	}
-
-	public void setImageFile(MultipartFile imageFile) {
-		this.imageFile = imageFile;
-	}
-
-	public Boolean getIsEnabled() {
-		return isEnabled;
-	}
-
-	public void setIsEnabled(Boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
@@ -92,6 +78,14 @@ public class AccountDTOAddRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public String getFirstName() {
@@ -158,6 +152,14 @@ public class AccountDTOAddRequest {
 		this.positionId = positionId;
 	}
 
+	public MultipartFile getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
+	}
+
 	public List<Integer> getIdRoleList() {
 		return idRoleList;
 	}
@@ -173,5 +175,7 @@ public class AccountDTOAddRequest {
 	public void setIdTypeList(List<Integer> idTypeList) {
 		this.idTypeList = idTypeList;
 	}
+
+	
 
 }

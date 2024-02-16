@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.lima.jwt.JwtAuthenticationEntryPoint;
@@ -47,18 +48,37 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Don't need CSRF for this example
-		http.csrf().disable()
+//		http.csrf().disable()
+		http.cors().and().csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/api/public/**").permitAll()
-				//.authorizeRequests().antMatchers("/api/public/signup", "/api/public/login").permitAll()
+				// .authorizeRequests().antMatchers("/api/public/signup",
+				// "/api/public/login").permitAll()
 				// all other requests need to be authenticated
 				.antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN").antMatchers("api/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated().and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
-				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+		// Add a filter to handle CORS
+		http.addFilterBefore(new CustomCorsFilter(), ChannelProcessingFilter.class);
 		// Add a filter to validate the tokens with every request
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+		// Enable CORS and disable CSRF
+//        http.cors().and().csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/api/public/**").permitAll()
+//                .antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/api/admin/**").hasRole("ADMIN")
+//                .anyRequest().authenticated().and()
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+		// Add a filter to validate the tokens with every request
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
 	}
 }

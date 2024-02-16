@@ -7,14 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -23,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lima.dto.AccountDTO;
 import com.lima.payload.request.AccountDTOAddRequest;
-import com.lima.payload.request.AccountDTORequest;
 import com.lima.payload.request.AccountDTOUpdateRequest;
 import com.lima.payload.response.AccountListResponse;
 import com.lima.payload.response.MessageResponse;
@@ -93,9 +90,9 @@ public class AccountController {
 	@PostMapping(value = "/account", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createAccount(
-			@Validated @RequestPart(name = "accountDetail", required = false) String accountDTOAddRequestString,
-			@RequestPart(name = "imageFile", required = false) MultipartFile imageFile, BindingResult bindingResult) {
-		AccountDTOAddRequest accountDTOAddRequest = accountService.getJson(accountDTOAddRequestString, imageFile);
+			@RequestPart(name = "accountDetail", required = false) AccountDTOAddRequest accountDTOAddRequest,
+			BindingResult bindingResult, @RequestPart(name = "imageFile", required = false) MultipartFile imageFile) {
+		accountDTOAddRequest.setImageFile(imageFile);
 		accountDTOAddRequestValidator.validate(accountDTOAddRequest, bindingResult);
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
@@ -112,9 +109,12 @@ public class AccountController {
 	}
 
 	// UPDATE
-	@PutMapping("/account/{id}")
+	@PutMapping(value = "/account/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateAccount(@PathVariable Integer id,
-			@RequestBody AccountDTOUpdateRequest accountDTOUpdateRequest, BindingResult bindingResult) {
+			@RequestPart(name = "accountDetail", required = false) AccountDTOUpdateRequest accountDTOUpdateRequest,
+			BindingResult bindingResult, @RequestPart(name = "imageFile", required = false) MultipartFile imageFile) {
+		accountDTOUpdateRequest.setImageFile(imageFile);
 		accountDTOUpdateRequestValidator.validate(accountDTOUpdateRequest, bindingResult);
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.OK);
