@@ -1,0 +1,55 @@
+*SQL:
++ Select
++ Insert
++ Update
++ Delete
++ Where
++ Order By
++ Join
++ Alias
++ Union:
++ Upsert
+INSERT INTO people(name, age)
+VALUES('Joe', 101)
+ON DUPLICATE KEY UPDATE age = 101;
++ CREATE TABLE
++ ALTER TABLE
++ DROP TABLE
++ Distinct
++ And Or
++ IN 
++ Between 
++ Wildcard
+Có 2 ký tự đặc biệt trong SQL:
+Ký tự %
+Ký tự _
+Ý nghĩa:
+% mô tả 0, 1 hoặc nhiều ký tự
+_ mô tả chính xác một ký tự.
+
+-- Tìm kiếm các Khách hàng (Customer) có số FED_ID theo định dạng:
+-- Phần trước bất kỳ, rồi tới dấu - , rồi tới 2 ký tự, rồi tới dấu -, và cuối bất kỳ.
+-- Sử dụng 2 dấu _ để minh họa rằng đó là 2 ký tự.
+-- (Mỗi dấu _ là chính xác một ký tự).
+
+Select Cus.Cust_Id
+     ,Cus.Fed_Id
+     ,Cus.Address
+From   Customer Cus
+where cus.fed_id like '%-__-%';
+
++ Like 
++ Group By 
+Sum: Hàm tính tổng
+Avg: Hàm lấy trung bình
+Count: Hàm tính số lần
+Min: Hàm tìm giá trị nhỏ nhất
+Max: Hàm tìm giá trị lớn nhất
++ Having
+Phân biệt Where & Having
+Bạn cần phân biệt Where và Having trong cùng một câu lệnh.
+Where là một mệnh đề để lọc bớt dữ liệu trước khi nhóm (Group)
+Having là một mệnh đề để lọc bớt dữ liệu sau khi đã nhóm (Group)
++ TRUNCATE TABLE
++ SHOW CREATE TABLE
++ Partition

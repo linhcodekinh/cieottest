@@ -1,0 +1,5 @@
+* CSS:
+- position: fixed, absolute
+- z-index: 2
+- top right bottom left
+=> vi tri element

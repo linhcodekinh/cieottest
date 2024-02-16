@@ -1,0 +1,3 @@
+AWS:
+         accessKey: AKIAUZGMK3VHDNJY7P6B
+         secretKey: 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

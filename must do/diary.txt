@@ -1,0 +1,5 @@
+15/02/24:
+- Fix spring boot bug: org.springframework.beans.NotReadablePropertyException: Invalid property 'userName' of bean class [java.lang.String]: Bean property 'userName' is not readable or has an invalid getter method
+Root cause: Using @RequestPart String accountDTOrequest and BindingResult bindingresult
+Solution: Change String accountDTOrequest to AccountDTOrequest accountDTOrequest 
+ 

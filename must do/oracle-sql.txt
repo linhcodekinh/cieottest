@@ -1,0 +1,23 @@
+* Oracle 
+- Version:
+Select * from v$version;
+- DDL:
+DDL ( Data Definition Language) là một tập hợp con của SQL (Ngôn ngữ truy vấn có cấu trúc)
+Các câu lệnh DDL được sử dụng để tạo, thay đổi và xóa các đối tượng cơ sở dữ liệu, bao gồm bảng, dạng xem, chỉ mục và thủ tục được lưu trữ
+CREATE
+ALTER
+DROP
+TRUNCATE
+RENAME
+- DML:
+DML ( Data Manipulation Language) là một tập hợp con của SQL (Ngôn ngữ truy vấn có cấu trúc) 
+Các DML được sử dụng để chèn, cập nhật và xóa dữ liệu trong cơ sở dữ liệu
+SELECT
+INSERT
+UPDATE
+DELETE
+- So sánh
+DDL (Data Definition Language) là một tập hợp các lệnh SQL để xác định lược đồ cơ sở dữ liệu. 
+Nó chỉ xử lý các mô tả của lược đồ cơ sở dữ liệu và được sử dụng để tạo và sửa đổi cấu trúc của các đối tượng cơ sở dữ liệu. Ví dụ về các câu lệnh DDL bao gồm CREATE, ALTER và DROP.
+DML (Data Manipulation Language) là một tập hợp các lệnh SQL được sử dụng để thao tác dữ liệu trong lược đồ do DDL tạo ra. 
+Nó xử lý dữ liệu thực tế và được sử dụng để chèn, cập nhật và truy xuất dữ liệu từ cơ sở dữ liệu. Ví dụ về các DML bao gồm SELECT, INSERT, UPDATE và DELETE.
