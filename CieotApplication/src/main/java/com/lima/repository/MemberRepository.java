@@ -26,7 +26,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	void deleteByAccountId(Integer id);
 
 	@Modifying
-	@Query(value = "UPDATE member SET name = ?1,first_name = ?2,last_name = ?3,date_of_birth = ?4,gender = ?5,phone = ?6, phone = ?7, address = ?8,delete_flag = ?9 WHERE account_id = ?10 ", nativeQuery = true)
+	@Query(value = "UPDATE member SET name = ?1,first_name = ?2,last_name = ?3,date_of_birth = ?4,gender = ?5,phone = ?6, image = ?7, address = ?8,delete_flag = ?9 WHERE account_id = ?10 ", nativeQuery = true)
 	void updateMember(String name, String firstName, String lastName, String dateOfBirth, Integer gender, String phone,
 			String image, String address, boolean delete_flag, Integer accountId);
 

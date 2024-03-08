@@ -302,7 +302,9 @@ public class AccountServiceImpl implements IAccountService {
 				typeService.setType(accountId, idType);
 				String typeName = typeService.getTypeById(idType);
 				if ((MyConstants.TYPE_MEMBER).equals(typeName)) {
-					s3FileService.save(MyConstants.BUCKET_USER, imageFile, "", accountId + ".png");
+					if (imageFile != null) {
+						s3FileService.save(MyConstants.BUCKET_USER, imageFile, "", accountId + ".png");
+					}
 					memberService.updateMember(name, firstName, lastName, dateOfBirth, gender, phone,
 							accountId + ".png", address, false, accountId);
 				}

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -114,6 +115,9 @@ public class AccountController {
 	public ResponseEntity<?> updateAccount(@PathVariable Integer id,
 			@RequestPart(name = "accountDetail", required = false) AccountDTOUpdateRequest accountDTOUpdateRequest,
 			BindingResult bindingResult, @RequestPart(name = "imageFile", required = false) MultipartFile imageFile) {
+		if (imageFile != null) {
+			accountDTOUpdateRequest.setImageFile(imageFile);
+		}
 		accountDTOUpdateRequest.setImageFile(imageFile);
 		accountDTOUpdateRequestValidator.validate(accountDTOUpdateRequest, bindingResult);
 		if (bindingResult.hasErrors())
