@@ -65,8 +65,10 @@ public class S3FileService {
 			PutObjectRequest putObjectRequest = null;
 			if (MyConstants.BUCKET_USER.equals(bucketName)) {
 				putObjectRequest = new PutObjectRequest(s3BucketUser, pathName, file);
-				amazonS3.putObject(putObjectRequest);
+			}else if(MyConstants.BUCKET_PART.equals(bucketName)) {
+				putObjectRequest = new PutObjectRequest(s3BucketPart, pathName, file);
 			}
+			amazonS3.putObject(putObjectRequest);
 			// Files.delete(file.toPath()); // Remove the file locally created in the
 			// project folder
 		} catch (AmazonServiceException e) {

@@ -70,7 +70,7 @@ public class SaveFileUtil {
 			Integer check) throws IOException {
 		Path partNamePath = Paths.get(idPart + "-" + namePart);
 		Path filePartNamePath;
-		Path filePath;
+		Path filePath = null;
 
 		if (check == 0) {
 			filePartNamePath = imagePath.resolve(partNamePath).resolve(partDetailP);
@@ -79,7 +79,7 @@ public class SaveFileUtil {
 			}
 			filePath = filePartNamePath.resolve(questionNo + ".png");
 			s3FileService.save(MyConstants.BUCKET_PART ,file, imageP + "/" + partNamePath + "/" + partDetailP, questionNo + ".png");
-		} else {
+		} else if (check == 1){
 			filePartNamePath = audioPath.resolve(partNamePath).resolve(partDetailP);
 			if (!Files.exists(filePartNamePath)) {
 				Files.createDirectories(filePartNamePath);

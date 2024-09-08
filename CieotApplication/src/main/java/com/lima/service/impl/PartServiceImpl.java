@@ -263,13 +263,14 @@ public class PartServiceImpl implements IPartService {
 		saveFileUtil.saveFileForPart(partDTOWithFileRequest, idPart, namePart);
 		List<PartDetailDTO> partDetailDTOList = excelUtil.getListPartDetailFromFileExcel(excelNamePath, idPart,
 				namePart);
-
+		//List<PartDetail> partDetailList = new ArrayList<>();
 		for (PartDetailDTO partDetailDTO : partDetailDTOList) {
 			PartDetail partDetail = modelMapper.map(partDetailDTO, PartDetail.class);
+			//partDetailList.add(partDetail);
 			partDetail.setPart(partUpdate);
 			partDetailRepository.save(partDetail);
 		}
-
+		//partUpdate.setPartDetailList(partDetailList);
 		PartDTO partDTO = modelMapper.map(partUpdate, PartDTO.class);
 		return partDTO;
 	}

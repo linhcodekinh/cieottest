@@ -53,6 +53,7 @@ public class ExcelUtil {
 
 			while (iterator.hasNext()) {
 				Row currentRow = iterator.next();
+				if(fmt.formatCellValue(currentRow.getCell(0)) == null || fmt.formatCellValue(currentRow.getCell(0)).isEmpty()) break;
 				PartDetailDTO partDetailDTO = new PartDetailDTO();
 				Integer questionNo = Integer.parseInt(fmt.formatCellValue(currentRow.getCell(0)));
 				partDetailDTO.setQuestionNo(questionNo);
